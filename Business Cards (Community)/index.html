@@ -181,6 +181,11 @@
         font-weight: normal;
         line-height: 1.2em;
       }
+      
+      .info > span { 
+        display: inline-block;
+        margin-left: 0.2em;
+      }
 
       .info:last-child { margin-bottom: 0pt; }
 
@@ -198,27 +203,42 @@
       }
 
       .phone-field {
+        display: flex;
+        align-items: center;
         width: 18.2em;
-        max-height: 12pt;
+        max-height: 12pt;        
+      }
+      
+      .phone-field > span {
+        display: inline-block;
+        margin-left: 0.5em;
       }
 
       .warning {
         display: none;
+        padding: 0.1em;
+        font-size: 7.3pt;
+        color: white !important;
+        background-color: red;
       }
 
       .no-mobile-number .warning--mobile,
       .no-phone-number.no-team-phone .warning--phone,
-      .no-phone {
-        display: inline-block;  
-        background-color: red;
-        color: white !important;	
-        width: 113pt;
-      }
+      .no-phone,
+      .no-landline.no-mobile .warning--phone {
+        display: inline-block;  	
+      }     
 
       .no-mobile-number.phone-field,
       .no-phone-number.no-team-phone.phone-field {
         max-height: none;
       }
+      
+      /* Custom Overflow message for invalid phone number */
+      .overflow:hover:after { 
+        content: 'Invalid format!'; 
+        font-size: 0.7em;
+      }      
 
       /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
     </style>
@@ -251,12 +271,26 @@
               {{/BB_title--bcc}}
             </div><!--section--top-->
             <div class="section section--middle">
-              <div class="info {{^BB_mobile-number--bcc}}no-mobile-number{{/BB_mobile-number--bcc}} phone-field" data-max-height="css">m {{{BB_mobile-number--bcc}}} <span class="warning warning--mobile">Please enter a valid mobile number</span> </div><!--info-->
-              <div class="info {{^BB_phone-number--bcc}}no-phone-number{{/BB_phone-number--bcc}} {{^team.phone}}no-team-phone{{/team.phone}} phone-field" data-max-height="css">
-                p {{#BB_phone-number--bcc}}<span>{{{BB_phone-number--bcc}}}</span>{{/BB_phone-number--bcc}}
+              {{#BB_mobile-number--bcc}}
+              <div class="info phone-field">m <span>
+                <div class="js-mobile-formater-src">
+                  {{{BB_mobile-number--bcc}}}
+                </div>  
+                <div class="js-mobile-formater-target"></div>
+                </span>
+              </div>
+              {{/BB_mobile-number--bcc}}
+              <div class="info {{^BB_phone-number--bcc}}no-phone-number{{/BB_phone-number--bcc}} {{^team.phone}}no-team-phone{{/team.phone}} phone-field">
+                p {{#BB_phone-number--bcc}}<span>
+                <div class="js-landline-formater-src">
+                  {{BB_phone-number--bcc}}
+                </div>  
+                <div class="js-landline-formater-target"></div>
+                </span>
+                {{/BB_phone-number--bcc}}
                 {{^BB_phone-number--bcc}}
                 {{#team.phone}}<span>{{{team.phone}}}</span>{{/team.phone}} 
-                {{^team.phone}}<span class="no-phone">Please enter a valid phone number</span>{{/team.phone}}                
+                {{^team.phone}}<span class="warning warning--phone">Please enter a valid phone number</span>{{/team.phone}}                
                 {{/BB_phone-number--bcc}} 
               </div><!--info-->
               <div class="info" data-max-line="1.2">
@@ -302,12 +336,27 @@
               {{/BB_director-qualification--bcc}}
             </div><!--section--top-->
             <div class="section section--middle">
-              {{#BB_mobile-number--bcc}}
-              <div class="info" data-max-line="1.2">m {{{BB_mobile-number--bcc}}}</div><!--info-->
-              {{/BB_mobile-number--bcc}}
-              {{#BB_phone-number--bcc}}
-              <div class="info" data-max-line="1.2">p {{{BB_phone-number--bcc}}}</div><!--info-->
-              {{/BB_phone-number--bcc}}
+              <div class="{{^BB_director-mobile-number--bcc}}no-mobile{{/BB_director-mobile-number--bcc}} {{^BB_director-phone-number--bcc}}no-landline{{/BB_director-phone-number--bcc}}">
+                <span class="warning warning--phone">At least one phone number needs to be stated.</span>
+                {{#BB_director-mobile-number--bcc}}
+                <div class="info">m <span>
+                  <div class="js-mobile-formater-src">
+                    {{{BB_director-mobile-number--bcc}}}
+                  </div>  
+                  <div class="js-mobile-formater-target"></div>
+                  </span>
+                </div><!--info-->
+                {{/BB_director-mobile-number--bcc}}
+                {{#BB_director-phone-number--bcc}}
+                <div class="info">p <span>
+                  <div class="js-landline-formater-src">
+                    {{{BB_director-phone-number--bcc}}}
+                  </div>  
+                  <div class="js-landline-formater-target"></div>                  
+                  </span>
+                </div><!--info-->
+                {{/BB_director-phone-number--bcc}}
+              </div>
               {{#BB_email-address--bcc}}
               <div class="info" data-max-line="1.2">{{{BB_email-address--bcc}}}</div><!--info-->
               {{/BB_email-address--bcc}}
@@ -342,12 +391,29 @@
               {{/title}}
             </div><!--section--top-->
             <div class="section section--middle">
-              {{#mobile-number}}
-              <div class="info phone-field" data-max-line="1.2">m {{mobile-number}}</div><!--info-->
-              {{/mobile-number}}
-              {{#phone-number}}
-              <div class="info phone-field" data-max-line="1.2">p {{phone-number}}</div><!--info-->
-              {{/phone-number}}
+              <div class="{{^mobile-number}}no-mobile{{/mobile-number}} {{^phone-number}}no-landline{{/phone-number}}">
+                <span class="warning warning--phone">At least one phone number needs to be stated.</span>
+                {{#mobile-number}}
+                <div class="info phone-field">m 
+                  <span>
+                    <div class="js-mobile-formater-src">
+                      {{mobile-number}}
+                    </div>  
+                    <div class="js-mobile-formater-target"></div>
+                  </span>
+                </div><!--info-->
+                {{/mobile-number}}
+                {{#phone-number}}
+                <div class="info phone-field">p 
+                  <span>
+                    <div class="js-landline-formater-src">
+                      {{phone-number}}
+                    </div>  
+                    <div class="js-landline-formater-target"></div>
+                  </span>
+                </div><!--info-->   
+                {{/phone-number}}
+              </div>
               {{#email-address}}
               <div class="info" data-max-line="1.2">{{email-address}}</div><!--info-->
               {{/email-address}}       
@@ -382,9 +448,9 @@
           </div><!--header-->
           <div class="body">
             <div class="section section--top">
-              {{#first-name}}
-              <div class="title" data-max-line="1.2">{{first-name}}</div><!--title-->
-              {{/first-name}}
+              {{#director-name}}
+              <div class="title" data-max-line="1.2">{{director-name}}</div><!--title-->
+              {{/director-name}}
               {{#director-title}}
               <div class="title title--alt" data-max-line="1.2">{{director-title}}</div><!--title-->
               {{/director-title}}
@@ -393,15 +459,32 @@
               {{/director-qualification}}
             </div><!--section--top-->
             <div class="section section--middle">
-              {{#mobile-number}}
-              <div class="info" data-max-line="1.2">m {{mobile-number}}</div><!--info-->
-              {{/mobile-number}}
-              {{#phone-number}}
-              <div class="info" data-max-line="1.2">p {{phone-number}}</div><!--info-->
-              {{/phone-number}}
-              {{#email-address}}
-              <div class="info" data-max-line="1.2">{{email-address}}</div><!--info-->
-              {{/email-address}}
+              <div class="{{^director-mobile}}no-mobile{{/director-mobile}} {{^director-phone}}no-landline{{/director-phone}}">
+                <span class="warning warning--phone">At least one phone number needs to be stated.</span>
+                {{#director-mobile}}
+                <div class="info" data-max-line="1.2">m 
+                  <span>
+                    <div class="js-mobile-formater-src">
+                      {{director-mobile}}
+                    </div>  
+                    <div class="js-mobile-formater-target"></div>
+                  </span>                  
+                </div><!--info-->
+                {{/director-mobile}}
+                {{#director-phone}}
+                <div class="info">p 
+                  <span>
+                    <div class="js-landline-formater-src">
+                      {{director-phone}}
+                    </div>  
+                    <div class="js-landline-formater-target"></div>
+                  </span>
+                </div><!--info-->
+                {{/director-phone}}
+              </div>
+              {{#director-email}}
+              <div class="info" data-max-line="1.2">{{director-email}}</div><!--info-->
+              {{/director-email}}
             </div><!--section--middle-->
           </div><!--body-->
           <div class="footer">
@@ -480,17 +563,76 @@
         });
       }    
 
-      const formatPhoneObserver = new MutationObserver(function(mutations) {
+      function formatMobile() {
+        const sources = document.querySelectorAll('.js-mobile-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-mobile-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 10
+          if (phone.length === 10) {
+            const formated = phone.replace(/(\d{4})(\d{3})(\d{3})/, "$1 $2 $3");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 10 ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }
+
+      function formatLandline() {
+        const sources = document.querySelectorAll('.js-landline-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-landline-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 8
+          if (phone.length === 8) {
+            const formated = phone.replace(/(\d{4})(\d{4})/, "$1 $2");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 8 || ( phone.length > 8 && phone.length < 11 ) ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }            
+
+      const formatMobileObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-          formatPhone();
+          formatMobile();
+        });
+      });
+
+      const formatLandlineObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatLandline();
         });
       });      
 
-      const formatPhoneSources = document.querySelectorAll('.js-phone-formater-src');      
+      const formatMobileSources = document.querySelectorAll('.js-mobile-formater-src');
+      const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
 
-      if ( formatPhoneSources.length > 0 ) {
-        formatPhoneSources.forEach(src => {
-          formatPhoneObserver.observe(src, {
+      if ( formatMobileSources.length > 0 ) {
+        formatMobileSources.forEach(src => {
+          formatMobileObserver.observe(src, {
             attributes: false,
             characterData: true,
             childList: true,
@@ -501,12 +643,27 @@
         });
       } 
 
+      if ( formatLandlineSources.length > 0 ) {
+        formatLandlineSources.forEach(src => {
+          formatLandlineObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }      
+
       // Calling text size restriction functions once the fonts are loaded
       document.fonts.ready.then(() => {
         maxLineCheck();
         maxHeightCheck();
         injectDynamicContent();
         hideEmptyTitles();
+        formatLandline();
+        formatMobile();
       });
 
       placeholderController();
