@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html data-sign="OSM" async>
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/arial/stylesheet.css');
+
+      /* 
+      {{show-crop}}
+      {{placeholder-opacity}}
+      {{placeholder-image-1}}
+      {{placeholder-toggle-new}}
+      {{placeholder-validation}}
+      {{BB_variation-type--lh}}
+      {{BB_community-company-name--lh}}
+      {{BB_department-region-name--lh}}
+      {{BB_branch-name-lh}}
+      {{BB_address-lh}}
+      {{BB_phone-number--lh}}
+      {{BB_email-address--lh}}
+      {{BB_disclaimer-area-franchisee--lh}}
+      {{BB_community-company-abn--lh}}
+      */
+
+      :root {
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --slate: {{{account.colors.slate}}};
+        --white: #fff;
+        --black: #000;
+      }
+
+      html {
+        font-family: 'Bendigo Sans';
+        font-size: 11pt;
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        padding: 37pt 50pt 25pt 50pt;
+      }
+
+      .header {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .heading {
+        max-width: 50%;
+        text-align: right;
+        font-size: 16.2pt;
+        line-height: 1.2em;
+        color: var(--bendigo-plum);
+      }
+
+      .logo {
+        display: none;
+        max-width: 164pt;
+        height: 25.6pt;
+        object-fit: contain;
+      } 
+
+      .variation--bendigo .logo--top,
+      .variation--department .logo--top,
+      .variation--community .logo--bottom {
+        display: block;
+      }
+
+      .logo--bottom {
+        margin-right: 15pt;
+      }
+
+      .body {
+        display: flex;
+        align-items: flex-end;
+        flex: 1;
+        padding-bottom: 5.9pt;
+      }
+
+      .body__content {
+        display: flex;
+        align-items: flex-end;
+        flex:1;
+      }
+
+      .info {
+        flex: 1;
+        padding-right: 20pt;
+      }
+
+      .info__item {
+        margin-top: 1.7pt;
+        font-size: 9.2pt;
+        line-height: 1.2em;
+        color: var(--bendigo-plum);
+      }
+
+      .info__item span {
+        margin-right: 10pt;
+      }
+
+      .website {
+        font-size: 9.4pt;
+        font-weight: bold;
+        line-height: 1.2em;
+        color: var(--bendigo-plum);
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 13pt;
+        border-top: 1pt solid var(--bendigo-plum);
+      }
+      .variation--community .footer { padding-left: 5pt; }
+
+      .footer__info {
+        flex: 1;
+        font-family: 'Arial Narrow';
+        font-size: 7pt;
+        line-height: 1.2em;
+        color:#616161;
+        text-align: right;
+      }
+
+      .variation--department .licence__suffix {
+        display: none;
+      }
+
+      .metadata {
+        display: inline-block;
+      }
+
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="variation--{{{BB_variation-type--lh}}}{{^BB_variation-type--lh}}bendigo{{/BB_variation-type--lh}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="header">
+            <div class="heading" data-max-line="3">{{{BB_community-company-name--lh}}}</div><!--heading-->
+            <img class="logo logo--top" src="{{{account.logos.logo-primary}}}">
+          </div><!--header-->
+          <div class="body">
+            <div class="body__content">
+              <div class="info">
+                <div class="info__item" data-max-line="1">{{{BB_department-region-name--lh}}}</div><!--info__item-->
+                <div class="info__item" data-max-line="1">
+                  {{#BB_branch-name-lh}}<span>{{{BB_branch-name-lh}}}</span>{{/BB_branch-name-lh}}
+                  {{^BB_branch-name-lh}}<span>{{{team.branch-name}}}</span>{{/BB_branch-name-lh}}
+                </div><!--info__item-->
+                <div class="info__item" data-max-line="1">
+                  {{#BB_address-lh}}<span>{{{BB_address-lh}}}</span>{{/BB_address-lh}}
+                  {{^BB_address-lh}}<span>{{{team.street-address}}}</span>{{/BB_address-lh}}
+                </div><!--info__item-->
+                <div class="info__item" data-max-line="1">
+                  p {{#BB_phone-number--lh}}<span>{{{BB_phone-number--lh}}}</span>{{/BB_phone-number--lh}}
+                  {{^BB_phone-number--lh}}<span>{{{team.phone}}}</span>{{/BB_phone-number--lh}}                    
+
+                  {{#BB_email-address--lh}}<span>{{{BB_email-address--lh}}}</span>{{/BB_email-address--lh}}
+                  {{^BB_email-address--lh}}<span>{{{team.email}}}</span>{{/BB_email-address--lh}}<!--info__item--email-->
+                </div><!--info__item-->
+              </div><!--info-->
+              <div class="website">bendigobank.com.au</div><!--website-->
+            </div><!--body__content-->
+          </div><!--body-->
+          <div class="footer">
+            <img class="logo logo--bottom" src="{{{account.logos.logo-primary}}}">
+            <div class="footer__info" data-max-line="3">
+              {{#BB_disclaimer-area-franchisee--lh}}<span class="disclaimer">{{{BB_disclaimer-area-franchisee--lh}}}</span><!--disclaimer-->{{/BB_disclaimer-area-franchisee--lh}}
+              {{#BB_community-company-abn--lh}}<span class="community">{{{BB_community-company-abn--lh}}}</span><!--community-->{{/BB_community-company-abn--lh}}
+              <span class="licence"><span class="licence__suffix">Franchisee of</span> Bendigo and Adelaide Bank Limited ABN 11 068 049 178 AFSL</span><!--licence-->
+              <div class="metadata"> 
+                <span class="metadata__item">A1406582, </span><!--metadata-->
+                <span class="metadata__item">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT ID WILL GO HERE{{/metadata}}, </span><!--metadata__item-->
+                <span class="metadata__item js-date"></span><!--metadata__item-->
+              </div><!--metadata-->
+            </div><!--footer__info-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}"); {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    <script>
+
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      function injectDate() {
+        const container = document.querySelector('.fit');
+        const date = container.querySelector('.js-date');
+
+        date.textContent = new Date().toLocaleDateString(‘en-AU’).slice(0,10);
+      }
+
+      injectDate();
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+
+    </script>
+    <script type="text/javascript">
+      // Add many fallbacks for Print Ready
+      document.addEventListener('DOMContentLoaded', function(event) {
+        document.dispatchEvent(new Event('printready'));
+      });
+
+      setTimeout(function() {
+        document.dispatchEvent(new Event('printready'));
+      }, 1000);
+
+      document.dispatchEvent(new Event('printready'));
+    </script>
+
+
+  </body>
+</html>
