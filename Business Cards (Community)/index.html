@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-sign="OSM">
+<html data-sign="OSM" async>
   <head>
     <title>Template title</title>
     <meta charset="utf-8">
@@ -188,6 +188,11 @@
       }
 
       .info:last-child { margin-bottom: 0pt; }
+      
+      .footer {
+        position: absolute;
+        bottom: 20.3pt;
+      }
 
       .footer__info {
         font-weight: 300;
@@ -260,7 +265,10 @@
       <div class="bleed">
 
         <div class="container fit fit--front">
-
+          <!-- Footer was moved to the top of the HTML structure because of an export bug -->
+          <div class="footer">
+            <div class="url">bendigobank.com.au</div><!--url-->
+          </div><!--footer-->
           <div class="header header--front">
             <img class="logo" src="{{{account.logos.logo-primary}}}">
           </div><!--header-->
@@ -309,9 +317,6 @@
               <div class="info" data-max-line="1.2">{{{BB_street-address--bcc}}}{{^BB_street-address--bcc}}{{{team.address}}}{{/BB_street-address--bcc}}</div><!--info-->
             </div><!--section--bottom-->
           </div><!--body-->
-          <div class="footer">
-            <div class="url">bendigobank.com.au</div><!--url-->
-          </div><!--footer-->
 
         </div><!--container fit-->
 
@@ -384,6 +389,10 @@
       <div class="bleed">
 
         <div class="container fit fit--front">
+          <!-- Footer was moved to the top of the HTML structure because of an export bug -->
+          <div class="footer">
+            <div class="url">bendigobank.com.au</div><!--url-->
+          </div><!--footer-->          
           <div class="header">
             <img class="logo" src="{{{account.logos.logo-primary}}}">
           </div><!--header-->
@@ -433,10 +442,6 @@
               {{/street-address}}
             </div><!--section--bottom-->
           </div><!--body-->
-          <div class="footer">
-            <div class="url">bendigobank.com.au</div><!--url-->
-          </div><!--footer-->
-
         </div><!--container fit-->
 
       </div><!--bleed-->
@@ -670,6 +675,7 @@
         hideEmptyTitles();
         formatLandline();
         formatMobile();
+        document.dispatchEvent(new Event('printready'));
       });
 
       placeholderController();
@@ -684,7 +690,6 @@
 
 
     </script>
-
 
   </body>
 </html>
