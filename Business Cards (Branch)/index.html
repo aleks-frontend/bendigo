@@ -148,6 +148,11 @@
         object-fit: contain;
         object-position: center;
       }
+      
+      .footer {
+        position: absolute;
+        bottom: 20.2pt;
+      }
 
       .warning {
         display: none;
@@ -192,6 +197,10 @@
       <div class="bleed">
 
         <div class="container fit fit--frontPage fit--singleCard">
+          <!-- Footer was moved to the top of the HTML structure because of an export bug -->
+          <div class="footer">
+            <div class="website">bendigobank.com.au</div><!--website-->
+          </div><!--footer-->
           <div class="body">
             <div class="section section--heading">
               <div class="heading" data-max-line="1">
@@ -257,9 +266,6 @@
               {{/BB_address--bc}}
             </div><!--section--bottom-->
           </div><!--body-->
-          <div class="footer">
-            <div class="website">bendigobank.com.au</div><!--website-->
-          </div><!--footer-->
         </div><!--container fit--frontPage-->
       </div>
     </div>
@@ -269,7 +275,10 @@
 
       <div class="bleed">
         <div class="container fit fit--frontPage fit--multiCard">
-
+          <!-- Footer was moved to the top of the HTML structure because of an export bug -->
+          <div class="footer">
+            <div class="website">bendigobank.com.au</div><!--website-->
+          </div><!--footer-->
           <div class="body">
             <div class="section section--heading">
               <div class="heading">
@@ -321,10 +330,6 @@
               {{/address}}
             </div><!--section--bottom-->
           </div><!--body-->
-          <div class="footer">
-            <div class="website">bendigobank.com.au</div><!--website-->
-          </div><!--footer-->
-
         </div><!--container fit--frontPage-->
 
       </div><!--bleed-->
@@ -513,6 +518,7 @@
         hideEmptyTitles();
         formatMobile();
         formatLandline();
+        document.dispatchEvent(new Event('printready'));
       });
 
       checkCrop();
@@ -525,20 +531,7 @@
       });
 
 
-    </script>
-
-    <script type="text/javascript">
-      // Add many fallbacks for Print Ready
-      document.addEventListener('DOMContentLoaded', function(event) {
-        document.dispatchEvent(new Event('printready'));
-      });
-
-      setTimeout(function() {
-        document.dispatchEvent(new Event('printready'));
-      }, 500);
-
-      document.dispatchEvent(new Event('printready'));
-    </script>    
+    </script> 
 
   </body>
 </html>
