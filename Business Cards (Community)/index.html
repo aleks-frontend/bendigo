@@ -209,6 +209,8 @@
         max-height: 12pt;        
       }
       
+      .phone-field.no-landline.no-landline-smart { display: none; }
+      
       .phone-field > span {
         display: inline-block;
         margin-left: 0.5em;
@@ -233,6 +235,8 @@
       .no-phone-number.no-team-phone.phone-field {
         max-height: none;
       }
+      
+      .no-landline.no-landline-smart.no-mobile .warning--phone-extended { display: inline-block; }      
       
       /* Custom Overflow message for invalid phone number */
       .overflow:hover:after { 
@@ -271,28 +275,30 @@
               {{/BB_title--bcc}}
             </div><!--section--top-->
             <div class="section section--middle">
-              {{#BB_mobile-number--bcc}}
-              <div class="info phone-field">m <span>
-                <div class="js-mobile-formater-src">
-                  {{{BB_mobile-number--bcc}}}
-                </div>  
-                <div class="js-mobile-formater-target"></div>
-                </span>
+              <div class="{{^BB_phone-number--bcc}}no-landline{{/BB_phone-number--bcc}} {{^team.phone}}no-landline-smart{{/team.phone}} {{^BB_mobile-number--bcc}}no-mobile{{/BB_mobile-number--bcc}}">
+                <span class="warning warning--phone-extended">At least one phone number needs to be stated.</span>
+                {{#BB_mobile-number--bcc}}
+                <div class="info phone-field">m <span>
+                  <div class="js-mobile-formater-src">
+                    {{{BB_mobile-number--bcc}}}
+                  </div>  
+                  <div class="js-mobile-formater-target"></div>
+                  </span>
+                </div>
+                {{/BB_mobile-number--bcc}}
+                <div class="info phone-field {{^BB_phone-number--bcc}}no-landline{{/BB_phone-number--bcc}} {{^team.phone}}no-landline-smart{{/team.phone}}">
+                  p {{#BB_phone-number--bcc}}<span>
+                  <div class="js-landline-formater-src">
+                    {{BB_phone-number--bcc}}
+                  </div>  
+                  <div class="js-landline-formater-target"></div>
+                  </span>
+                  {{/BB_phone-number--bcc}}
+                  {{^BB_phone-number--bcc}}
+                  {{#team.phone}}<span>{{{team.phone}}}</span>{{/team.phone}} 
+                  {{/BB_phone-number--bcc}} 
+                </div><!--info-->
               </div>
-              {{/BB_mobile-number--bcc}}
-              <div class="info {{^BB_phone-number--bcc}}no-phone-number{{/BB_phone-number--bcc}} {{^team.phone}}no-team-phone{{/team.phone}} phone-field">
-                p {{#BB_phone-number--bcc}}<span>
-                <div class="js-landline-formater-src">
-                  {{BB_phone-number--bcc}}
-                </div>  
-                <div class="js-landline-formater-target"></div>
-                </span>
-                {{/BB_phone-number--bcc}}
-                {{^BB_phone-number--bcc}}
-                {{#team.phone}}<span>{{{team.phone}}}</span>{{/team.phone}} 
-                {{^team.phone}}<span class="warning warning--phone">Please enter a valid phone number</span>{{/team.phone}}                
-                {{/BB_phone-number--bcc}} 
-              </div><!--info-->
               <div class="info" data-max-line="1.2">
                 {{#BB_email-address--bcc}}<span>{{{BB_email-address--bcc}}}</span>{{/BB_email-address--bcc}}
                 {{^BB_email-address--bcc}}<span>{{{team.email}}}</span>{{/BB_email-address--bcc}}
@@ -337,7 +343,7 @@
             </div><!--section--top-->
             <div class="section section--middle">
               <div class="{{^BB_director-mobile-number--bcc}}no-mobile{{/BB_director-mobile-number--bcc}} {{^BB_director-phone-number--bcc}}no-landline{{/BB_director-phone-number--bcc}}">
-                <span class="warning warning--phone">At least one phone number needs to be stated.</span>
+                <span class="warning warning--phone">At least one phone number needs to be inputted.</span>
                 {{#BB_director-mobile-number--bcc}}
                 <div class="info">m <span>
                   <div class="js-mobile-formater-src">
@@ -392,7 +398,7 @@
             </div><!--section--top-->
             <div class="section section--middle">
               <div class="{{^mobile-number}}no-mobile{{/mobile-number}} {{^phone-number}}no-landline{{/phone-number}}">
-                <span class="warning warning--phone">At least one phone number needs to be stated.</span>
+                <span class="warning warning--phone">At least one phone number needs to be inputted.</span>
                 {{#mobile-number}}
                 <div class="info phone-field">m 
                   <span>
@@ -460,7 +466,7 @@
             </div><!--section--top-->
             <div class="section section--middle">
               <div class="{{^director-mobile}}no-mobile{{/director-mobile}} {{^director-phone}}no-landline{{/director-phone}}">
-                <span class="warning warning--phone">At least one phone number needs to be stated.</span>
+                <span class="warning warning--phone">At least one phone number needs to be inputted.</span>
                 {{#director-mobile}}
                 <div class="info" data-max-line="1.2">m 
                   <span>
@@ -488,7 +494,7 @@
             </div><!--section--middle-->
           </div><!--body-->
           <div class="footer">
-            <div class="footer__info" data-max-line="2.2">Franchisee of Bendigo and Adelaide Bank Limited ABN 11 068 049 178<br> AFSL 237879 {{{BB_franchise-abn--bcc}}}</div><!--footer__info-->
+            <div class="footer__info" data-max-line="3">Franchisee of Bendigo and Adelaide Bank Limited ABN 11 068 049 178<br> AFSL 237879 {{{BB_franchise-abn--bcc}}}</div><!--footer__info-->
           </div><!--footer-->
 
         </div><!--container fit-->
