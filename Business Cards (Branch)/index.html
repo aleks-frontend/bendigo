@@ -88,6 +88,8 @@
         margin-bottom: 1.7pt;
         color: var(--purple);
       }
+      
+      .phone-field.no-landline.no-landline-smart { display: none; }
 
       .heading {
         margin-bottom: 1pt;
@@ -169,6 +171,8 @@
       .no-phone,
       .no-landline.no-mobile .warning--phone { display: inline-block;  }
       
+      .no-landline.no-landline-smart.no-mobile .warning--phone-extended { display: inline-block;  }
+      
       /* Custom Overflow message for invalid phone number */
       .overflow:hover:after { 
         content: 'Invalid format!'; 
@@ -212,31 +216,35 @@
               {{/BB_qualification--bc}}
             </div><!--section--heading-->
             <div class="section section--middle">
-              {{#BB_mobile-number--bc}}
-              <div class="info phone-field">
-                <div class="info__label">m</div><!--info__label-->
-                <div class="info__value">
-                  <div class="js-mobile-formater-src">
-                    {{{BB_mobile-number--bc}}}
-                  </div>  
-                  <div class="js-mobile-formater-target"></div>
-                </div><!--info__value-->
-              </div><!--info-->
-              {{/BB_mobile-number--bc}}
-              <div class="info phone-field">
-                <div class="info__label">p</div><!--info__label-->
-                <div class="info__value {{^BB_phone-number--bc}}no-phone-number{{/BB_phone-number--bc}} {{^user.contact_number}}no-user-number{{/user.contact_number}}">
-                  {{#BB_phone-number--bc}}
-                  <span>                    
-                    <div class="js-landline-formater-src">
-                      {{BB_phone-number--bc}}
+              <div class="{{^BB_phone-number--bc}}no-landline{{/BB_phone-number--bc}} {{^user.contact_number}}no-landline-smart{{/user.contact_number}} {{^BB_mobile-number--bc}}no-mobile{{/BB_mobile-number--bc}}">
+                <span class="warning warning--phone-extended">At least one phone number needs to be stated.</span>
+                {{#BB_mobile-number--bc}}
+                <div class="info phone-field">
+                  <div class="info__label">m</div><!--info__label-->
+                  <div class="info__value">
+                    <div class="js-mobile-formater-src">
+                      {{{BB_mobile-number--bc}}}
                     </div>  
-                    <div class="js-landline-formater-target"></div>
-                  </span>
-                  {{/BB_phone-number--bc}}
-                  {{^BB_phone-number--bc}}<span>{{{user.contact_number}}}</span>{{^user.contact_number}}<span class="warning warning--phone">Please enter a valid phone number</span>{{/user.contact_number}}{{/BB_phone-number--bc}} 
-                </div><!--info__value-->
-              </div><!--info-->
+                    <div class="js-mobile-formater-target"></div>
+                  </div><!--info__value-->
+                </div><!--info-->
+                {{/BB_mobile-number--bc}}
+                
+                <div class="info phone-field {{^BB_phone-number--bc}}no-landline{{/BB_phone-number--bc}} {{^user.contact_number}}no-landline-smart{{/user.contact_number}}">
+                  <div class="info__label">p</div><!--info__label-->
+                  <div class="info__value">
+                    {{#BB_phone-number--bc}}
+                    <span>                    
+                      <div class="js-landline-formater-src">
+                        {{BB_phone-number--bc}}
+                      </div>  
+                      <div class="js-landline-formater-target"></div>
+                    </span>
+                    {{/BB_phone-number--bc}}
+                    {{^BB_phone-number--bc}}<span>{{{user.contact_number}}}</span>{{/BB_phone-number--bc}} 
+                  </div><!--info__value-->
+                </div><!--info-->
+              </div>
               <div class="info info--email" data-max-line="1.2">
                 {{#BB_email-address--bc}}<span>{{{BB_email-address--bc}}}</span>{{/BB_email-address--bc}} {{^BB_email-address--bc}}<span>{{{user.email}}}</span>{{/BB_email-address--bc}}</div><!--info-->
             </div><!--section--middle-->
