@@ -259,10 +259,13 @@
             </div><!--section--middle-->
             <div class="section section--bottom">
               {{#BB_branch-name--bc}}  
-              <div class="info info--branch" data-max-line="1.2">{{{BB_branch-name--bc}}}{{^BB_branch-name--bc}}{{{team.name}}}{{/BB_branch-name--bc}}</div><!--info--branch-->
+              <div class="info info--branch" data-max-line="1.2">{{{BB_branch-name--bc}}} {{^BB_branch-name--bc}} {{{team.branch-name}}} {{/BB_branch-name--bc}}</div><!--info--branch-->
               {{/BB_branch-name--bc}}
               {{#BB_address--bc}}
-              <div class="info info--address" data-max-line="1.2">{{{BB_address--bc}}}</div><!--info--address-->
+              <div class="info info--address" data-max-line="1.2">{{{BB_address--bc}}} </div><!--info--address-->
+              {{/BB_address--bc}}
+              {{^BB_address--bc}}
+              <div class="info info--address" data-max-line="1.2">{{{team.branch-street-address}}} {{{team.branch-town}}} {{{team.branch-state}}}, {{{team.branch-postcode}}}</div><!--info--address-->
               {{/BB_address--bc}}
             </div><!--section--bottom-->
           </div><!--body-->
@@ -327,6 +330,9 @@
               <div class="info info--branch" data-max-line="1">{{{branch-name}}}</div><!--info--branch-->
               {{#address}}
               <div class="info info--address" data-max-line="1">{{{address}}}</div><!--info--address-->
+              {{/address}}
+              {{^address}}
+              <div class="info info--address" data-max-line="1">{{{team.branch-street-address}}} {{{team.branch-town}}} {{{team.branch-state}}}, {{{team.branch-postcode}}}</div><!--info--address-->
               {{/address}}
             </div><!--section--bottom-->
           </div><!--body-->
