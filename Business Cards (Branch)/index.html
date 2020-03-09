@@ -179,7 +179,7 @@
       .no-landline.no-landline-smart.no-mobile .warning--phone-extended { display: inline-block;  }
       
       /* Custom Overflow message for invalid phone number */
-      .overflow:hover:after { 
+      .u-phone-custom-overflow.overflow:hover:after { 
         content: 'Invalid format!'; 
         font-size: 0.7em;
       }
@@ -230,7 +230,7 @@
                 {{#BB_mobile-number--bc}}
                 <div class="info phone-field">
                   <div class="info__label">m</div><!--info__label-->
-                  <div class="info__value">
+                  <div class="info__value u-phone-custom-overflow">
                     <div class="js-mobile-formater-src">
                       {{{BB_mobile-number--bc}}}
                     </div>  
@@ -243,7 +243,7 @@
                   <div class="info__label">p</div><!--info__label-->
                   <div class="info__value">
                     {{#BB_phone-number--bc}}
-                    <span>                    
+                    <span class="u-phone-custom-overflow">
                       <div class="js-landline-formater-src">
                         {{BB_phone-number--bc}}
                       </div>  
@@ -301,7 +301,7 @@
                 {{#mobile-number}}
                 <div class="info">
                   <div class="info__label">m</div><!--info__label-->
-                  <div class="info__value phone-field-multi">
+                  <div class="info__value phone-field-multi u-phone-custom-overflow">
                     <div class="js-mobile-formater-src">
                       {{{mobile-number}}}
                     </div>  
@@ -312,7 +312,7 @@
                 {{#phone-number}}
                 <div class="info">
                   <div class="info__label">p</div><!--info__label-->
-                  <div class="info__value phone-field-multi">                    
+                  <div class="info__value phone-field-multi u-phone-custom-overflow">                    
                     <div class="js-landline-formater-src">
                       {{phone-number}}
                     </div>  
