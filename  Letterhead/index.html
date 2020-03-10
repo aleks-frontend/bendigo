@@ -84,7 +84,7 @@
       .fit {
         display: flex;
         flex-direction: column;
-        padding: 37pt 50pt 25pt 50pt;
+        padding: 0.87rem 1.16rem 0.59rem 1.15rem;
       }
 
       .header {
@@ -92,18 +92,23 @@
         justify-content: flex-end;
       }
 
+      .variation--department .heading,
+      .variation--bendigo .heading {
+        display: none;
+      }
+
       .heading {
-        max-width: 50%;
+        max-width: 55%;
         text-align: right;
-        font-size: 16.2pt;
+        font-size: 0.4rem;
         line-height: 1.2em;
         color: var(--bendigo-plum);
       }
 
       .logo {
         display: none;
-        max-width: 164pt;
-        height: 25.6pt;
+        max-width: 4rem;
+        height: 0.6rem;
         object-fit: contain;
       } 
 
@@ -121,7 +126,7 @@
         display: flex;
         align-items: flex-end;
         flex: 1;
-        padding-bottom: 5.9pt;
+        padding-bottom: 0.13rem;
       }
 
       .body__content {
@@ -136,18 +141,23 @@
       }
 
       .info__item {
-        margin-top: 1.7pt;
-        font-size: 9.2pt;
+        margin-top: 0.03rem;
+        font-size: 0.215rem;
         line-height: 1.2em;
         color: var(--bendigo-plum);
       }
 
-      .info__item span {
-        margin-right: 10pt;
+      .info__email { margin-left: 10pt; }
+
+      .info__email:last-child { margin-left: 0; }
+
+      .info__email,
+      .info__phone {
+        display: inline-block;
       }
 
       .website {
-        font-size: 9.4pt;
+        font-size: 0.225rem;
         font-weight: bold;
         line-height: 1.2em;
         color: var(--bendigo-plum);
@@ -157,28 +167,65 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-top: 13pt;
+        padding-top: 0.29rem;
         border-top: 1pt solid var(--bendigo-plum);
       }
-      .variation--community .footer { padding-left: 5pt; }
+      .variation--community .footer { padding-left: 0.2rem; }
 
       .footer__info {
         flex: 1;
         font-family: 'Arial Narrow';
-        font-size: 7pt;
+        font-size: 0.1469rem;
         line-height: 1.2em;
-        color:#616161;
+        color: #616161;
         text-align: right;
       }
 
-      .variation--department .licence__suffix {
+      .metadata {
         display: none;
       }
 
-      .metadata {
-        display: inline-block;
+      [data-community-bank="true "],
+      [data-community-bank="True "],
+      [data-community-bank=" true "],
+      [data-community-bank=" True "]{
+        display: inline;
       }
 
+      [data-community-bank="false "],
+      [data-community-bank="False "],
+      [data-community-bank=" false "],
+      [data-community-bank=" False "]{
+        display: none;
+      }
+
+      .variation--bendigo .metadata--bendigoBranch,
+      .variation--bendigo .metadata--bendigoBranch,
+      .variation--community .metadata--communityCompany,
+      .variation--community .metadata--communityCompany,
+      .variation--department .metadata--departmentRegionName,
+      .metadata--info {
+        display: inline-block;
+      }   
+
+
+
+
+      .variation--community .info-branch-name {
+        display: none;
+      }
+
+      .variation--department .info-branch-name {
+        display: none;
+      }
+
+      /* Custom Overflow message for invalid phone number */
+      .u-phone-custom-overflow.overflow:hover:after {
+        content: 'Invalid format!'; 
+        font-size: 0.7em;
+      }      
+      
+      .u-display-inline-block { display: inline-block; }
 
       /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
     </style>
@@ -194,27 +241,41 @@
         <div class="container fit">
 
           <div class="header">
-            <div class="heading" data-max-line="3">{{{BB_community-company-name--lh}}}</div><!--heading-->
+            <div class="heading" data-max-line="3">{{{BB_community-company-name--lh}}} {{^BB_community-company-name--lh}} {{{team.community-company-name}}} {{/BB_community-company-name--lh}}</div><!--heading-->
             <img class="logo logo--top" src="{{{account.logos.logo-primary}}}">
           </div><!--header-->
           <div class="body">
             <div class="body__content">
               <div class="info">
                 <div class="info__item" data-max-line="1">{{{BB_department-region-name--lh}}}</div><!--info__item-->
-                <div class="info__item" data-max-line="1">
+                <div class="info__item info-branch-name" data-max-line="1">
                   {{#BB_branch-name-lh}}<span>{{{BB_branch-name-lh}}}</span>{{/BB_branch-name-lh}}
-                  {{^BB_branch-name-lh}}<span>{{{team.branch-name}}}</span>{{/BB_branch-name-lh}}
+                  {{^BB_branch-name-lh}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank - </span>{{{team.branch-name}}}</span>{{/BB_branch-name-lh}}
                 </div><!--info__item-->
                 <div class="info__item" data-max-line="1">
                   {{#BB_address-lh}}<span>{{{BB_address-lh}}}</span>{{/BB_address-lh}}
-                  {{^BB_address-lh}}<span>{{{team.street-address}}}</span>{{/BB_address-lh}}
+                  {{^BB_address-lh}}<span>{{{team.branch-street-address}}} {{{team.branch-town}}}, {{{team.branch-state}}} {{{team.branch-postcode}}}</span>{{/BB_address-lh}}
                 </div><!--info__item-->
                 <div class="info__item" data-max-line="1">
-                  p {{#BB_phone-number--lh}}<span>{{{BB_phone-number--lh}}}</span>{{/BB_phone-number--lh}}
-                  {{^BB_phone-number--lh}}<span>{{{team.phone}}}</span>{{/BB_phone-number--lh}}                    
+                  {{#BB_phone-number--lh}}
+                  <div class="info__phone">p 
+                    <span class="u-phone-custom-overflow u-display-inline-block">
+                      <span class="js-landline-formater-src">
+                      {{{BB_phone-number--lh}}}
+                      </span>
+                      <div class="js-landline-formater-target"></div>
+                    </span>
+                  </div>
+                  {{/BB_phone-number--lh}}
 
-                  {{#BB_email-address--lh}}<span>{{{BB_email-address--lh}}}</span>{{/BB_email-address--lh}}
-                  {{^BB_email-address--lh}}<span>{{{team.email}}}</span>{{/BB_email-address--lh}}<!--info__item--email-->
+                  {{^BB_phone-number--lh}}
+                  {{#team.branch-phone}}
+                  <div class="info__phone">p {{{team.branch-phone}}}</div> 
+                  {{/team.branch-phone}}
+                  {{/BB_phone-number--lh}}                    
+
+                  {{#BB_email-address--lh}}<div class="info__email">{{{BB_email-address--lh}}}</div>{{/BB_email-address--lh}}
+                  {{^BB_email-address--lh}}<div class="info__email">{{{team.email}}}</div>{{/BB_email-address--lh}}<!--info__item--email-->
                 </div><!--info__item-->
               </div><!--info-->
               <div class="website">bendigobank.com.au</div><!--website-->
@@ -223,10 +284,42 @@
           <div class="footer">
             <img class="logo logo--bottom" src="{{{account.logos.logo-primary}}}">
             <div class="footer__info" data-max-line="3">
-              {{#BB_disclaimer-area-franchisee--lh}}<span class="disclaimer">{{{BB_disclaimer-area-franchisee--lh}}}</span><!--disclaimer-->{{/BB_disclaimer-area-franchisee--lh}}
-              {{#BB_community-company-abn--lh}}<span class="community">{{{BB_community-company-abn--lh}}}</span><!--community-->{{/BB_community-company-abn--lh}}
-              <span class="licence"><span class="licence__suffix">Franchisee of</span> Bendigo and Adelaide Bank Limited ABN 11 068 049 178 AFSL</span><!--licence-->
-              <div class="metadata"> 
+
+              <!-- BENDIGO BRANCH -->
+              <span class="metadata metadata--bendigoBranch" >
+                <!-- IF data-community=false-->
+                {{#BB_disclaimer-area-franchisee--lh}} 
+                <span>{{{BB_disclaimer-area-franchisee--lh}}}</span>                
+                {{/BB_disclaimer-area-franchisee--lh}}
+
+
+                <!-- IF data-community=true-->
+                <span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">
+                  {{^BB_disclaimer-area-franchisee--lh}} 
+                  <span>{{{team.community-company-name}}} {{{team.community-company-abn}}} Franchisee of </span>
+                  {{/BB_disclaimer-area-franchisee--lh}}
+                </span>
+
+                <span>{{{account.snippets.abn-snippet}}}</span>
+              </span>
+              <!-- BENDIGO BRANCH -->
+
+              <!-- COMMUNITY COMPANY-->   
+              <span class="metadata metadata--communityCompany" data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">
+                {{#BB_community-company-abn--lh}}<span>{{{BB_community-company-abn--lh}}}</span>{{/BB_community-company-abn--lh}}            
+                {{^BB_community-company-abn--lh}}  
+                {{#team.community-company-acn}}<span>{{{team.community-company-acn}}}</span>{{/team.community-company-acn}}
+                {{^team.community-company-acn}}<span>{{{team.community-company-abn}}}</span>{{/team.community-company-acn}}
+                {{/BB_community-company-abn--lh}}
+                <span>{{{account.snippets.abn-snippet}}}</span>
+              </span>
+              <!-- COMMUNITY COMPANY -->   
+
+              <!-- DEPARTMENT / REGION NAME -->    
+              <span class="metadata metadata--departmentRegionName">{{{account.snippets.abn-snippet}}}</span>
+              <!-- DEPARTMENT / REGION NAME -->
+
+              <div class="metadata metadata--info"> 
                 <span class="metadata__item">A1406582, </span><!--metadata-->
                 <span class="metadata__item">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT ID WILL GO HERE{{/metadata}}, </span><!--metadata__item-->
                 <span class="metadata__item js-date"></span><!--metadata__item-->
@@ -263,6 +356,54 @@
     <script>
 
       console.clear();
+
+      function formatLandline() {
+        const sources = document.querySelectorAll('.js-landline-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-landline-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 8
+          if (phone.length === 8) {
+            const formated = phone.replace(/(\d{4})(\d{4})/, "$1 $2");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 8 || ( phone.length > 8 && phone.length < 11 ) ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }      
+
+      const formatLandlineObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatLandline();
+        });
+      });      
+
+      const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
+
+      if ( formatLandlineSources.length > 0 ) {
+        formatLandlineSources.forEach(src => {
+          formatLandlineObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }       
+
 
       // Tracking text changes and firing text restriction functions (mutationObserver)
       const overflowObserver = new MutationObserver(function(mutations) {
@@ -308,7 +449,7 @@
         const container = document.querySelector('.fit');
         const date = container.querySelector('.js-date');
 
-        date.textContent = new Date().toLocaleDateString(‘en-AU’).slice(0,10);
+        date.textContent = new Date().toLocaleDateString('en-AU').slice(0,10);
       }
 
       injectDate();
