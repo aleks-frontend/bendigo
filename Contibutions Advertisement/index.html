@@ -32,7 +32,6 @@
       {{BB_community-investment--ca}}
       {{BB_image-type--ca}}
       {{BB_upload-image--ca}}
-      {{BB_branch-phone-number--ca}}
       {{BB_branch-name--sas}}
       */
 
@@ -40,7 +39,7 @@
         font-family: 'Bendigo Sans';
         word-break: break-word;
       }
-      
+
       .page {
         border: 0.5pt solid black;
       }
@@ -127,7 +126,7 @@
         flex-direction: column;
         padding: 3mm;
       }
-      
+
       .page {
         border: 1pt solid black;
       }
@@ -143,7 +142,7 @@
         flex: 1 0 0%;
         z-index: 5;
       }
-      
+
       .footer {
         height: 24mm;
         max-height: 24mm;
@@ -223,8 +222,8 @@
           bottom: -8%;
         }
       }
-      
-      
+
+
       @media (orientation: landscape) {
         .hero {
           width: 65%;
@@ -237,13 +236,13 @@
         display: block;
       }
 
-      
+
       /*
       @media (orientation: landscape) {
-        .illustration,
-        .hero {
-          right: -108%;
-        }
+      .illustration,
+      .hero {
+      right: -108%;
+      }
       }
       */
 
@@ -261,17 +260,17 @@
           background-position: 25vh;
         }
       }
-*/
+      */
       /*240mm x 180mm*/
 
       @media (min-width: 225mm) and (orientation: landscape){
         .illustration {
           background-size: cover;
-         background-position: 25vh;
+          background-position: 25vh;
         }
       }
 
-      
+
       .hero div {
         width: auto !important;
         height: auto !important;
@@ -325,11 +324,11 @@
       @media (min-width: 225mm) and (orientation: landscape) {
         .badge { 
           width: 20%;
-		  right: 18%;
+          right: 18%;
           top: 35pt;
         }
       }
-      
+
       @media (min-width: 225mm) and (max-height: 90mm) and (orientation: landscape) {
         .badge { 
           width: 14%;
@@ -394,8 +393,8 @@
           width: 172%;
         }
       }
-      
-      
+
+
 
       @media (orientation: landscape) {
         .badge__text--inner {
@@ -501,13 +500,13 @@
           -webkit-clip-path: inset(0rem -0.6rem 0rem 0rem round 0rem 0rem 5.5rem 0rem);
         }
       }
-      
+
       @media (orientation: portrait) and (min-width: 150mm) {
         .section {
           padding-right: 18%;
         }
       }
-      
+
       @media (orientation: portrait) and (min-width: 120mm) and (max-width: 149mm) {
         .section {
           padding-right: 10%;
@@ -808,7 +807,7 @@
         }
       }
 
-      
+
 
       .footer__section {
         display: flex;
@@ -827,7 +826,7 @@
         object-fit: contain;
         object-position: left;
       }
-      
+
       .colourTheme--plum-theme .logo--primary,
       .colourTheme--peach-theme .logo--primary,
       .colourTheme--soft-grey-theme .logo--primary,
@@ -947,8 +946,8 @@
         }
 
       }
-      
-      
+
+
       @media (orientation: landscape) and (min-width: 168mm) {
         .info__container--primary,
         .info__container--secondary {
@@ -956,16 +955,16 @@
           margin-left: 0;
         }
       }
-      
-      
+
+
       @media (min-height: 140mm) and (orientation: landscape) {
         .section {
           padding: 11.6% 14% 4% 7%;
         }
       }
-      
-      
-            @media (max-height: 116mm) and (orientation: landscape) {
+
+
+      @media (max-height: 116mm) and (orientation: landscape) {
         .footer {
           padding-top: 1%;
         }
@@ -973,8 +972,8 @@
           margin-top: 0.8%;
         }
       }
-      
-      
+
+
       @media print {
         .section {
           background: {{{account.colors.bendigo-plum}}};
@@ -989,8 +988,8 @@
         }
 
       }
-      
-      
+
+
       [data-community-bank="true "],
       [data-community-bank="True "],
       [data-community-bank=" true "],
@@ -1006,6 +1005,14 @@
       }
 
       /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+      
+      /* Custom Overflow message for invalid phone number */
+      .u-phone-custom-overflow.overflow:hover:after {
+        content: 'Invalid format!'; 
+        font-size: 0.7em;
+      }      
+      
+      .u-display-inline-block { display: inline-block; }      
     </style>
   </head>
   <body style="background: white" data-crop="{{show-crop}}" class="imageType--{{{BB_image-type--ca}}}{{^BB_image-type--ca}}custom-image{{/BB_image-type--ca}}
@@ -1030,8 +1037,8 @@
             <div class="section">
               <div class="section__inner" data-max-height="dynamic">
                 <div class="branchName branchName--primary">
-                 {{#BB_branch-name--sas}}<span>{{{BB_branch-name--sas}}}</span>{{/BB_branch-name--sas}}
-                    {{^BB_branch-name--sas}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank <br></span> {{{team.branch-name}}}</span>{{/BB_branch-name--sas}}
+                  {{#BB_branch-name--sas}}<span>{{{BB_branch-name--sas}}}</span>{{/BB_branch-name--sas}}
+                  {{^BB_branch-name--sas}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank <br></span> {{{team.branch-name}}}</span>{{/BB_branch-name--sas}}
                 </div><!--branchName-->
                 <div class="heading">Making good things happen</div><!--heading-->
                 <div class="content">
@@ -1042,7 +1049,14 @@
                       <div class="info">A bank giving back sounds unusual. For us, it’s business as usual.</div><!--info-->
                     </div><!--info__container--primary-->
                     <div class="info__container info__container--secondary">
-                      <div class="info info--secondary">Find out more. Call us on {{#BB_phone-number--sas}}{{{BB_phone-number--sas}}}{{/BB_phone-number--sas}} {{^BB_phone-number--sas}}{{{team.phone}}}{{/BB_phone-number--sas}} or search Bendigo Bank {{{BB_town-name--sas}}} {{^BB_town-name--sas}} {{{team.branch-town}}} {{/BB_town-name--sas}}</div><!--info-->
+                      <div class="info info--secondary">Find out more. Call us on {{#BB_phone-number--sas}}
+                        <span class="u-phone-custom-overflow u-display-inline-block">
+                          <span class="js-landline-formater-src">
+                            {{{BB_phone-number--sas}}}
+                          </span>
+                          <span class="js-landline-formater-target"></span>
+                        </span>
+                            {{/BB_phone-number--sas}} {{^BB_phone-number--sas}}{{{team.phone}}}{{/BB_phone-number--sas}} or search Bendigo Bank {{{BB_town-name--sas}}} {{^BB_town-name--sas}} {{{team.branch-town}}} {{/BB_town-name--sas}}</div><!--info-->
                       <div class="website">bendigobank.com.au</div><!--website-->
                     </div><!--info__container--secondary-->
                   </div><!--content__inner-->
@@ -1056,8 +1070,8 @@
               <img class="logo logo--primary" src="{{{account.logos.logo-primary}}}">
               <img class="logo logo--secondary" src="{{{account.logos.logo-greyscale}}}">
               <div class="branchName branchName--secondary">
-               {{#BB_branch-name--sas}}<span>{{{BB_branch-name--sas}}}</span>{{/BB_branch-name--sas}}
-                    {{^BB_branch-name--sas}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false{{/team.community-bank}}">Community Bank <br></span> {{{team.branch-name}}}</span>{{/BB_branch-name--sas}}
+                {{#BB_branch-name--sas}}<span>{{{BB_branch-name--sas}}}</span>{{/BB_branch-name--sas}}
+                {{^BB_branch-name--sas}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false{{/team.community-bank}}">Community Bank <br></span> {{{team.branch-name}}}</span>{{/BB_branch-name--sas}}
               </div><!--branchName--secondary-->
             </div><!--footer__section-->
             <div class="metadata">
@@ -1092,6 +1106,52 @@
 
     </script>
     <script>
+      function formatLandline() {
+        const sources = document.querySelectorAll('.js-landline-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-landline-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 8
+          if (phone.length === 8) {
+            const formated = phone.replace(/(\d{4})(\d{4})/, "$1 $2");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 8 || ( phone.length > 8 && phone.length < 11 ) ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }      
+
+      const formatLandlineObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatLandline();
+        });
+      });      
+
+      const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
+
+      if ( formatLandlineSources.length > 0 ) {
+        formatLandlineSources.forEach(src => {
+          formatLandlineObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }       
 
 
       // Tracking text changes and firing text restriction functions (mutationObserver)
@@ -1142,7 +1202,7 @@
       }
 
       injectDate();
-      
+
 
 
       // Calling text size restriction functions once the fonts are loaded
@@ -1152,25 +1212,25 @@
         injectDynamicContent();
         hideEmptyTitles();
       });
-      
+
       TextFit.fit({
         selector: '.textFit',
       });
-      
-      
+
+
       function textFun() {
         document.querySelector('.textFit').removeAttribute("style");
       }
-      
-      
-      
+
+
+
       window.addEventListener('resize', function () {
-         	console.log('The size is changing');
+        console.log('The size is changing');
         maxLineCheck();
         maxHeightCheck();
-		textFun();
+        textFun();
         console.log('Font size is gone'); 
-        
+
         TextFit.fit({
           selector: '.textFit'
         });
