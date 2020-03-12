@@ -572,7 +572,7 @@
           const src = container.querySelector('.js-branch-name-format-src');
           const target = container.querySelector('.js-branch-name-format-target');
           
-          const formated = src.innerText.replace('[-]', ' • ');
+          const formated = src.innerText.replace(/\[-\]/gi, ' • ');
           src.style.display = 'none';
           target.innerText = formated;
         })
