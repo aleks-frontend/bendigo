@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html data-sign="OSM">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <style>
+
+      /* Order Inputs
+      {{show-crop}}
+      {{BB_hero-image--spub}}
+      {{{BB_branch-name--spub}}}
+      {{{BB_heading--spub}}}
+      {{{BB_heading-free-text--spub}}}
+      {{{BB_club-name--spub}}}
+      */
+
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+
+
+      :root {
+        --white: {{{account.colors.white}}};
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+      }
+
+      html {
+        font-family: 'Bendigo Sans';
+        font-size: 11pt;
+        color: var(--white);
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        padding-top: 500pt;
+      }
+
+      .header {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+      }
+
+      .logo {
+        align-self: center;
+        width: 2183pt;
+        height: 341pt;
+        margin-bottom: 243pt;
+        object-fit: contain;
+      }
+
+      .hero {
+        position: relative;
+        height: 1800pt;
+        clip-path: inset(0rem -3.6rem 0rem 0 round 0rem 7.2rem 0rem 0rem);
+        -webkit-clip-path: inset(0rem -2.6rem 0rem 0 round 0rem 7.2rem 0rem 0rem);
+      }
+
+      .hero div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      .body {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 315pt 332pt calc(270mm + 100pt);
+        background-color: var(--bendigo-plum);
+        clip-path: inset(0rem -3.6rem 0rem 0 round 0rem 7.2rem 0rem 0rem);
+        -webkit-clip-path: inset(0rem -3.6rem 0rem 0 round 0rem 7.2rem 0rem 0rem);
+      }
+
+      .has-hero-image .body {
+        margin-top: -3pt;
+        padding-top: 242pt;
+        clip-path: none;
+        -webkit-clip-path: none;
+      }
+
+      .branchName {
+        margin-bottom: 794pt;
+        font-size: 179pt;
+        font-weight: 500;
+        line-height: 1.2em;
+      }
+
+      .has-hero-image .branchName {
+        margin-bottom: 452pt;
+      }
+
+      .content {
+        display: block !important;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+        font-size: 489pt; 
+        font-weight: 500; 
+      }
+
+      .heading--proud-sponsors-of .content,
+      .heading--proud-supporters-of .content,
+      .heading--free-text .content {
+        font-size: 374pt;
+      }
+      
+      .heading--supporting-your-community .content {
+        font-size: 420pt;
+      }
+
+      .heading__container {
+        display: block !important;
+        line-height: 1.05em;  
+      }
+
+      .heading, 
+      .freeText {
+        display: none;
+      }
+
+      .heading--part-of-the-team .heading--first,
+      .heading--happy-to-be-a-support-act .heading--second,
+      .heading--supporting-your-community .heading--third,
+      .heading--proud-sponsors-of .heading--fourth,
+      .heading--proud-supporters-of .heading--fifth,
+      .heading--free-text .freeText {
+        display: block;
+      }
+
+      /*  Bleed and placeholder:  */
+      .bleed {
+        top: 0!important;
+        left: 0!important;
+        right: 0!important;
+        bottom: 0!important;
+      }
+
+      .placeholder__container {
+        top: 30mm;
+        left: 0;
+        right: 0;
+        bottom: 70mm;
+      }
+      /*  END Bleed and placeholder:  */
+
+
+      
+      [data-community-bank="true "],
+      [data-community-bank="True "],
+      [data-community-bank=" true "],
+      [data-community-bank=" True "]{
+        display: inline;
+      }
+
+      [data-community-bank="false "],
+      [data-community-bank="False "],
+      [data-community-bank=" false "],
+      [data-community-bank=" False "],
+      [data-community-bank=" "],
+      [data-community-bank="  "],
+      [data-community-bank=""],
+      [data-community-bank=" "]{
+        display: none;
+      }
+
+      /* End Blank Area, Bleed and placeholder */
+
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */ 
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="heading--{{{BB_heading--spub}}}{{^BB_heading--spub}}part-of-the-team{{/BB_heading--spub}} {{#BB_hero-image--spub}}has-hero-image{{/BB_hero-image--spub}}">
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="header">
+            <img class="logo" src="{{{account.logos.logo-primary}}}">
+            {{#BB_hero-image--spub}}<div class="hero">{{{BB_hero-image--spub}}}</div><!--hero-->{{/BB_hero-image--spub}}
+          </div><!--header-->
+          <div class="body">
+
+            <div class="branchName" data-max-line="5" data-mto-branch-name>{{#BB_branch-name--spub}}<span>{{{BB_branch-name--spub}}}</span>{{/BB_branch-name--spub}}
+              {{^BB_branch-name--spub}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false{{/team.community-bank}}">Community Bank <br></span> {{{team.branch-name}}}</span>{{/BB_branch-name--spub}}</div><!--branchName-->
+
+            <div class="content">
+              <div class="heading__container textFit--vert">
+                <div class="heading heading--first">Part of the team</div><!--heading-->
+                <div class="heading heading--second">Happy to be a support act</div><!--heading-->
+                <div class="heading heading--third">Supporting your community</div><!--heading-->
+                <div class="heading heading--fourth">Proud sponsors of {{{BB_club-name--spub}}}</div><!--heading data-max-line=6-->
+                <div class="heading heading--fifth">Proud supporters of {{{BB_club-name--spub}}}</div><!--heading data-max-line=6-->
+                {{#BB_heading-free-text--spub}}
+                <div class="freeText">{{{BB_heading-free-text--spub}}}</div> <!--heading data-max-line=5-->
+                {{/BB_heading-free-text--spub}}
+              </div><!--heading__container-->
+            </div><!--content-->
+          </div><!--body-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    
+    <!--MTO Scripts-->
+    <!--<script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/helper/helperFunctions-1.1.js"></script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/mto.js"></script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/mtoData.js"></script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/handleData.js"></script>-->
+    <script>{{{account.snippets.mtoHelperFunctions}}}</script>
+    <script>{{{account.snippets.mto}}}</script>
+    <script>{{{account.snippets.mtoData}}}</script>
+    <script>{{{account.snippets.mtoHandleData_nameCta}}}</script>
+
+    <script>
+      var isExportPage = window.location.href.indexOf('exports') > -1;
+      let currentMTOTeams = "{{{team.mto}}}";
+      let mtoTextInput = '{{{mto}}}';
+      let mtoData = getMTOData();
+      let showMTO = {{#team.mto}}true{{/team.mto}}{{^team.mto}}false{{/team.mto}};
+
+     if(!isExportPage){
+       setupMTO(mtoTextInput, currentMTOTeams, mtoData, showMTO);
+       setupObserver(window.parent.document, { childList: true, subtree: true, }, setupMTO, [mtoTextInput, currentMTOTeams, mtoData, showMTO]);
+     } else if(showMTO && (mtoTextInput != "" && mtoTextInput != null && mtoTextInput != undefined)){
+       handleSelectedData(convertDataToPayload('{{{mto}}}'.split(",")));
+     }
+    </script>
+
+
+    <script>
+
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          detectProjectKit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        detectProjectKit();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+
+      TextFit.fit({
+        selector: '.textFit--vert',
+        fitMode: 'vertical',
+      })
+
+                        function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+         
+        }
+        
+      }
+      
+      detectProjectKit();
+
+    </script>
+
+
+  </body>
+</html>
