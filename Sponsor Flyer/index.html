@@ -348,7 +348,12 @@
               </div>
 
               <div class="branch-name textfit" data-max-line="2" data-mto-branch-name>
-                <span>{{#BB_branch-name_top}}{{{BB_branch-name_top}}}{{/BB_branch-name_top}}</span>
+                {{#BB_branch-name_top}}
+                <span class="js-branch-name-format-container">
+                  <span class="js-branch-name-format-src">{{{BB_branch-name_top}}}</span>
+                  <span class="js-branch-name-format-target"></span>
+                </span>
+                {{/BB_branch-name_top}}
 
                 {{^BB_branch-name_top}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank &#8226</span> {{{team.branch-name}}}</span> {{/BB_branch-name_top}}   
               </div>
@@ -517,7 +522,7 @@
             characterDataOldValue: true
           });            
         });
-      }       
+      }
 
       // Tracking text changes and firing text restriction functions (mutationObserver)
       const overflowObserver = new MutationObserver(function(mutations) {
@@ -560,6 +565,41 @@
           });            
         });
       }    
+      
+      function branchNameFormat() {
+        const containers = document.querySelectorAll('.js-branch-name-format-container');
+        containers.forEach(container => {
+          const src = container.querySelector('.js-branch-name-format-src');
+          const target = container.querySelector('.js-branch-name-format-target');
+          
+          const formated = src.innerText.replace('[-]', ' • ');
+          src.style.display = 'none';
+          target.innerText = formated;
+        })
+      }
+      
+      branchNameFormat();
+      
+      const branchNameFormatObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          branchNameFormat();
+        });
+      });      
+
+      const branchNameFormatSources = document.querySelectorAll('.js-branch-name-format-src');
+
+      if ( branchNameFormatSources.length > 0 ) {
+        branchNameFormatSources.forEach(src => {
+          branchNameFormatObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }      
 
       function injectDate() {
         const container = document.querySelector('.fit');
@@ -591,10 +631,8 @@
         const isProjectKit = window.parent.document.querySelector(".preview-frame")
         const overflowFinder = document.querySelectorAll(".overflow");
         if ( isProjectKit ) {
-          console.log("I'm in preview mode.");
           for (i = 0; i < overflowFinder.length; ++i) {
             overflowFinder[i].classList.remove("overflow");
-            console.log("Got " + i);
           }
          
         }
