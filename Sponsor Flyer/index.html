@@ -71,6 +71,8 @@
         margin: 0.55rem;
       }
 
+
+
       .backgroundImage div {
         width: auto !important;
         left: 0;
@@ -122,6 +124,10 @@
         height: 50%;
         width: 100%;
         z-index: 0;
+      }
+
+      .image-half[data-flip-image="flipped"] {
+        transform: rotateY(-180deg);
       }
 
       .format--a2 .backgroundColor {
@@ -276,7 +282,9 @@
         color: var(--dusk);
       }
 
-
+      .subheading {
+        width: 11.2em;
+      }
 
       [data-community-bank="true "],
       [data-community-bank="True "],
@@ -292,12 +300,12 @@
       [data-community-bank=" "]{
         display: none;
       }
-      
+
       .u-phone-custom-overflow.overflow:hover:after { 
         content: 'Invalid format!'; 
         font-size: 0.7em;
       }      
-      
+
       /* Helper classes */
       .u-display-inline-block { display: inline-block; }
 
@@ -311,6 +319,7 @@
     <!---{{ placeholder-opacity }}--->
     <!---{{{BB_branch-name_top}}}--->
     <!---{{{BB_BackgroundImage}}}--->
+    <!---{{flip-image}}--->
     <!---{{{BB_ThemeColour}}}--->
     <!---{{{BB_heading_sfl}}}--->
     <!---{{{BB_subheading_sfl}}}--->
@@ -333,7 +342,7 @@
 
           <div class="wrapper">           
 
-            <div class="image-half">
+            <div class="image-half" data-flip-image="{{flip-image}}">
               <div class="backgroundImage">
                 {{{BB_BackgroundImage}}}
               </div>                         
@@ -349,10 +358,7 @@
 
               <div class="branch-name textfit" data-max-line="2" data-mto-branch-name>
                 {{#BB_branch-name_top}}
-                <span class="js-branch-name-format-container">
-                  <span class="js-branch-name-format-src">{{{BB_branch-name_top}}}</span>
-                  <span class="js-branch-name-format-target"></span>
-                </span>
+                <span class="text-input">{{{BB_branch-name_top}}}</span>
                 {{/BB_branch-name_top}}
 
                 {{^BB_branch-name_top}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank &#8226</span> {{{team.branch-name}}}</span> {{/BB_branch-name_top}}   
@@ -365,7 +371,7 @@
 
               <div class="subheading">
                 <div class="subheading-inner">
-                  <div class="textFit--vertical">
+                  <div class="textFit--vertical text-input">
                     {{{BB_subheading_sfl}}}     
                   </div>
                 </div>
@@ -377,9 +383,9 @@
                 </div>
                 <div class="lower-text-paragraph-two" data-mto-cta>
                   <span>Call us on</span> 
-                  {{#BB_phone-number_sfl}}
+                  <span class="text-input">{{#BB_phone-number_sfl}}</span>
                   <span class="u-display-inline-block u-phone-custom-overflow">
-                    <span class="js-landline-formater-src">{{BB_phone-number_sfl}}</span>
+                    <span class="js-landline-formater-src text-input">{{BB_phone-number_sfl}}</span>
                     <span class="js-landline-formater-target"></span>
                   </span>
                   {{/BB_phone-number_sfl}}
@@ -399,7 +405,7 @@
                 <img src="{{{account.logos.logo-primary}}}">
               </div>
               <div class="cobrand">
-                <img src="{{BB_cobrand_logo}}">
+                {{#BB_cobrand_logo}}<img src="{{BB_cobrand_logo}}">{{/BB_cobrand_logo}}
               </div>
             </div>
 
@@ -498,7 +504,7 @@
         fitMode: 'vertical',
         alignItems: 'center'
       });
-      
+
       TextFit.fit({
         selector: '.textFit',
       });
@@ -565,41 +571,20 @@
           });            
         });
       }    
-      
-      function branchNameFormat() {
-        const containers = document.querySelectorAll('.js-branch-name-format-container');
-        containers.forEach(container => {
-          const src = container.querySelector('.js-branch-name-format-src');
-          const target = container.querySelector('.js-branch-name-format-target');
-          
-          const formated = src.innerText.replace(/\[-\]/gi, ' • ');
-          src.style.display = 'none';
-          target.innerText = formated;
-        })
+
+
+      function dataReplace(selector, lookup, replace){
+        let elements = document.querySelectorAll(selector);
+        elements.forEach(el =>{
+          var text = el.innerText;
+          if(text.search(lookup) != -1 && (replace != "" || replace.length != 0)){
+            el.innerText = text.split(lookup).join(replace);
+          }
+        });
       }
-      
-      branchNameFormat();
-      
-      const branchNameFormatObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-          branchNameFormat();
-        });
-      });      
+      dataReplace(".text-input", "[-]", "\u2022");
 
-      const branchNameFormatSources = document.querySelectorAll('.js-branch-name-format-src');
 
-      if ( branchNameFormatSources.length > 0 ) {
-        branchNameFormatSources.forEach(src => {
-          branchNameFormatObserver.observe(src, {
-            attributes: false,
-            characterData: true,
-            childList: true,
-            subtree: true,
-            attributeOldValue: false,
-            characterDataOldValue: true
-          });            
-        });
-      }      
 
       function injectDate() {
         const container = document.querySelector('.fit');
@@ -625,20 +610,20 @@
       checkCrop();
       checkExport();
       charLimit();
-      
-      
-                  function detectProjectKit() {
+
+
+      function detectProjectKit() {
         const isProjectKit = window.parent.document.querySelector(".preview-frame")
         const overflowFinder = document.querySelectorAll(".overflow");
         if ( isProjectKit ) {
           for (i = 0; i < overflowFinder.length; ++i) {
             overflowFinder[i].classList.remove("overflow");
           }
-         
+
         }
-        
+
       }
-      
+
       detectProjectKit();
 
     </script>
