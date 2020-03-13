@@ -358,7 +358,7 @@
 
               <div class="branch-name textfit" data-max-line="2" data-mto-branch-name>
                 {{#BB_branch-name_top}}
-                <span class="text-input">{{{BB_branch-name_top}}}</span>
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-name_top}}}</span>
                 {{/BB_branch-name_top}}
 
                 {{^BB_branch-name_top}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank &#8226</span> {{{team.branch-name}}}</span> {{/BB_branch-name_top}}   
@@ -371,7 +371,7 @@
 
               <div class="subheading">
                 <div class="subheading-inner">
-                  <div class="textFit--vertical text-input">
+                  <div class="textFit--vertical" data-replace-from="[-]" data-replace-to=" • ">
                     {{{BB_subheading_sfl}}}     
                   </div>
                 </div>
@@ -383,9 +383,9 @@
                 </div>
                 <div class="lower-text-paragraph-two" data-mto-cta>
                   <span>Call us on</span> 
-                  <span class="text-input">{{#BB_phone-number_sfl}}</span>
+                  <span data-replace-from="[-]" data-replace-to=" • ">{{#BB_phone-number_sfl}}</span>
                   <span class="u-display-inline-block u-phone-custom-overflow">
-                    <span class="js-landline-formater-src text-input">{{BB_phone-number_sfl}}</span>
+                    <span class="js-landline-formater-src" data-replace-from="[-]" data-replace-to=" • ">{{BB_phone-number_sfl}}</span>
                     <span class="js-landline-formater-target"></span>
                   </span>
                   {{/BB_phone-number_sfl}}
@@ -573,17 +573,25 @@
       }    
 
 
-      function dataReplace(selector, lookup, replace){
-        let elements = document.querySelectorAll(selector);
+      function dataReplace() {
+        const elements = document.querySelectorAll('[data-replace-from]');
+        if ( elements.length === 0 ) return;
+        
         elements.forEach(el =>{
-          var text = el.innerText;
-          if(text.search(lookup) != -1 && (replace != "" || replace.length != 0)){
-            el.innerText = text.split(lookup).join(replace);
+          const text = el.innerText;
+          const html = el.innerHTML;          
+          const lookup = el.dataset.replaceFrom;
+          const replace = el.dataset.replaceTo;
+          
+          if( text.search(lookup) != -1 && (replace != "" || replace.length != 0) ) {
+            el.innerHTML = html.split(lookup).join(replace);
           }
         });
       }
-      dataReplace(".text-input", "[-]", "\u2022");
-
+      
+      setInterval(() => {
+        dataReplace();
+      }, 1000);
 
 
       function injectDate() {
