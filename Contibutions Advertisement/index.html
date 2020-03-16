@@ -32,6 +32,7 @@
       {{BB_community-investment--ca}}
       {{BB_image-type--ca}}
       {{BB_upload-image--ca}}
+      {{flip-image}}
       {{BB_branch-name--sas}}
       */
 
@@ -42,6 +43,11 @@
 
       .page {
         border: 0.5pt solid black;
+      }
+      
+      [data-flip-image="flipped"] .hero,
+      [data-flip-image="flipped"] .illustration {
+        transform: rotateY(-180deg);
       }
 
       .colourTheme--plum-theme {
@@ -125,14 +131,24 @@
         display: flex;
         flex-direction: column;
         padding: 3mm;
+        background: var(--dynamic-color);
       }
 
-      .page {
+      .keyline {
+        position: absolute;
+        top: 3mm;
+        left: 3mm;
+        right: 3mm;
+        bottom: 3mm;
         border: 1pt solid black;
+        z-index: 100;
       }
 
-      .colourTheme--mono-theme .backgroundImage,
-      .colourTheme--greyscale-theme .backgroundImage {
+      
+      .colourTheme--mono-theme .hero,
+      .colourTheme--greyscale-theme .hero,
+      .colourTheme--mono-theme .illustration,
+      .colourTheme--greyscale-theme .illustration {
         filter: grayscale(100%);
       }
 
@@ -141,6 +157,7 @@
         height: 100%; 
         flex: 1 0 0%;
         z-index: 5;
+        background: var(--bendigo-plum);
       }
 
       .footer {
@@ -149,7 +166,7 @@
         align-items: flex-start;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-around;
       }
 
       @media (orientation: portrait){
@@ -157,6 +174,7 @@
           flex-direction: column;
         }
       } 
+
 
       @media (orientation: landscape) {
         .section__container {
@@ -178,7 +196,7 @@
       /*110mm x 170mm*/
       @media (min-height: 170mm) and (orientation: portrait) {
         .hero__container { 
-          height: 44.4%;
+          height: 42.4%;
         }      
       }
 
@@ -192,6 +210,7 @@
       @media (orientation: landscape) {
         .hero__container {
           width: 18%;
+          height: calc(100% - 24mm);
         }
       }
 
@@ -214,22 +233,21 @@
       }
 
       @media (orientation: portrait) {
-        .hero {
+        .hero, .illustration {
           bottom: unset;
-          height: 65%;
-        }
-        .illustration {
-          bottom: -8%;
+          height: 50%;
         }
       }
 
 
       @media (orientation: landscape) {
-        .hero {
+        .hero, .illustration {
           width: 65%;
           left: unset;
         }
       }
+      
+
 
       .imageType--custom-image .hero,
       .imageType--illustration .illustration {
@@ -247,31 +265,15 @@
       */
 
 
-      .illustration {
-        background-image: url(https://files.outfit.io/media_library_items/164351/BB-Contributions-Advert-short-image3.jpg);
-        background-position: top;
-        background-size: 100%;
-        background-repeat: no-repeat;
-      }
 
-      @media (orientation: landscape)  {
-        .illustration {
-          background-size: cover;
-          background-position: 25vh;
-        }
-      }
-      */
+
+
       /*240mm x 180mm*/
 
-      @media (min-width: 225mm) and (orientation: landscape){
-        .illustration {
-          background-size: cover;
-          background-position: 25vh;
-        }
-      }
 
 
-      .hero div {
+
+      .hero div, .illustration > div {
         width: auto !important;
         height: auto !important;
         right: 0;
@@ -282,41 +284,57 @@
         position: absolute;
         font-size: 0;
         z-index: 6;
+        width: 100%;
+        display: grid;
+        place-items: center center;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
       }
 
+      .cls-1{fill:{{{account.colors.bendigo-plum}}} !important;}
+      .cls-2{fill:{{{account.colors.bendigo-coral}}} !important;}
+      
       @media (orientation: portrait)  {
         .badge {
-          width: 32%;
+          width: 22%;
+          max-width: 22%;
           right: 15.4pt;     
           top: 16pt;    
         }
+
       }
 
 
       /*110mm x 170mm*/
       @media (min-height: 170mm) and (orientation: portrait){
         .badge {
-          width: 27.6%;
+          width: 22%;
+          max-width: 22%;
           right: 20pt;
           top: 19pt;
         }
+
       }
 
       /*127mm x 200mm*/
       @media (min-height: 200mm) and (orientation: portrait){
         .badge {
-          width: 29%;
+          width: 40%;
+          max-width: 40%;
           right: 15pt;
           top: 17pt;
         }
+
       }
 
       @media (orientation: landscape) {
         .badge {
           width: 22%;
+          max-width: 22%;
           right: 7%;
           top: 7%;
         }
+
       }
 
 
@@ -324,24 +342,33 @@
       @media (min-width: 225mm) and (orientation: landscape) {
         .badge { 
           width: 20%;
+          max-width: 20%;
           right: 18%;
           top: 35pt;
         }
+
       }
 
       @media (min-width: 225mm) and (max-height: 90mm) and (orientation: landscape) {
         .badge { 
           width: 14%;
+          max-width: 14%;
           right: 18%;
           top: 6%;
         }
+
       }
 
       .badge__image {
         display: none;
-        width: 100%;
+        width: 80%;
         height: 100%;
         object-fit: contain;
+        position: relative;
+        grid-row-start: -1;
+        grid-row-end: 1;
+        grid-column-start: -1;
+        grid-column-end: 1;
       }
 
       .colourTheme--plum-theme .badge__image--primary,
@@ -356,41 +383,48 @@
       }
 
       .badge__text {
-        position: absolute;
-        top: 50%;
-        width: 100%;
-        padding: 0 11pt;
+       /* position: absolute;
+        top: 50%; */
+        padding: 0 6pt;
+        width: 85%;
+        height: 100%;
         font-weight: bold;
         text-align: center;
-        transform: translateY(-50%);
+        grid-row-start: -1;
+        grid-row-end: 1;
+        grid-column-start: -1;
+        grid-column-end: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+        /*transform: translateY(-50%);*/
         color: var(--dynamic-badge-text-colour); 
       }
 
       .badge__text--inner {
         line-height: 1.2;
+        margin: 0 5pt;
 
       }
 
       @media (orientation: portrait) {
         .badge__text--inner {
-          font-size: 0.66rem;
+          font-size: 1rem;
         }
       }
 
       /*110mm x 170mm*/
       @media (min-height: 170mm) and (orientation: portrait) {
         .badge__text--inner { 
-          font-size: 0.5rem;
+          font-size: 1rem;
         }
       }
 
       /*127mm x 200mm*/
       @media screen and (min-height: 200mm) and (orientation: portrait){
         .badge__text--inner { 
-          font-size: 0.5rem;
-        }
-        .illustration {
-          width: 172%;
+          font-size: 1rem;
         }
       }
 
@@ -398,14 +432,14 @@
 
       @media (orientation: landscape) {
         .badge__text--inner {
-          font-size: 0.74rem;
+          font-size: 1rem;
         }
       }
 
       /*240mm x 180mm*/
       @media (min-width: 225mm) and (orientation: landscape) {
         .badge__text--inner { 
-          font-size: 0.62rem;
+          font-size: 1rem;
         }
       }
 
@@ -415,11 +449,25 @@
         background: var(--dynamic-colour);
         z-index: 5;
       }
+      
+            
+      @media (orientation: portrait) {
+        .section {
+            padding: 4% 17% 2% 6.6%;
+          }
+        }
+        @media (orientation: portrait) {
+          .hero__container {
+              height: 41.8%;
+            }
+          }
 
       /*Flexi Portrait Gradients */
       @media (orientation: portrait) {
         .colourTheme--plum-theme .section {
           background: linear-gradient(0deg, rgba(135,14,64,1) 0%, rgba(135,14,64,1) 70%, rgba(135,14,64,0.9) 100%);
+          background: var(--bendigo-plum);
+          opacity: 0.96;
         }
         .colourTheme--soft-grey-theme .section {
           background: linear-gradient(0deg, rgba(226,231,233,1) 0%, rgba(226,231,233,1) 70%, rgba(226,231,233,0.9) 100%);
@@ -444,6 +492,8 @@
       @media (orientation: landscape) {
         .colourTheme--plum-theme .section {
           background: linear-gradient(90deg, rgba(135,14,64,1) 0%, rgba(135,14,64,1) 75%, rgba(135,14,64,0.9) 100%);
+          background: var(--bendigo-plum);
+          opacity: 0.96;
         }
         .colourTheme--soft-grey-theme .section {
           background: linear-gradient(90deg, rgba(226,231,233,1) 0%, rgba(226,231,233,1) 75%, rgba(226,231,233,0.9) 100%);
@@ -495,7 +545,11 @@
 
       @media (orientation: portrait) {
         .section {
-          padding: 5% 23% 2% 12.6%;
+          padding: 5% 18% 2% 12.6%;
+          clip-path: inset(0rem -0.6rem 0rem 0rem round 0rem 0rem 5.5rem 0rem);
+          -webkit-clip-path: inset(0rem -0.6rem 0rem 0rem round 0rem 0rem 5.5rem 0rem);
+        }
+        .section__container {
           clip-path: inset(0rem -0.6rem 0rem 0rem round 0rem 0rem 5.5rem 0rem);
           -webkit-clip-path: inset(0rem -0.6rem 0rem 0rem round 0rem 0rem 5.5rem 0rem);
         }
@@ -521,12 +575,21 @@
           clip-path: inset(0rem -0.4rem 0rem 0rem round 0rem 0rem 4.2rem 0rem);
           -webkit-clip-path: inset(0rem -0.4rem 0rem 0rem round 0rem 0rem 4.2rem 0rem);
         }
+        .section__container {
+          clip-path: inset(0rem -0.4rem 0rem 0rem round 0rem 0rem 4.2rem 0rem);
+          -webkit-clip-path: inset(0rem -0.4rem 0rem 0rem round 0rem 0rem 4.2rem 0rem);
+        }
+        
       }
 
       /*127mm x 200mm*/
       @media (min-height: 200mm) and (orientation: portrait) {
         .section { 
           padding: 5% 16% 1% 11.3%;
+          clip-path: inset(0rem -0.4rem 0rem 0rem round 0rem 0rem 3.9rem 0rem);
+          -webkit-clip-path: inset(0rem -0.4rem 0rem 0rem round 0rem 0rem 3.9rem 0rem);
+        }
+        .section__container {
           clip-path: inset(0rem -0.4rem 0rem 0rem round 0rem 0rem 3.9rem 0rem);
           -webkit-clip-path: inset(0rem -0.4rem 0rem 0rem round 0rem 0rem 3.9rem 0rem);
         }
@@ -554,6 +617,7 @@
 
       .branchName {
         display: none;
+        font-weight: 500;
       }
 
       .branchName--primary {
@@ -562,6 +626,7 @@
 
       .branchName--secondary {
         color: var(--dynamic-branch-name-secondary-colour);
+
       }
 
       @media (orientation: portrait) {
@@ -623,7 +688,7 @@
       @media (orientation: portrait) {
         .heading {
           margin-bottom: 0.3em;
-          font-size: 0.98rem;
+          font-size: 0.8rem;
           line-height: 1.2;
         }
       }
@@ -740,7 +805,8 @@
         display: none;
         font-size: 0.57rem;
         line-height: 1.2em;
-        color:  var(--dynamic-website-colour);
+        color:  white;
+        opacity: 0.6;
       }
 
       .layout--landscape .website {
@@ -767,7 +833,7 @@
       @media (orientation: portrait) {
         .footer {
           margin-top: 0;
-          padding: 1.5% 9% 1.5% 7.4%;
+          padding: 1.5% 9% 1.5% 12.4%;
           background: white;
           z-index: 5;
         }
@@ -882,6 +948,8 @@
 
       .metadata {
         position: relative;
+        margin-top: 0%;
+        margin-left: -4mm;
       }
 
       @media (orientation: portrait) {
@@ -889,12 +957,12 @@
           /*margin-top: 2.2%;*/
           font-size: 0;
         }
-      }
+      } 
 
       /*110mm x 170mm*/
       @media (min-height: 170mm) and (orientation: portrait){
         .metadata {
-          margin-top: 4.7%;
+          margin-top: 0%;
         }
       }
 
@@ -923,28 +991,38 @@
 
       .metadata__item {
         font-family: 'Arial Narrow';
-        color: var(--black);
+        color: rgba(0,0,0,0.7);
         line-height: 1.1;
-        font-size: 7pt;
+        font-size: 9pt;
       }
 
       .metadata__item:last-child {
         margin-right: 0;
       }
 
+      
       @media (orientation: portrait) {
-        .hero__container:after {
-          content: "";
-          background:white;
-          width: 5rem;
-          height: 35vh;
-          display: inline-block;
-          z-index: 4;
+        .section:after {
+          content:"";
+          width: 100%;
+          height: 10vh;
           position: absolute;
-          right: 0;
-          bottom: 2rem;
+          display: inline-block;
+          background: var(--dynamic-colour);
+          z-index: 5;
+          bottom: 0;
         }
-
+        
+        .hero:after {
+          content:"";
+          background: linear-gradient(0deg, rgba(135,14,64,1) 0%, rgba(135,14,64,0) 100%);
+          display: inline-block;
+          position: absolute;
+          bottom: 0;
+          z-index: 4;
+          height: 5vh;
+          width: 100%;
+        }
       }
 
 
@@ -957,11 +1035,13 @@
       }
 
 
+      /*
       @media (min-height: 140mm) and (orientation: landscape) {
         .section {
-          padding: 11.6% 14% 4% 7%;
+          padding: 11.6% 12% 4% 7%;
         }
       }
+      */
 
 
       @media (max-height: 116mm) and (orientation: landscape) {
@@ -975,9 +1055,7 @@
 
 
       @media print {
-        .section {
-          background: {{{account.colors.bendigo-plum}}};
-        }
+
 
         .colourTheme--grey-theme .section,
         .colourTheme--greyscale-theme .section {
@@ -985,6 +1063,10 @@
         }
         .colourTheme--mono-theme .section {
           background: rgb(0,0,0);
+        }
+        .badge__text {
+          /*transform: scale(0.825);*/
+          margin-left: -6pt;
         }
 
       }
@@ -1000,7 +1082,11 @@
       [data-community-bank="false "],
       [data-community-bank="False "],
       [data-community-bank=" false "],
-      [data-community-bank=" False "]{
+      [data-community-bank=" False "],
+      [data-community-bank=" "],
+      [data-community-bank="  "],
+      [data-community-bank=""],
+      [data-community-bank=" "]{
         display: none;
       }
 
@@ -1012,7 +1098,40 @@
         font-size: 0.7em;
       }      
       
-      .u-display-inline-block { display: inline-block; }      
+      .u-display-inline-block { display: inline-block; }   
+
+      @media (orientation:landscape) and (min-height: 130mm) {
+        .heading {
+          font-size: 1.6rem;
+		}
+        .branchName--primary {
+          display: block;
+          font-size: 0.4rem;
+          margin-bottom: 3%;
+        }
+        
+        .branchName--secondary {
+          display: none;
+        }
+        
+        .info__additional {
+          margin-top: 8pt;
+        }
+        
+      }
+      
+      
+      .overflow--color {
+        background-color: rgba(255,0,0,0.4) !important;
+      }
+      
+      .overflow--color:hover:after  {
+        content: "You can't use the Peach Colour Theme with Half Image. Please Choose another.";
+      }
+      
+            .overflow--color-grey:hover:after  {
+        content: "You can't use the Soft Grey Colour Theme with Illustration. Please Choose another.";
+      }
     </style>
   </head>
   <body style="background: white" data-crop="{{show-crop}}" class="imageType--{{{BB_image-type--ca}}}{{^BB_image-type--ca}}custom-image{{/BB_image-type--ca}}
@@ -1023,28 +1142,32 @@
       <div class="bleed">
         <div class="container fit">
           <div class="section__container">
-            <div class="hero__container">
-              <div class="illustration"></div><!--ilustration-->
+            <div class="hero__container" data-flip-image="{{flip-image}}">
+              <div class="illustration">
+                <div class="reposition-fix">
+                {{{BB_upload-image-illustration--ca}}}
+                </div>
+              </div><!--ilustration-->
               <div class="hero">
                 <div class="reposition-fix">{{{BB_upload-image--ca}}}</div><!--reposition-fix-->
               </div><!--hero-->
               <div class="badge">
-                <img class="badge__image badge__image--primary" src="https://files.outfit.io/media_library_items/164103/BB-ContributionsAd-seal-Edited.svg">
+                <div class="badge__image badge__image--primary">{{{account.snippets.community-investment-badge}}}</div>
                 <img class="badge__image badge__image--secondary" src="https://files.outfit.io/media_library_items/164105/BB-ContributionsAd-seal2-Edited.svg">
-                <div class="badge__text"><div class="badge__text--inner textFit" data-char-limit="20">{{{BB_community-investment--ca}}}</div></div><!--badge__text-->
+                <div class="badge__text"><div class="badge__text--inner textFit" data-char-limit="20" data-replace-from="[-]" data-replace-to=" • ">{{{BB_community-investment--ca}}}</div></div><!--badge__text-->
               </div><!--badge-->
             </div><!--hero__container-->
             <div class="section">
               <div class="section__inner" data-max-height="dynamic">
                 <div class="branchName branchName--primary">
-                  {{#BB_branch-name--sas}}<span>{{{BB_branch-name--sas}}}</span>{{/BB_branch-name--sas}}
+                  {{#BB_branch-name--sas}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-name--sas}}}</span>{{/BB_branch-name--sas}}
                   {{^BB_branch-name--sas}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank <br></span> {{{team.branch-name}}}</span>{{/BB_branch-name--sas}}
                 </div><!--branchName-->
                 <div class="heading">Making good things happen</div><!--heading-->
                 <div class="content">
                   <div class="content__inner">
                     <div class="info__container info__container--primary">
-                      <div class="info">When you bank with us, profits pour into the community. {{#BB_community-investment--ca}}{{{BB_community-investment--ca}}} so far.{{/BB_community-investment--ca}}<span class="info__additional">Across Australia, Community Bank branches have invested $229 million to
+                      <div class="info">When you bank with us, profits pour into the community.<br/> {{#BB_community-investment--ca}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB_community-investment--ca}}}</span> so far.{{/BB_community-investment--ca}}<span class="info__additional">Across Australia, Community Bank branches have invested $229 million to
                         help their communities thrive.</span></div><!--info-->
                       <div class="info">A bank giving back sounds unusual. For us, it’s business as usual.</div><!--info-->
                     </div><!--info__container--primary-->
@@ -1056,7 +1179,7 @@
                           </span>
                           <span class="js-landline-formater-target"></span>
                         </span>
-                            {{/BB_phone-number--sas}} {{^BB_phone-number--sas}}{{{team.phone}}}{{/BB_phone-number--sas}} or search Bendigo Bank {{{BB_town-name--sas}}} {{^BB_town-name--sas}} {{{team.branch-town}}} {{/BB_town-name--sas}}</div><!--info-->
+                            {{/BB_phone-number--sas}} {{^BB_phone-number--sas}}{{{team.phone}}}{{/BB_phone-number--sas}} or search Bendigo Bank <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_town-name--sas}}}</span> {{^BB_town-name--sas}} {{{team.branch-town}}} {{/BB_town-name--sas}}</div><!--info-->
                       <div class="website">bendigobank.com.au</div><!--website-->
                     </div><!--info__container--secondary-->
                   </div><!--content__inner-->
@@ -1070,7 +1193,7 @@
               <img class="logo logo--primary" src="{{{account.logos.logo-primary}}}">
               <img class="logo logo--secondary" src="{{{account.logos.logo-greyscale}}}">
               <div class="branchName branchName--secondary">
-                {{#BB_branch-name--sas}}<span>{{{BB_branch-name--sas}}}</span>{{/BB_branch-name--sas}}
+                {{#BB_branch-name--sas}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-name--sas}}}</span>{{/BB_branch-name--sas}}
                 {{^BB_branch-name--sas}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false{{/team.community-bank}}">Community Bank <br></span> {{{team.branch-name}}}</span>{{/BB_branch-name--sas}}
               </div><!--branchName--secondary-->
             </div><!--footer__section-->
@@ -1082,7 +1205,7 @@
             </div> <!--metadata-->
           </div><!--footer-->
         </div><!--container fit-->
-
+        <div class="keyline"></div>
       </div><!--bleed-->
 
     </div><!--page-->
@@ -1102,10 +1225,14 @@
     <script src="js/dynamic-inject.js"></script>
     <script src="js/text-fit-min.js"></script>
     <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script src="fontfaceobserver.js"></script>
     <script>
 
     </script>
     <script>
+      
+      {{{account.snippets.dataReplace}}}
+      
       function formatLandline() {
         const sources = document.querySelectorAll('.js-landline-formater-src');
 
@@ -1160,6 +1287,7 @@
           maxLineCheck();
           maxHeightCheck();
           charLimit();
+          detectProjectKit();
           hideEmptyTitles();
         });
       });
@@ -1209,18 +1337,21 @@
       document.fonts.ready.then(() => {
         maxLineCheck();
         maxHeightCheck();
+        detectProjectKit();
         injectDynamicContent();
         hideEmptyTitles();
-      });
-
-      TextFit.fit({
+              TextFit.fit({
         selector: '.textFit',
       });
+        
+      });
 
 
-      function textFun() {
+
+
+     function textFun() {
         document.querySelector('.textFit').removeAttribute("style");
-      }
+      } 
 
 
 
@@ -1228,6 +1359,7 @@
         console.log('The size is changing');
         maxLineCheck();
         maxHeightCheck();
+        detectProjectKit();
         textFun();
         console.log('Font size is gone'); 
 
@@ -1242,9 +1374,65 @@
 
       // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
 
+            function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+         
+        }
+        
+      }
+      
+      detectProjectKit();
 
+      
+      function peachImageCheck() {
+        const isImage = document.querySelector(".imageType--custom-image");
+        const isPeach = document.querySelector(".colourTheme--peach-theme");
+        const isIllu = document.querySelector(".imageType--illustration");
+        const isSoftGrey = document.querySelector(".colourTheme--soft-grey-theme");
+        
+        if (isImage && isPeach) {
+          document.querySelector(".section").classList.add("overflow"); document.querySelector(".section").classList.add("overflow--color");
+        }
+        
+        if (isIllu && isSoftGrey) {
+          document.querySelector(".section").classList.add("overflow"); document.querySelector(".section").classList.add("overflow--color-grey");
+        }
+      }
+      
+      peachImageCheck();
 
     </script>
+            <script type="text/javascript">
+      // Add many fallbacks for Print Ready
+      document.addEventListener('DOMContentLoaded', function(event) {
+        var font = new FontFaceObserver('Bendigo Sans');
+
+        font.load().then(function () {
+          console.log('Font is available');
+          
+          
+        maxLineCheck();
+        maxHeightCheck();
+
+        TextFit.fit({
+          selector: '.textFit'
+        });
+          document.dispatchEvent(new Event('printready'));
+          console.log('Print Ready');
+        }, function () {
+          console.log('Font is not available');
+        });
+      });
+
+    </script>  
+    
 
   </body>
 </html>
