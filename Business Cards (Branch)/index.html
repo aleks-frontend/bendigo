@@ -25,15 +25,6 @@
       {{placeholder-toggle-new}}
       {{placeholder-validation}}
       {{BB_variation-type--bc}}
-      {{BB_first-name--bc}}
-      {{BB_last-name--bc}}
-      {{BB_title--bc}}
-      {{BB_qualification--bc}}
-      {{BB_mobile-number--bc}}
-      {{BB_phone-number--bc}}
-      {{BB_email-address--bc}}
-      {{BB_branch-name--bc}}
-      {{BB_address--bc}}
       {{#spreadsheet.BB_cardholder-details--bc}}{{/spreadsheet.BB_cardholder-details--bc}}
       */
 
@@ -115,7 +106,7 @@
 
       .info {
         display: flex;
-        font-size: 7.3pt;
+        font-size: 7.25pt;
       }
 
       .subheading, 
@@ -183,6 +174,15 @@
         content: 'Invalid format!'; 
         font-size: 0.7em;
       }
+      
+      .info--address > span {
+        margin-right: 0.2rem;
+      }
+      
+      .info--address > span:last-of-type {
+        margin-right: 0;
+      }
+      
 
       /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
     </style>
@@ -192,7 +192,7 @@
       <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
       <div class="placeholderMaster__item" data-bg="{{ placeholder-image-2 }}"></div>
     </div><!-- end placeholderMaster -->
-    <div class="page page--singleCard">
+     <div class="page page--singleCard">
 
       <div class="bleed">
 
@@ -204,18 +204,8 @@
           <div class="body">
             <div class="section section--heading">
               <div class="heading" data-max-line="1">
-                {{#BB_first-name--bc}}
-                	<span>{{{BB_first-name--bc}}}</span>
-                {{/BB_first-name--bc}} 
-                {{^BB_first-name--bc}}
-                	<span>{{{user.first_name}}}</span>
-                {{/BB_first-name--bc}}
-                {{#BB_last-name--bc}}
-                	<span>{{{BB_last-name--bc}}}</span>
-                {{/BB_last-name--bc}}
-                {{^BB_last-name--bc}}
-                	<span>{{{user.last_name}}}</span>
-                {{/BB_last-name--bc}}
+                {{#BB-user-first-name}}<span>{{{BB-user-first-name}}}</span>{{/BB-user-first-name}} 
+                {{#BB-user-last-name}}<span>{{{BB-user-last-name}}}</span>{{/BB-user-last-name}}
               </div><!--heading-->
               {{#BB_title--bc}}
               <div class="title" data-max-line="1">{{{BB_title--bc}}}</div><!--title-->
@@ -225,7 +215,7 @@
               {{/BB_qualification--bc}}
             </div><!--section--heading-->
             <div class="section section--middle">
-              <div class="{{^BB_phone-number--bc}}no-landline{{/BB_phone-number--bc}} {{^user.contact_number}}no-landline-smart{{/user.contact_number}} {{^BB_mobile-number--bc}}no-mobile{{/BB_mobile-number--bc}}">
+              <div class="{{^BB-user-contact-number}}no-landline{{/BB-user-contact-number}} {{^BB-user-contact-number}}no-landline-smart{{/BB-user-contact-number}} {{^BB_mobile-number--bc}}no-mobile{{/BB_mobile-number--bc}}">
                 <span class="warning warning--phone-extended">At least one phone number needs to be stated.</span>
                 {{#BB_mobile-number--bc}}
                 <div class="info phone-field">
@@ -239,34 +229,33 @@
                 </div><!--info-->
                 {{/BB_mobile-number--bc}}
                 
-                <div class="info phone-field {{^BB_phone-number--bc}}no-landline{{/BB_phone-number--bc}} {{^user.contact_number}}no-landline-smart{{/user.contact_number}}">
+                <div class="info phone-field {{^BB-user-contact-number}}no-landline{{/BB-user-contact-number}} {{^BB-user-contact-number}}no-landline-smart{{/BB-user-contact-number}}">
                   <div class="info__label">p</div><!--info__label-->
                   <div class="info__value">
-                    {{#BB_phone-number--bc}}
+                    {{#BB-user-contact-number}}
                     <span class="u-phone-custom-overflow">
                       <div class="js-landline-formater-src">
-                        {{BB_phone-number--bc}}
+                        {{{BB-user-contact-number}}}
                       </div>  
                       <div class="js-landline-formater-target"></div>
                     </span>
-                    {{/BB_phone-number--bc}}
-                    {{^BB_phone-number--bc}}<span>{{{user.contact_number}}}</span>{{/BB_phone-number--bc}} 
+                    {{/BB-user-contact-number}}
                   </div><!--info__value-->
                 </div><!--info-->
               </div>
               <div class="info info--email" data-max-line="1.2">
-                {{#BB_email-address--bc}}<span>{{{BB_email-address--bc}}}</span>{{/BB_email-address--bc}} {{^BB_email-address--bc}}<span>{{{user.email}}}</span>{{/BB_email-address--bc}}</div><!--info-->
+                {{#BB-user-email}}<span>{{{BB-user-email}}}</span>{{/BB-user-email}}</div><!--info-->
             </div><!--section--middle-->
             <div class="section section--bottom">
-              {{#BB_branch-name--bc}}  
-              <div class="info info--branch" data-max-line="1.2">{{{BB_branch-name--bc}}} {{^BB_branch-name--bc}} {{{team.branch-name}}} {{/BB_branch-name--bc}}</div><!--info--branch-->
-              {{/BB_branch-name--bc}}
-              {{#BB_address--bc}}
-              <div class="info info--address" data-max-line="1.2">{{{BB_address--bc}}} </div><!--info--address-->
-              {{/BB_address--bc}}
-              {{^BB_address--bc}}
-              <div class="info info--address" data-max-line="1.2">{{{team.branch-street-address}}} {{{team.branch-town}}} {{{team.branch-state}}}, {{{team.branch-postcode}}}</div><!--info--address-->
-              {{/BB_address--bc}}
+              {{#BB-team-branch-name}}  
+              <div class="info info--branch" data-max-line="1.2">{{{BB-team-branch-name}}}</div><!--info--branch-->
+              {{/BB-team-branch-name}}
+              <div class="info info--address" data-max-line="2.2">
+                {{#BB-team-branch-street-address}}<span>{{{BB-team-branch-street-address}}}</span>{{/BB-team-branch-street-address}}
+                {{#BB-team-branch-town}}<span>{{{BB-team-branch-town}}}</span>{{/BB-team-branch-town}}
+                {{#BB-team-branch-state}}<span>{{{BB-team-branch-state}}},</span>{{/BB-team-branch-state}}
+                {{#BB-team-branch-postcode}}<span>{{{BB-team-branch-postcode}}}</span>{{/BB-team-branch-postcode}}
+              </div><!--info--address-->
             </div><!--section--bottom-->
           </div><!--body-->
         </div><!--container fit--frontPage-->
@@ -329,7 +318,7 @@
             <div class="section section--bottom">
               <div class="info info--branch" data-max-line="1">{{{branch-name}}}</div><!--info--branch-->
               {{#address}}
-              <div class="info info--address" data-max-line="1">{{{address}}}</div><!--info--address-->
+              <div class="info info--address" data-max-line="2">{{{address}}}</div><!--info--address-->
               {{/address}}
               {{^address}}
               <div class="info info--address" data-max-line="1">{{{team.branch-street-address}}} {{{team.branch-town}}} {{{team.branch-state}}}, {{{team.branch-postcode}}}</div><!--info--address-->
@@ -449,6 +438,20 @@
 
       const formatMobileSources = document.querySelectorAll('.js-mobile-formater-src');
       const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
+      
+      function branchNameFormat() {
+        const containers = document.querySelectorAll('.js-branch-name-format-container');
+        containers.forEach(container => {
+          const src = container.querySelector('.js-branch-name-format-src');
+          const target = container.querySelector('.js-branch-name-format-target');
+          
+          const formated = src.innerText.replace(/\[-\]/gi, ' • ');
+          src.style.display = 'none';
+          target.innerText = formated;
+        })
+      }
+      
+      branchNameFormat();
 
       if ( formatMobileSources.length > 0 ) {
         formatMobileSources.forEach(src => {
@@ -482,6 +485,7 @@
           maxLineCheck();
           maxHeightCheck();
           charLimit();
+          detectProjectKit();
           hideEmptyTitles();
         });
       });
@@ -520,6 +524,7 @@
       document.fonts.ready.then(() => {
         maxLineCheck();
         maxHeightCheck();
+        detectProjectKit();
         injectDynamicContent();
         hideEmptyTitles();
         formatMobile();
@@ -535,6 +540,23 @@
       TextFit.fit({
         selector: '.textFit'
       });
+      
+      
+            function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+         
+        }
+        
+      }
+      
+      detectProjectKit();
 
 
     </script> 
