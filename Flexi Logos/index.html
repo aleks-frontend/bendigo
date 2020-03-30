@@ -139,7 +139,7 @@
       
       /* Custom small landscape format */
       @media (orientation: landscape) and (max-width: 100mm) and (max-height: 40mm) {
-        .page .fit { padding-bottom: 3%; }
+        .page .fit { padding-bottom: 15px; }
       }      
 
       .fit__inner {
@@ -215,6 +215,11 @@
           margin-bottom: 0;
           text-align: right;
         }
+      }
+      
+      /* Custom small landscape format */
+      @media (orientation: landscape) and (max-width: 100mm) and (max-height: 40mm) {
+        .textLayout--branch-name .content { margin-bottom: 0; }
       }
 
       .colorTheme--bendigo .content { color: var(--white); }
@@ -334,8 +339,9 @@
           display: flex;
           align-items: center;
           justify-content: center;
+          margin-top: 10px;
           width: auto;
-          height: 30px;
+          height: 20px;
         }   
         
         .logo {
@@ -448,7 +454,7 @@
         <div class="container fit fit--no-global-dynamic">
           <div class="fit__inner">
             <div class="content">
-              <div class="content__inner" data-max-height="css">
+              <div class="content__inner" data-max-height="dynamic">
                 {{#BB_proudly-supported-by--fl}}
                 <div class="text">{{{BB_proudly-supported-by--fl}}}</div><!--text-->
                 {{/BB_proudly-supported-by--fl}}
