@@ -135,12 +135,23 @@
         .textLayout--branch-name .fit,
         .textLayout--proudly-supported .fit,
         .textLayout--branch-name-phone .fit { padding: 1% 4.2%; }
-      }
+      }      
       
       /* Custom small landscape format */
       @media (orientation: landscape) and (max-width: 100mm) and (max-height: 40mm) {
-        .page .fit { padding-bottom: 15px; }
+        .page .fit { padding: 1.5% 5% 10px; }
       }      
+      
+      /* Custom landscape format sizes for widths between 101-160mm and heights greater than 65mm  */
+      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 160mm) and (min-height: 65mm) {
+        .fit--no-global-dynamic { display: none; }
+        .page .fit--has-global-dynamic { 
+          display: flex; 
+          /* Adding 15px on top and bottom to secure the space around the logo whic will have 30px height on these sizes */
+          padding-top: 15px;
+          padding-bottom: 15px;
+        }
+      }
 
       .fit__inner {
         display: flex;
@@ -159,14 +170,22 @@
         .fit__inner {
           flex-direction: row;
         }
-      }
+      }      
+      
+      /* Custom landscape format sizes for widths between 101-160mm and heights greater than 65mm  */
+      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 160mm) and (min-height: 65mm) {
+        .fit__inner {
+          flex-grow: unset;
+          overflow: visible;
+          flex-direction: column;
+          align-items: center;
+        }        
+      }      
 
-      .content { 
-        text-align: center;        
-        overflow: hidden !important;
-      }
+      .content { text-align: center; }      
+      .fit--no-global-dynamic .content { overflow: hidden !important; }
 
-      @media(orientation: portrait) {
+      @media (orientation: portrait) and ( min-height: 85mm ) {
         .textLayout--branch-name .content { margin-bottom: 19.3%;}
         .textLayout--proudly-supported .content { margin-bottom: 16%; }
         .textLayout--branch-name-phone .content { margin-bottom: 18%; }
@@ -216,6 +235,14 @@
           text-align: right;
         }
       }
+      
+      /* Custom landscape format sizes for widths between 101-160mm and heights greater than 65mm  */
+      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 160mm) and (min-height: 65mm) {
+        .content { 
+          order: unset;
+          text-align: center; 
+        }
+      }      
       
       /* Custom small landscape format */
       @media (orientation: landscape) and (max-width: 100mm) and (max-height: 40mm) {
@@ -359,6 +386,16 @@
         }   
       }
       
+      /* Custom landscape format sizes for widths between 101-160mm and heights greater than 65mm  */
+      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 160mm) and (min-height: 65mm) {
+        .logo__container {
+          margin: 15px 0 0;
+          height: 30px;
+        }      
+        
+        .logo { max-height: 100%; }
+      }
+      
       /* 95mm x 30mm */
       @media (orientation: landscape) and (max-height: 38mm) and (max-width:100mm) { 
         .content__inner {
@@ -383,10 +420,13 @@
         .branch { font-size: 0.7em; }      	
       }
       
-      @media (orientation: portrait) and (max-width: 100mm) {
+      @media (orientation: portrait) and ( max-height: 85mm ) {
         .logo__container {
-
+            margin-top: 10px; 
+			height: 20px;
         }
+        
+        .logo { max-height: 100%; }
       }
       
 
