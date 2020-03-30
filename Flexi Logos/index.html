@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html data-sign="OSM">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+
+      /*
+      {{show-crop}}
+      {{ placeholder-opacity }}
+      {{ placeholder-image-1 }} 
+      {{ placeholder-toggle-new }}
+      {{placeholder-validation}}
+      {{BB_colour-theme--bb}}
+      {{BB_text-layout--bb}}
+      {{{BB_branch-name--fl}}}
+      {{{BB_proudly-supported-by--fl}}}
+      {{{BB_phone-number--fl}}}
+      */
+
+
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+
+      :root {
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --white: #fff;
+        --black: #000;
+      }
+
+      html {
+        font-family: 'Bendigo Sans';
+        font-size: 11pt;
+        color: #000;
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      body.colorTheme--bendigo { background-color: var(--bendigo-plum)!important; }
+      body.colorTheme--white,
+      body.colorTheme--monochrome {
+        background-color: var(--white)!important; 
+      }
+
+      .fit {
+        display: none;
+        flex-direction: column;
+        top: 3mm;
+        right: 3mm;
+        bottom: 3mm;
+        left: 3mm;
+        padding: 10% 7.1% 15%;        
+        overflow: hidden;
+      }
+
+      @media(orientation: portrait) {
+        .fit {
+          justify-content: center;
+        }
+
+        .textLayout--branch-name .fit { padding: 9% 6.7% 11.3%; }
+        .textLayout--proudly-supported .fit { padding: 6% 7.1% 15%; }
+        .textLayout--branch-name-phone .fit { padding: 10% 7.1% 14%; }     
+
+        .fit--has-global-dynamic {
+          display: flex;
+        }
+      }
+
+      @media(orientation: landscape) {
+        .textLayout--branch-name .fit { padding: 2.9% 9.1% 5.8%; }
+        .textLayout--proudly-supported .fit { padding: 1.8% 9.1% 5.8%; }
+        .textLayout--branch-name-phone .fit { padding: 1.5% 9.1% 5.6%; }  
+
+        .fit--no-global-dynamic {
+          display: flex;
+        }
+      }
+
+      /* 120mm x 30mm */
+      @media (orientation: landscape) and (min-width: 100mm) {
+        .fit {
+          justify-content: center;
+        }
+
+        .textLayout--branch-name .fit,
+        .textLayout--proudly-supported .fit,
+        .textLayout--branch-name-phone .fit { padding: 1.3% 3.9%; }
+      }
+
+      /* 210mm x 30mm */
+      @media (orientation: landscape) and (min-width: 180mm) { 
+        .textLayout--branch-name .fit,
+        .textLayout--proudly-supported .fit,
+        .textLayout--branch-name-phone .fit { padding: 1% 4.2%; }
+      }
+      
+      /* Custom small landscape format */
+      @media (orientation: landscape) and (max-width: 100mm) and (max-height: 40mm) {
+        .page .fit { padding-bottom: 3%; }
+      }      
+
+      .fit__inner {
+        display: flex;
+        flex-direction: column;        
+        overflow: hidden;
+      }
+
+      @media (orientation: landscape) {
+        .fit__inner {
+          flex: 1;
+        }
+      }
+
+      /* 120mm x 30mm */      
+      @media (orientation: landscape) and (min-width: 100mm) {
+        .fit__inner {
+          flex-direction: row;
+        }
+      }
+
+      .content { 
+        text-align: center;        
+        overflow: hidden !important;
+      }
+
+      @media(orientation: portrait) {
+        .textLayout--branch-name .content { margin-bottom: 19.3%;}
+        .textLayout--proudly-supported .content { margin-bottom: 16%; }
+        .textLayout--branch-name-phone .content { margin-bottom: 18%; }
+      }
+
+      @media(orientation: landscape) {
+        .content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1;
+        }
+
+        .textLayout--branch-name .content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin-bottom: 2%;
+        }
+        .textLayout--proudly-supported .content{ margin-bottom: 1%;}
+        .textLayout--branch-name-phone .content { margin-bottom: 0; }
+      }
+
+      /* 120mm x 30mm */
+      @media(orientation: landscape) and (min-width: 100mm) {
+        .content {
+          flex: 1;
+          order: 2;
+          margin-bottom: 0;
+          text-align: right;
+        }
+
+        .textLayout--branch-name .content,
+        .textLayout--proudly-supported .content,
+        .textLayout--branch-name-phone .content { 
+          margin-bottom: 0;
+          padding-top: 0.8%;
+        }     
+      }
+
+      /* 210mm x 30mm */
+      @media(orientation: landscape) and (min-width: 180mm) {
+        .content {
+          flex: 1;
+          order: 2;
+          margin-bottom: 0;
+          text-align: right;
+        }
+      }
+
+      .colorTheme--bendigo .content { color: var(--white); }
+      .colorTheme--white .content { color: var(--bendigo-plum); }
+      .colorTheme--monochrome .content { color: var(--black); }
+
+      .text {
+        font-weight: normal;
+      }
+
+      @media(orientation: portrait) {   
+        .text {
+          margin-bottom: 0.3em;
+          font-size: 0.8rem;
+        }
+      }
+
+      @media(orientation: landscape) {
+        .text {
+          margin-bottom: 0.3em;
+          font-size: 1.08rem;
+        }
+      }
+
+      /* 120mm x 30mm */
+      @media (orientation: landscape) and (min-width: 100mm) {
+        .text {
+          margin-bottom: 0.3em;
+          font-size: 1.08rem;
+        }
+      }
+
+      /* 210mm x 30mm */
+      @media (orientation: landscape) and (min-width: 180mm) { 
+        .text {
+             margin-bottom: 0.3em;
+          font-size: 0.92rem;      
+        }
+      }
+
+      .textLayout--branch-name .text,
+      .textLayout--branch-name-phone .text { display: none; } 
+
+      .branch {
+        font-weight: 500;
+        line-height: 1.2em;
+      }
+
+      @media(orientation: portrait) {    
+        .branch { font-size: 13.1pt; }
+
+        .textLayout--branch-name-phone .branch { margin-bottom: 0.5em; }
+      }
+
+
+      @media(orientation: landscape) {
+        .branch { font-size: 1.27rem; }
+
+        .textLayout--branch-name-phone .branch { margin-bottom: 0.5em; }
+      }
+
+      /* 120mm x 30mm */
+      @media (orientation: landscape) and (min-width: 100mm) {
+        .branch { font-size: 0.9rem; }
+
+        .textLayout--branch-name-phone .branch { margin-bottom: 0.3em; }
+      }
+
+      /* 210mm x 30mm */
+      @media (orientation: landscape) and (min-width: 180mm) { 
+        .branch { font-size: 0.9rem;}
+
+        .textLayout--branch-name-phone .branch {
+          margin-bottom: 0.2em;
+        }
+      }
+
+      .phone { line-height: 1.2em; }
+
+      @media(orientation: portrait) {    
+        .phone { font-size: 0.8rem; }
+      }
+
+      @media(orientation: landscape) {
+        .phone { font-size: 1.1rem; }
+      }
+
+      /* 120mm x 30mm */
+      @media (orientation: landscape) and (min-width: 100mm) {
+        .phone { font-size: 0.9rem; }
+      }
+
+      /* 210mm x 30mm */
+      @media (orientation: landscape) and (min-width: 180mm) {
+        .phone { font-size: 0.94rem; }
+      }      
+
+      .textLayout--branch-name .phone,
+      .textLayout--proudly-supported .phone { 
+        display: none;
+      } 
+
+      /* 120mm x 30mm */
+      @media (orientation: landscape) and (min-width: 100mm) {
+        .logo__container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          width: 54%;
+          margin-right: 5%;
+        }   
+      }
+      
+      /* Custom small landscape format */
+      @media (orientation: landscape) and (max-width: 100mm) and (max-height: 40mm) {
+        .logo__container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: auto;
+          height: 30px;
+        }   
+        
+        .logo {
+          max-width: 100%;
+          max-height: 100%;
+        }
+        
+      }      
+
+      /* 210mm x 30mm */
+      @media (orientation: landscape) and (min-width: 180mm) {
+        .logo__container {
+          width: 37%;
+          margin-right: 5%;
+        }   
+      }
+      
+      /* 95mm x 30mm */
+      @media (orientation: landscape) and (max-height: 38mm) and (max-width:100mm) { 
+        .content__inner {
+          max-height: 5em;
+        }
+      }
+      
+      /* Landscape sizes at 38mm height */
+      @media (orientation: landscape) and (max-height: 38mm) and (min-width:100mm) { 
+        .content__inner {
+          max-height: 6.1em;
+        }
+      }
+      
+      @media (orientation: portrait) and (max-height: 38mm) and (max-width:81mm) { 
+        .textLayout--branch-name .branch { font-size: 1.1rem; }
+      	.textLayout--branch-name-phone .branch { font-size: 0.95rem; } 
+       	.textLayout--proudly-supported .branch { font-size: 0.95rem;  margin-top: 0.5em; } 
+      }
+      
+      @media (orientation: landscape) and (max-width: 113mm) and (min-width:100mm) {      
+        .branch { font-size: 0.7em; }      	
+      }
+      
+      @media (orientation: portrait) and (max-width: 100mm) {
+        .logo__container {
+
+        }
+      }
+      
+
+      .logo {
+        display: none;
+        width: 100%;
+      }     
+
+      .colorTheme--bendigo .logo--white,
+      .colorTheme--white .logo--color,
+      .colorTheme--monochrome .logo--mono { 
+        display: block;
+      }
+
+      /* Custom Overflow message for invalid phone number */
+      .u-phone-custom-overflow.overflow:hover:after { 
+        content: 'Invalid format!'; 
+        font-size: 0.7em;
+      }            
+
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" data-reduce-export-font-size-by-percent="0" data-reduce-firefox-font-size-by-percent="0" data-prevent-export-overflow="false"
+        class="colorTheme--{{BB_colour-theme--bb}}{{^BB_colour-theme--bb}}bendigo{{/BB_colour-theme--bb}}
+               textLayout--{{BB_text-layout--bb}}{{^BB_text-layout--bb}}branch-name{{/BB_text-layout--bb}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--has-global-dynamic">
+          <div class="fit__inner" data-max-height="dynamic">
+            <div class="content">
+              <div class="content__inner">
+                {{#BB_proudly-supported-by--fl}}
+                <div class="text">{{{BB_proudly-supported-by--fl}}}</div><!--text-->
+                {{/BB_proudly-supported-by--fl}}
+                <div class="branch">
+                  {{#BB_branch-name--fl}}<span data-replace-from="[-]" data-replace-to=" · ">{{{BB_branch-name--fl}}}</span>{{/BB_branch-name--fl}}
+                  {{^BB_branch-name--fl}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank <br></span> {{{team.branch-name}}}</span>
+                  {{/BB_branch-name--fl}}
+                </div><!--branch-->
+                {{#BB_phone-number--fl}}
+                <div class="phone u-phone-custom-overflow">                  
+                  <div class="js-landline-formater-src">
+                    {{{BB_phone-number--fl}}}
+                  </div>  
+                  <div class="js-landline-formater-target"></div>                  
+                </div><!--phone-->
+                {{/BB_phone-number--fl}}
+              </div><!--content__inner-->
+            </div><!--content-->
+            <div class="logo__container">
+              <img class="logo logo--mono" src="https://files.outfit.io/media_library_items/174489/Bendigo%2520Bank-black%2520logo.svg"><!--logo--mono-->
+              <img class="logo logo--white" src="https://files.outfit.io/media_library_items/174488/Bendigo%2520Bank-white%2520logo.svg"><!--logo--white-->
+              <img class="logo logo--color" src="https://files.outfit.io/media_library_items/174490/Bendigo%2520Bank-logo.svg"><!--logo--color-->
+            </div><!--logo__container-->
+          </div><!--fit__inner-->        
+        </div><!--fit--has-global-dynamic-->
+
+        <div class="container fit fit--no-global-dynamic">
+          <div class="fit__inner">
+            <div class="content">
+              <div class="content__inner" data-max-height="css">
+                {{#BB_proudly-supported-by--fl}}
+                <div class="text">{{{BB_proudly-supported-by--fl}}}</div><!--text-->
+                {{/BB_proudly-supported-by--fl}}
+                <div class="branch">
+                  {{#BB_branch-name--fl}}<span data-replace-from="[-]" data-replace-to=" · ">{{{BB_branch-name--fl}}}</span>{{/BB_branch-name--fl}}
+                  {{^BB_branch-name--fl}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank <br></span> {{{team.branch-name}}}</span>
+                  {{/BB_branch-name--fl}}
+                </div><!--branch-->
+                {{#BB_phone-number--fl}}
+                <div class="phone u-phone-custom-overflow">                  
+                  <div class="js-landline-formater-src">
+                    {{{BB_phone-number--fl}}}
+                  </div>  
+                  <div class="js-landline-formater-target"></div>                  
+                </div><!--phone-->
+                {{/BB_phone-number--fl}}
+              </div><!--content__inner-->
+            </div><!--content-->
+            <div class="logo__container">
+              <img class="logo logo--mono" src="https://files.outfit.io/media_library_items/174489/Bendigo%2520Bank-black%2520logo.svg"><!--logo--mono-->
+              <img class="logo logo--white" src="https://files.outfit.io/media_library_items/174488/Bendigo%2520Bank-white%2520logo.svg"><!--logo--white-->
+              <img class="logo logo--color" src="https://files.outfit.io/media_library_items/174490/Bendigo%2520Bank-logo.svg"><!--logo--color-->
+            </div><!--logo__container-->
+          </div><!--fit__inner-->
+        </div><!--fit--no-global-dynamic-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}"); {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    <script>
+      {{{account.snippets.dataReplace}}}
+
+      console.clear();
+      
+      window.addEventListener('resize', () => {
+        maxLineCheck();
+        maxHeightCheck();
+      });
+
+      function formatLandline() {
+        const sources = document.querySelectorAll('.js-landline-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-landline-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 8
+          if (phone.length === 8) {
+            const formated = phone.replace(/(\d{4})(\d{4})/, "$1 $2");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 8 || ( phone.length > 8 && phone.length < 11 ) ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }            
+
+      const formatLandlineObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatLandline();
+        });
+      });      
+
+      const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
+
+      if ( formatLandlineSources.length > 0 ) {
+        formatLandlineSources.forEach(src => {
+          formatLandlineObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }            
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      // All external font-families need to be added to 'fonts' array
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Bendigo Sans'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+
+        Promise.all(fontObservers).then(() => {
+          maxLineCheck();
+          maxHeightCheck();
+          injectDynamicContent();
+          hideEmptyTitles();
+
+          document.dispatchEvent(new Event('printready'));
+        });
+      });      
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+      
+      // Calling maxLineCheck and maxHeightCheck again when all logo images are loaded
+      const logos = document.querySelectorAll('.logo');
+      logos.forEach(logo => {
+        logo.onload = () => {
+          maxLineCheck();
+          maxHeightCheck();
+        }        
+      });
+
+
+    </script>
+
+
+  </body>
+</html>
