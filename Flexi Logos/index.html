@@ -142,8 +142,8 @@
         .page .fit { padding: 1.5% 5% 10px; }
       }      
       
-      /* Custom landscape format sizes for widths between 101-160mm and heights greater than 65mm  */
-      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 160mm) and (min-height: 65mm) {
+      /* Custom landscape format sizes for widths between 101-120mm and heights greater than 65mm  */
+      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 121mm) and (min-height: 65mm) {
         .fit--no-global-dynamic { display: none; }
         .page .fit--has-global-dynamic { 
           display: flex; 
@@ -152,6 +152,28 @@
           padding-bottom: 15px;
         }
       }
+      
+      /* Custom landscape format sizes for widths between 121-139mm and heights greater than 65mm  */
+      @media (orientation: landscape) and (min-width: 121mm) and (max-width: 141mm) and (min-height: 75mm) {
+        .fit--no-global-dynamic { display: none; }
+        .page .fit--has-global-dynamic { 
+          display: flex; 
+          /* Adding 15px on top and bottom to secure the space around the logo whic will have 30px height on these sizes */
+          padding-top: 15px;
+          padding-bottom: 15px;
+        }
+      }      
+      
+       /* Custom landscape format sizes for widths between 121-139mm and heights greater than 65mm  */
+      @media (orientation: landscape) and (min-width: 141mm) and (max-width: 161mm) and (min-height: 80mm) {
+        .fit--no-global-dynamic { display: none; }
+        .page .fit--has-global-dynamic { 
+          display: flex; 
+          /* Adding 15px on top and bottom to secure the space around the logo whic will have 30px height on these sizes */
+          padding-top: 15px;
+          padding-bottom: 15px;
+        }
+      }         
 
       .fit__inner {
         display: flex;
@@ -172,15 +194,44 @@
         }
       }      
       
-      /* Custom landscape format sizes for widths between 101-160mm and heights greater than 65mm  */
-      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 160mm) and (min-height: 65mm) {
+      /* Custom landscape format sizes for widths between 101-120mm and heights greater than 65mm  */
+      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 121mm) and (min-height: 65mm) {
         .fit__inner {
-          flex-grow: unset;
           overflow: visible;
           flex-direction: column;
           align-items: center;
+          justify-content: center;
         }        
+        .logo__container {
+          margin-top: 3%;
+        }
       }      
+      
+      /* Custom landscape format sizes for widths between 101-120mm and heights greater than 65mm  */
+      @media (orientation: landscape) and (min-width: 121mm) and (max-width: 141mm) and (min-height: 75mm) {
+        .fit__inner {
+          overflow: visible;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }        
+        .logo__container {
+          margin-top: 3%;
+        }
+      }  
+      
+      /* Custom landscape format sizes for widths between 101-120mm and heights greater than 65mm  */
+      @media (orientation: landscape) and (min-width: 141mm) and (max-width: 161mm) and (min-height: 80mm) {
+        .fit__inner {
+          overflow: visible;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }    
+        .logo__container {
+          margin-top: 3%;
+        }
+      }  
 
       .content { text-align: center; }      
       .fit--no-global-dynamic .content { overflow: hidden !important; }
@@ -203,10 +254,16 @@
           display: flex;
           flex-direction: column;
           justify-content: center;
-          margin-bottom: 2%;
+          margin-bottom: 0.2rem;
         }
         .textLayout--proudly-supported .content{ margin-bottom: 1%;}
         .textLayout--branch-name-phone .content { margin-bottom: 0; }
+      }
+      
+      @media (orientation: landscape) and (min-width: 101mm) and (max-height: 65mm) {
+        .branch {
+          font-size: 0.9em !important;
+        }
       }
 
       /* 120mm x 30mm */
@@ -237,12 +294,50 @@
       }
       
       /* Custom landscape format sizes for widths between 101-160mm and heights greater than 65mm  */
-      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 160mm) and (min-height: 65mm) {
+      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 121mm) and (min-height: 65mm) {
         .content { 
+          flex: unset;
           order: unset;
           text-align: center; 
         }
+        .logo__container {
+          width: 70mm !important;
+        }
+        .logo {
+          width: 70mm !important;
+        }
       }      
+      
+	  @media (orientation: landscape) and (min-width: 121mm) and (max-width: 141mm) and (min-height: 75mm) {
+          .content { 
+          flex: unset;
+          order: unset;
+          text-align: center; 
+        }
+        .logo__container {
+          width: 80mm !important;
+        }
+        .logo {
+          width: 80mm !important;
+        }
+      } 
+      
+      @media (orientation: landscape) and (min-width: 141mm) and (max-width: 161mm) and (min-height: 80mm) {
+          .content { 
+          flex: unset;
+          order: unset;
+          text-align: center; 
+        }
+        .logo {
+          width: 90mm !important;
+        }
+        .logo__container {
+          width: 90mm !important;
+        }
+        .logo {
+          width: 90mm !important;
+        }
+      } 
       
       /* Custom small landscape format */
       @media (orientation: landscape) and (max-width: 100mm) and (max-height: 40mm) {
@@ -387,10 +482,10 @@
       }
       
       /* Custom landscape format sizes for widths between 101-160mm and heights greater than 65mm  */
-      @media (orientation: landscape) and (min-width: 101mm) and (max-width: 160mm) and (min-height: 65mm) {
+      @media (orientation: landscape) and (min-width: 100mm) and (max-width: 120mm) and (min-height: 65mm) {
         .logo__container {
           margin: 15px 0 0;
-          height: 30px;
+          height: unset;
         }      
         
         .logo { max-height: 100%; }
@@ -417,7 +512,7 @@
       }
       
       @media (orientation: landscape) and (max-width: 113mm) and (min-width:100mm) {      
-        .branch { font-size: 0.7em; }      	
+        .branch { font-size: 1.1em; }      	
       }
       
       @media (orientation: portrait) and ( max-height: 85mm ) {
