@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html data-sign="OSR">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+      @import url('https://outfit-assets-production.s3.amazonaws.com/Arial-narrow/stylesheet.css');
+
+      :root {
+        --white: {{{account.colors.white}}};
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --peach: {{{account.colors.peach}}};
+      }
+
+      /* Inputs Order
+
+      {{show-crop}}
+      {{BB_heading--fs}}
+      {{BB_format-layout--ss}}
+      {{{BB_heading-free-text-input--fs}}}
+      {{{BB_club-name--fs}}}
+      {{{BB_branch-name--fs}}}
+      */
+
+      html {
+        font-family: 'Bendigo Sans';
+        word-break: break-word;
+      }
+
+      .fit {
+        display: flex;
+        background: var(--bendigo-plum);
+      }
+
+      .section {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background: var(--white);
+      }
+      
+          .fit {
+        display: flex;
+      }
+
+      .layout--vinyl-banners .fit,
+      .layout--a-format .fit {
+        background: var(--bendigo-plum);
+      }
+
+      .layout--metal-corflute-sign .fit {
+        background: linear-gradient(225deg, var(--bendigo-plum) 0%, var(--bendigo-plum) 35%, var(--peach) 100%);
+      }
+
+      .section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .section--primary {
+        flex: 1;
+      }
+
+      .layout--a-format .section--primary,
+      .layout--metal-corflute-sign .section--primary {
+        background: var(--white);
+      }
+
+      .layout--a-format .section--primary {
+        padding: 2.5% 13% 8.7% 7.4%;
+        clip-path: inset(-2.7rem -1.5rem 0rem 0rem round 0rem 17.4rem 0 0rem);
+        -webkit-clip-path: inset(-2.7rem -1.5rem 0rem 0rem round 0rem 17.4rem 0 0rem);
+      }
+
+      .layout--metal-corflute-sign .section--primary {
+        padding: 0.8rem 3.6rem 3.3rem 1.35rem;
+        clip-path: inset(-11rem -0.65rem -2.3rem -1rem round 0 0 20.88rem 0);
+        -webkit-clip-path: inset(-11rem -0.65rem -2.3rem -1rem round 0 0 20.88rem 0);
+      }
+
+      .layout--vinyl-banners .section--primary {
+        padding: 0.8rem 2.5rem 3.3rem 1.35rem;
+      }
+
+      /*4000mm x 1000mm*/
+      @media (min-width: 3250mm) {
+        .layout--metal-corflute-sign .section--primary { 
+          padding: 0.8rem 6rem 1.7rem 2rem;
+          clip-path: inset(-4rem -0.58rem -0.4rem -1rem round 0 0 20.75rem 0);
+          -webkit-clip-path: inset(-4rem -0.58rem -0.4rem -1rem round 0 0 20.75rem 0);
+        }      
+
+        .layout--vinyl-banners .section--primary {
+          padding: 0.8rem 6rem 1.7rem 2rem;
+        }
+      }
+
+      /*5000mm x 1200mm*/
+      @media (min-width: 4500mm) {
+        .layout--metal-corflute-sign .section--primary { 
+          padding: 0.8rem 5rem 1.65rem 1.6rem;
+          clip-path: inset(-4rem -0.58rem -0.6rem -1rem round 0 0 20.75rem 0);
+          -webkit-clip-path: inset(-4rem -0.58rem -0.6rem -1rem round 0 0 20.75rem 0);
+        }      
+
+        .layout--vinyl-banners .section--primary {
+          padding: 0.8rem 5rem 1.65rem 1.6rem;
+        }
+      }
+
+      .layout--metal-corflute-sign.heading--none .section--primary,
+      .layout--vinyl-banners.heading--none .section--primary {
+        padding: 1rem 1.5rem;
+      }
+
+      /*4000mm x 1000mm*/
+      @media (min-width: 3250mm) {
+        .layout--metal-corflute-sign.heading--none .section--primary,
+        .layout--vinyl-banners.heading--none .section--primary { 
+          padding: 1rem 2rem;
+        }      
+      }
+
+      /*5000mm x 1200mm*/
+      @media (min-width: 4500mm) {
+        .layout--metal-corflute-sign.heading--none .section--primary,
+        .layout--vinyl-banners.heading--none .section--primary { 
+          padding: 2.3rem 2rem 2.3rem 1.6rem;
+        }      
+      }
+
+      .section--secondary {
+        display: none;
+        word-break: normal;
+      }
+
+      .layout--metal-corflute-sign .section--secondary,
+      .layout--vinyl-banners .section--secondary {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: right;
+        padding: 1rem 1.7rem 1rem 0rem;
+        padding-left: 0;
+      }
+
+      .layout--metal-corflute-sign .section--secondary {
+        width: 21.6%;
+      }
+
+      .layout--vinyl-banners .section--secondary {
+        width: 32%;
+      }
+
+      .layout--metal-corflute-sign.heading--none .section--secondary,
+      .layout--vinyl-banners.heading--none .section--secondary {
+        width: 30.4%;
+      }
+
+      /*4000mm x 1000mm*/
+      @media (min-width: 3250mm) {
+        .layout--metal-corflute-sign.heading--none .section--secondary,
+        .layout--vinyl-banners.heading--none .section--secondary { 
+          width: 38.9%;
+          padding: 2.5rem 1.7rem 2.5rem 0;
+        }      
+      }
+
+      /*5000mm x 1200mm*/
+      @media (min-width: 4500mm) {
+        .layout--metal-corflute-sign.heading--none .section--secondary,
+        .layout--vinyl-banners.heading--none .section--secondary { 
+          width: 40.2%;
+          padding: 2rem 2rem 2rem 0;
+        }      
+      }
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .layout--a-format .content--primary {
+        flex: 1;
+        padding: 0.5rem 2rem 0.5rem 0;
+        justify-content: center;
+      }
+
+      .layout--metal-corflute-sign .content--primary,
+      .layout--vinyl-banners .content--primary {
+        flex: 1;
+        padding: 0.5rem 0;
+      }
+
+      /*5000mm x 1200mm*/
+      @media (min-width: 4500mm) {
+        .layout--metal-corflute-sign .content--primary,
+        .layout--vinyl-banners .content--primary { 
+          padding: 0.4rem 0;
+        }      
+      }
+
+      .layout--metal-corflute-sign.heading--none .content--primary,
+      .layout--vinyl-banners.heading--none .content--primary {
+        flex: 0;
+        padding: 0;
+      }
+
+      .content--secondary {
+        flex: 1;
+      }
+
+      .layout--metal-corflute-sign .content--secondary {
+        margin-left: -0.9rem;
+      }
+
+      .content__inner {
+        max-height: 60%;
+        justify-content: flex-end;
+      }
+
+      .heading--none .heading__container--primary {
+        display: none;
+      }
+
+      .heading,
+      .freeText {
+        display: none;
+      }
+
+      .layout--a-format .heading {
+        color: var(--peach);
+      }
+
+      .layout--metal-corflute-sign .heading {
+        color: var(--white);
+      }
+
+      .layout--metal-corflute-sign.heading--proud-sponsors-of-club-name .heading,
+      .layout--metal-corflute-sign.heading--proud-supporters-of-club-name .heading {
+        color: var(--apricot);
+      }
+
+      .layout--vinyl-banners .heading {
+        color: var(--apricot);
+      }
+
+      .layout--vinyl-banners .club-name,
+      .layout--metal-corflute-sign .club-name {
+        color: var(--white);
+      }
+
+      .layout--a-format .heading,
+      .layout--a-format .freeText {
+        font-size: 1.12rem;
+        line-height: 1.2em;
+        font-weight: 500;
+      }
+
+      .heading--part-of-the-team .heading--first,
+      .heading--happy-to-be-a-support-act .heading--second,
+      .heading--supporting-your-community .heading--third,
+      .heading--proud-sponsors-of-club-name .heading--fourth,
+      .heading--proud-supporters-of-club-name .heading--fifth,
+      .heading--free-text-input .freeText {
+        display: block;
+      }
+
+      .layout--metal-corflute-sign .heading__container--primary,
+      .layout--vinyl-banners .heading__container--primary {
+        display: none;
+      }
+
+      .layout--metal-corflute-sign .heading__container--secondary,
+      .layout--vinyl-banners .heading__container--secondary {
+        display: block;
+        font-size: 1.37rem;
+        line-height: 1.2em;
+        font-weight: bold;
+      }
+
+      .layout--vinyl-banners .branchName {
+        color: var(--white);
+      }
+
+      .layout--a-format .branchName--primary {
+        margin-top: 0.73em;
+        font-size: 1.46rem;
+        line-height: 1.2em;
+        font-weight: 500;
+      }
+
+      .layout--a-format .branchName--primary,
+      .layout--metal-corflute-sign .branchName--primary {
+        color: var(--bendigo-plum);
+      }
+
+      .heading--none.layout--a-format .branchName--primary {
+        margin-top: 0.4em;
+      }      
+
+      .layout--metal-corflute-sign .branchName--primary,
+      .layout--vinyl-banners .branchName--primary {
+        display: block;
+        font-size: 1.29rem;
+        line-height: 1.2em;
+        font-weight: 500;
+      }
+
+      .layout--metal-corflute-sign.heading--none .branchName--primary,
+      .layout--vinyl-banners.heading--none .branchName--primary {
+        display: none;
+      }
+
+      .layout--metal-corflute-sign .branchName--secondary,
+      .layout--vinyl-banners .branchName--secondary {
+        display: none !important;
+        font-size: 1.2rem;
+        line-height: 1.3em;
+        font-weight: 500;
+        color: var(--white);
+      }
+
+      .layout--metal-corflute-sign.heading--none .branchName--secondary,
+      .layout--vinyl-banners.heading--none .branchName--secondary {
+        display: block !important;
+      }
+
+      /*4000mm x 1000mm*/
+      @media (min-width: 3250mm) {
+        .layout--metal-corflute-sign .branchName--secondary,
+        .layout--vinyl-banners .branchName--secondary { 
+          font-size: 1.35rem;
+          line-height: 1.25em;
+        }      
+      }
+
+      .logo {
+        display: none;
+      }
+
+      .layout--a-format .logo--primary,
+      .layout--metal-corflute-sign .logo--primary,
+      .layout--vinyl-banners .logo--secondary {
+        display: block;
+      }
+
+      .layout--a-format .logo--primary {
+        width: 18rem;
+      }
+
+      .layout--metal-corflute-sign .logo--primary,
+      .layout--vinyl-banners .logo--secondary {
+        width: 15.1rem;
+      }
+
+      /*4000mm x 1000mm*/
+      @media (min-width: 3250mm) {
+        .layout--metal-corflute-sign .logo--primary,
+        .layout--vinyl-banners .logo--secondary { 
+          width: 17.3rem;
+        }      
+      }
+
+      /*5000mm x 1200mm*/
+      @media (min-width: 4500mm) {
+        .layout--metal-corflute-sign .logo--primary,
+        .layout--vinyl-banners .logo--secondary { 
+          width: 17.6rem;
+        }      
+      }
+
+      .layout--metal-corflute-sign.heading--none .logo--primary,
+      .layout--vinyl-banners.heading--none .logo--secondary {
+        width: 16rem;
+      }
+
+      /*4000mm x 1000mm*/
+      @media (min-width: 3250mm) {
+        .layout--metal-corflute-sign.heading--none .logo--primary,
+        .layout--vinyl-banners.heading--none .logo--secondary { 
+          width: 17.3rem;
+        }      
+      }
+
+      /*5000mm x 1200mm*/
+      @media (min-width: 4500mm) {
+        .layout--metal-corflute-sign.heading--none .logo--primary,
+        .layout--vinyl-banners.heading--none .logo--secondary { 
+          width: 17.6rem;
+        }      
+      }
+
+
+      @media (min-aspect-ratio: 1/1) {
+        .section{
+          padding: 4% 12% 12% 8%;
+          clip-path: inset(-0.1rem -2.7rem 0rem 0rem round 0 18.7rem 0 0);
+          -webkit-clip-path: inset(-0.1rem -2.7rem 0rem 0rem round 0 18.7rem 0 0);
+        }
+
+      }
+
+      @media (min-aspect-ratio: 2/1) {
+        .section {
+          padding: 1.1% 20% 10% 5%;
+          clip-path: inset(-10% -4% 0% 0% round 0 16.6rem 0 0);
+          -webkit-clip-path: inset(-10% -4% 0% 0% round 0 16.6rem 0 0);
+        }
+      }
+
+      @media (min-aspect-ratio: 0.8/1 ) {
+        .section {
+          padding: 7.5% 8% 23.4% 10.4%;
+          clip-path: inset(0% -5.5% 0% 0% round 0 11rem 0 0);
+          -webkit-clip-path: inset(0% -5.5% 0% 0% round 0 11rem 0 0);
+        }
+      }
+
+      @media (min-aspect-ratio: 0.42/1 ) {
+        .section {
+          padding: 55% 9%;
+          clip-path: inset(-0.2% -26.8% 0% 0% round 0 11.2rem 0 0);
+          -webkit-clip-path: inset(-0.2% -26.8% 0% 0% round 0 11.2rem 0 0);
+        }
+      }
+
+      @media (min-aspect-ratio: 3.81/1) {
+        .section {
+          padding: 3% 21% 2.9% 5%;
+          clip-path: inset(-1.35rem -1rem -6.5rem 0rem round 0 18.5rem 0rem 0);
+          -webkit-clip-path: inset(-1.35rem -1rem -6.5rem 0rem round 0 18.5rem 0rem 0);
+        }
+      }
+
+
+      @media (min-aspect-ratio: 1/1) and (min-height: 1598mm) {
+        .section {
+          padding: 2.4% 7.2% 11.3% 7.2%;
+          clip-path: inset(-3.6% -15.8% 0% 0% round 0 19rem 0 0);
+          -webkit-clip-path: inset(-3.6% -15.8% 0% 0% round 0 19rem 0 0);
+        }
+      }
+
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: center;
+      }
+
+      @media (min-aspect-ratio: 1/1) {
+        .content {
+          padding: 2.3rem 2rem 2.3rem 0;
+        }
+      }
+
+      @media (min-aspect-ratio: 2/1) {
+        .content {
+          padding: 1.2rem 0;
+        }
+      }
+
+      @media (min-aspect-ratio: 0.8/1 ) {
+        .content {
+          padding: 2.5rem 0;
+        }
+      }
+
+      @media (min-aspect-ratio: 0.42/1 ) {
+        .content {
+          padding: 2rem 0;
+        }
+      }
+
+      @media (min-aspect-ratio: 3.81/1) {
+        .content {
+          padding: 0.7rem 0;
+        }
+      }
+
+
+      @media (min-aspect-ratio: 1/1) and (min-height: 1598mm) {
+        .content {
+          padding: 2.5rem 2.5rem 2.5rem 0;
+        }
+      }
+
+
+      @media (min-aspect-ratio: 1/1) {
+        .heading__container {
+          margin-bottom: 0.86rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 2/1), (min-aspect-ratio: 1/1) and (min-height: 1598mm){
+        .heading__container {
+          margin-bottom: 1rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 0.8/1 ) {
+        .heading__container {
+          margin-bottom: 1.35rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 0.42/1 ) {
+        .heading__container {
+          margin-bottom: 1.4rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 3.81/1) {
+        .heading__container {
+          margin-bottom: 0;
+        }
+      }
+
+
+      @media (min-aspect-ratio: 1/1) and (min-height: 1598mm) {
+        .content {
+          padding: 2.5rem 2.5rem 2.5rem 0;
+        }
+      }
+
+
+      .heading--none .heading__container,
+      .heading__container.no-heading-text,
+      .heading__container.no-branch-name-text {
+        margin-bottom: 0;
+      }
+
+      .heading,
+      .freeText {
+        display: none;
+        line-height: 1.2;
+        font-weight: 500;
+        color: var(--peach);
+      }
+
+
+      @media (min-aspect-ratio: 1/1) { 
+        .heading,
+        .freeText {
+          font-size: 1.04rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 2/1) {
+        .heading,
+        .freeText {
+          font-size: 1.25rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 0.8/1) {
+        .heading,
+        .freeText {
+          font-size: 1.08rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 0.42/1) {
+        .heading,
+        .freeText {
+          font-size: 0.58rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 3.8/1) {
+        .heading,
+        .freeText {
+          font-size: 1.58rem;
+          line-height: 1.1;
+        }
+      }
+
+      @media (min-aspect-ratio: 1/1) and (min-height: 1598mm) {
+        .heading,
+        .freeText {
+          font-size: 1.1rem;
+        }
+      }
+
+      .heading--part-of-the-team .heading--first,
+      .heading--happy-to-be-a-support-act .heading--second,
+      .heading--supporting-your-community .heading--third,
+      .heading--proud-sponsors-of-club-name .heading--fourth,
+      .heading--proud-supporters-of-club-name .heading--fifth,
+      .heading--free-text-input .freeText {
+        display: block;
+      }
+
+
+
+      .branchName {
+        font-weight: 500;
+        line-height: 1.2em;
+        color: var(--bendigo-plum);
+      }
+
+      @media (min-aspect-ratio: 1/1) { 
+        .branchName {
+          font-size: 1.37rem;
+          line-height: 1.25em;
+        }
+      }
+
+      @media (min-aspect-ratio: 2/1) {
+        .branchName {
+          font-size: 1.27rem;
+          line-height: 1.15;
+        }
+      }
+
+      @media (min-aspect-ratio: 0.8/1) {
+        .branchName {
+          font-size: 1.38rem;
+          line-height: 1;
+        }
+      }
+
+      @media (min-aspect-ratio: 0.42/1) {
+        .branchName {
+          font-size: 0.86rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 3.8/1) {
+        .branchName {
+          font-size: 1.56rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 1/1) and (min-height: 1598mm) {
+        .branchName {
+          font-size: 1.45rem;
+        }
+      }
+
+
+
+      @media (min-aspect-ratio: 1/1), (min-aspect-ratio: 2/1) {
+        .logo {
+          width: 15rem;
+        }
+      }
+
+
+      @media (min-aspect-ratio: 0.8/1) {
+        .logo {
+          width: 13rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 0.42/1) {
+        .logo {
+          width: 8rem;
+        }
+      }
+
+      @media (min-aspect-ratio: 3.8/1) {
+        .logo {
+          width: 17.05rem;
+        }
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="layout--{{{BB_format-layout--ss}}}{{^BB_format-layout--ss}}a-format{{/BB_format-layout--ss}}
+                                                                   heading--{{{BB_heading--fs}}}{{^BB_heading--fs}}none{{/BB_heading--fs}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page">
+      <div class="bleed">
+        <div class="container fit">
+          <div class="section">
+            <div class="content">
+              <div class="content__inner" data-max-height="dynamic">
+                <div class="heading__container {{^BB_heading-free-text-input--fs}}no-heading-text{{/BB_heading-free-text-input--fs}} {{^BB_branch-name--fs}}no-branch-name-text{{/BB_branch-name--fs}}">
+                  <div class="heading heading--first">Part of the team</div><!--heading--first-->
+                  <div class="heading heading--second">Happy to be a support act</div><!--heading--second-->
+                  <div class="heading heading--third">Supporting your community</div><!--heading--third-->
+                  <div class="heading heading--fourth">Proud sponsors of <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_club-name--fs}}}</span></div><!--heading--fourth-->
+                  <div class="heading heading--fifth">Proud supporters of <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_club-name--fs}}}</span></div><!--heading--fifth-->
+                  {{#BB_heading-free-text-input--fs}}
+                  <div class="heading freeText"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_heading-free-text-input--fs}}}</span></div><!--heading--freeTextInput-->
+                  {{/BB_heading-free-text-input--fs}}
+                </div><!--heading--primary-->
+                {{#BB_branch-name--fs}}<div class="branchName"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-name--fs}}}</span></div><!--branchName--primary-->{{/BB_branch-name--fs}}
+              </div><!--content__inner-->
+            </div><!--content-->
+            <img class="logo" src="{{{account.logos.logo-primary}}}"><!--logo-->
+          </div><!--section--primary-->
+        </div><!--container fit-->
+      </div><!--bleed-->
+    </div><!--page-->
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}"); {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    <script>
+      {{{account.snippets.dataReplace}}}
+
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+
+    </script>
+
+
+  </body>
+</html>
