@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html data-sign="OSM">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+      @import url('https://fonts.googleapis.com/css?family=Muli:200,300,900&display=swap');
+
+      :root {
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --coral: {{{account.colors.bendigo-coral}}};
+        --soft-grey: {{{account.colors.soft-grey}}};
+        --slate: {{{account.colors.slate}}};
+        --white: #ffffff;
+        --black: #000000;
+      }
+
+      html {
+        font-family: "Bendigo Sans", "Muli", sans-serif;
+        font-size: 11pt;
+        color: #000;
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+
+
+      .badge {
+        z-index: 1;
+        position: absolute;
+        width: 5.7em;
+        height: 5.7em;
+        top: 0.66em;
+        left: 0.74em;
+        border-radius: 50%;
+        background-color: white;
+        box-shadow: 0 0 20px 0px #fff, 0 0 20px 15px #fff, 0 0 20px 0px #fff;
+      }
+      
+      .cls-1 {
+          fill: {{{account.colors.bendigo-plum}}} !important;
+      }
+      .cls-2 {
+          fill: {{{account.colors.coral}}}!important;
+      }
+
+      .textarea {
+        position: absolute;
+        font-size: 80pt;
+        letter-spacing: -1.5pt;
+        font-weight: 500;
+        z-index: 1;
+        line-height: 1.06;
+      }
+
+      .textarea-lower {
+        color: var(--white);
+        bottom: 0.95rem;
+        left: 1.1rem;
+        max-height: 2.5em;
+        width: 8.6em;
+      }
+
+      .textarea-upper {
+        max-height: 3em;
+      }
+
+      .textarea-upper {
+        color: var(--bendigo-plum);
+        top: 0.8em;
+        right: 0.8em;
+        max-height: 3em;
+        max-width: 6em;
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 5.9em;
+        background: linear-gradient(white, {{{account.colors.bendigo-plum}}} 50%);
+        mix-blend-mode: multiply;
+      }
+
+      .corner {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 7em;
+        width: 100%;
+        background-image: url(https://files.outfit.io/media_library_items/161804/Asset%25201.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .logo {
+        position: absolute;
+        bottom: 0.4em;
+        right: 0.67em;
+        width: 0.85em;
+      }
+
+      .investment-amount {
+        position: absolute;
+        z-index: 200;
+        top: 0.7em;
+        left: 0.8em;
+        font-weight: 600;
+        width: 6.4em;
+        height: 6.4em;
+        text-align: center;
+        color: white;
+        font-size: 46pt;
+        display: flex;
+      }
+
+      .invesetment-amount-inner {
+        margin: auto;
+        max-width: 5.5em;
+      }
+
+      .imageType-custom-image .background-custom-image { display: block; }
+      .imageType--custom-image .background-static-illustration { display: none; }
+
+      .imageType--illustration .background-static-illustration { display: block; }
+      .imageType--illustration .background-custom-image { display: none; }
+
+      .imageType--illustration .textarea-upper { display: flex; }
+      .imageType--illustration .textarea-lower { display: none; }
+
+      .imageType--custom-image .textarea-lower { display: flex; }
+      .imageType--custom-image .textarea-upper { display: none; }
+
+      .imageType--illustration .footer { display:none; }
+
+      .no-background-image {
+        display: flex;
+      }
+
+      .warning {
+        margin: auto;
+        background-color: red;
+        text-align: center;
+        font-weight: 500;
+        color: white;
+        display: inline;
+        padding: 1em;
+        border-radius: 2em;
+      }   
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" class="u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}" data-crop="{{show-crop}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page imageType--{{BB_image-type--ftc}}{{^BB_image-type--ftc}}illustration{{/BB_image-type--ftc}}">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="background-custom-image">
+            {{#BB_background-image--ftc}}
+            <div class="backgroundImage">
+              {{{BB_background-image--ftc}}}
+            </div><!--backgroundImage-->
+            {{/BB_background-image--ftc}}
+            {{^BB_background-image--ftc}}
+            <div class="backgroundImage no-background-image">
+
+              <div class="warning">
+                Please choose an image <br> from the Asset Library.
+              </div>
+
+            </div><!--backgroundImage-->
+            {{/BB_background-image--ftc}}
+
+
+          </div>
+
+          <div class="background-static-illustration">
+            <div class="backgroundImage">
+              <img src="https://files.outfit.io/media_library_items/167254/Illustration-bg-2.png">
+            </div>
+          </div>
+
+          <div class="badge">  
+            <div class="badge-bg">
+              {{{account.snippets.community-investment-badge}}}
+            </div>
+          </div>
+
+          <div class="investment-amount">
+            <div class="invesetment-amount-inner">
+              <div class="inner-text">
+                <div class="textFit" data-char-limit="20" data-replace-from="[-]" data-replace-to=" • ">
+                  {{{BB_community_invesement--ftc}}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="textarea textarea-upper">
+            <div class="textarea-inner">
+              <div class="textFit--min">
+                Making good
+                things happen
+                in {{#BB_town-name--ftc}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB_town-name--ftc}}}</span>{{/BB_town-name--ftc}}{{^BB_town-name--ftc}}<span data-replace-from="[-]" data-replace-to=" • ">{{{team.branch-town}}}</span>{{^team.branch-town}}<span>Town</span>{{/team.branch-town}}{{/BB_town-name--ftc}}
+              </div>
+            </div>
+          </div>
+
+          <div class="textarea textarea-lower">
+            <div class="textarea-inner">
+              <div class="textFit--two">
+                Making good things
+                happen in {{#BB_town-name--ftc}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB_town-name--ftc}}}</span>{{/BB_town-name--ftc}}{{^BB_town-name--ftc}}<span data-replace-from="[-]" data-replace-to=" • ">{{{team.branch-town}}}</span>{{^team.branch-town}}<span>{Town}</span>{{/team.branch-town}}{{/BB_town-name--ftc}}
+              </div>
+            </div>
+          </div>
+
+
+          <div class="footer"></div>
+
+          <div class="corner"></div>
+
+          <div class="logo">
+            <img src="{{account.logos.bendigo-b-primary}}}">
+          </div>
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{{account.snippets.dataReplace}}}
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          detectProjectKit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        detectProjectKit();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      TextFit.fit({
+        selector: '.textFit--min',
+        fitMode: 'vertical',
+        alignItems: 'center'
+      });
+      
+      TextFit.fit({
+        selector: '.textFit--two',
+        fitMode: 'vertical',
+        alignItems: 'center'
+      });
+      
+
+      setInterval(() => {textFitMin('.textFit--min', 62)}, 500);
+      setInterval(() => {textFitMin('.textFit--two', 64)}, 500);
+	  setInterval(() => {textFitMin('.textFit', 31)}, 500);
+      
+      function detectSystem() {
+        const isMac = window.navigator.appVersion.includes('Mac');
+        if ( isMac ) document.body.classList.add('is-mac');
+      }
+
+      detectSystem();
+      
+                  function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+         
+        }
+        
+      }
+      
+      detectProjectKit();
+
+    </script>
+
+
+  </body>
+</html>
