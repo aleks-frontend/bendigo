@@ -1,0 +1,26 @@
+<!DOCTYPE>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <h1>{{{team.mto}}}</h1>
+  <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/helper/helperFunctions-1.1.js"></script>
+  <script src="script.js"></script>
+  <script src="bendigoMTOData.js"></script>
+  <script src="mtoDataOutput.js"></script>
+  
+  <script>
+    window._fs_run_in_iframe = false
+
+
+      let currentMTOTeams = "{{{team.mto}}}";
+      let mtoTextInput = '{{{mto}}}';
+      let mtoData = getMTOData();
+      let showMTO = {{#team.mto}}true{{/team.mto}}{{^team.mto}}false{{/team.mto}};
+      
+      setupMTO(mtoTextInput, currentMTOTeams, mtoData, showMTO);
+      setupObserver(window.parent.document, { childList: true, subtree: true, }, setupMTO, [mtoTextInput, currentMTOTeams, mtoData, showMTO]);
+  </script>
+  </body>
+</html>
