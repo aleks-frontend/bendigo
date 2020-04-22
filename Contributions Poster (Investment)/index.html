@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html data-sign="OS?">
+
+  <head>
+    <title>Outfit</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="./css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/placeholder-controller.css">
+
+    <style>
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+      @import url('https://fonts.googleapis.com/css?family=Muli:200,300,900&display=swap');
+      @import url("https://outfit-assets-production.s3.amazonaws.com/Arial-narrow/stylesheet.css");
+
+      :root {
+        --plum: {{{account.colors.bendigo-plum}}};
+        --coral: {{{account.colors.bendigo-coral}}};
+        --sunshine: {{{account.colors.sunshine}}};
+        --soft-grey: {{{account.colors.soft-grey}}};
+        --slate: {{{account.colors.slate}}};
+        --white: #ffffff;
+        --black: #000000;
+      }
+
+      body {
+        font-family: "Bendigo Sans", "Muli", sans-serif;
+        font-size: 0.3rem;
+        color: var(--white);
+        word-break: break-word;
+      }
+
+      .bg-image {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .bg-image div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* Helper classes */
+      .u-hide {
+        display: none;
+      }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+      .wrapper {
+        position: absolute;
+        top: 3mm;
+        right: 3mm;
+        bottom: 3mm;
+        left: 3mm;
+        margin: 0.49rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: var(--soft-grey);
+      }
+
+      .bg-image.custom-image {
+        top: auto !important;
+        height: 14.17rem !important;
+      }
+
+      .page:not(.page-custom-image) .custom-image,
+      .page:not(.page-illustration) .illustration {
+        display: none;
+      }
+
+      .branch {
+        width: 100%;
+        padding: 0.6rem 0.89rem;
+        position: relative;
+      }
+
+      .branch-inner {
+        font-weight: 500;
+        font-size: 0.46rem;
+        line-height: 1.2em;
+        color: var(--plum);
+      }
+
+      .heading h1 {
+        font-weight: 500;
+        font-size: 2.16rem;
+        line-height: 1.1em;
+        letter-spacing: -0.01em;
+        color: var(--plum);
+      }
+
+      .heading {
+        width: 100%;
+        padding: 0.4rem 0.8rem 0.25rem;
+        position: relative;
+      }
+
+      .badge {
+        display: none;
+        position: absolute;
+        width: 45%;
+        right: 4.47rem;
+        top: 7.06rem;
+        font-size: 0;
+        z-index: 6;
+      }
+      
+      .format--a4 .badge--primary,
+      .format--a2 .badge--secondary {
+        display: block;
+      }
+
+      .badge__image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .badge__text {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        font-size: 1.1rem;
+        line-height: 1.2em;
+        font-weight: bold;
+        text-align: center;
+        transform: translateY(-50%);
+        color: var(--white); 
+      }
+      
+      .format--a4 .badge__text {
+        padding: 0 18pt;
+      }
+      
+      .format--a2 .badge__text {
+        padding: 0 33pt;
+      }
+
+      .badge__text--inner {
+        height: 100%;
+      }
+
+      .footer {
+        margin-top: auto;
+        width: 100%;
+        height: 2.1rem;
+        padding: 0.288rem 1.26rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+      }
+
+      .logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .logo img {
+        width: 6.34rem;
+        height: auto;
+      }
+
+      .town {
+        width: 6rem;
+      }
+
+      .town p {
+        font-weight: 500;
+        font-size: 0.32rem;
+        line-height: 1.2em;
+        color: var(--plum);
+        text-align: right;
+      }
+
+      .footing {
+        position: absolute;
+        height: 5.8rem;
+        right: calc(-3mm - 0.49rem);
+        bottom: calc(-3mm - 0.49rem);
+        left: calc(-3mm - 0.49rem);
+        background: url('https://files.outfit.io/media_library_items/164474/Contributions-A4-Poster-footing.svg') center bottom no-repeat;
+        background-size: contain;
+      }
+
+      .metadata {
+        position: absolute;
+        left: 0;
+        bottom: -0.2rem;
+        display: flex;
+      }
+
+      .metadata {
+        font-family: 'Arial Narrow';
+        font-weight: normal;
+        font-size: 0.2rem;
+        line-height: 1.2em;
+        color: var(--black);
+      }
+      
+      .cls-1{
+        fill: {{{account.colors.bendigo-plum}}} !important;
+      }
+      .cls-2{
+        fill: {{{account.colors.bendigo-coral}}} !important;
+      }
+      
+      
+      [data-community-bank="true "],
+      [data-community-bank="True "],
+      [data-community-bank=" true "],
+      [data-community-bank=" True "]{
+        display: inline;
+      }
+
+      [data-community-bank="false "],
+      [data-community-bank="False "],
+      [data-community-bank=" false "],
+      [data-community-bank=" False "],
+            [data-community-bank=" "],
+      [data-community-bank="  "],
+      [data-community-bank=""],
+      [data-community-bank=" "]{
+        display: none;
+      }
+    </style>
+
+    <!--{{BB_format--cp}}-->
+    <!--{{{show-crop}}}-->
+    <!--{{{placeholder-toggle}}}-->
+    <!--{{{placeholder-opacity}}}-->
+    <!--{{{placeholder-image}}}-->
+    <!--{{{branch-name}}}-->
+    <!--{{{community-investment}}}-->
+    <!--{{{cs-image-type}}}-->
+    <!--{{{background-image}}}-->
+
+
+  </head>
+
+  <body style="background: white" data-crop="{{show-crop}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page page-{{{cs-image-type}}}{{^cs-image-type}}illustration{{/cs-image-type}} format--{{{BB_format--cp}}}">
+
+      <div class="bleed">
+
+        <div class="container fit">
+          <div class="wrapper">
+            <div class="bg-image custom-image reposition-fix">{{{background-image}}}</div>
+            <div class="bg-image illustration reposition-fix">
+              <img src="https://files.outfit.io/media_library_items/164475/Contributions-A4-Poster-Illustration.svg" />
+            </div>
+            <div class="branch">
+              <div class="branch-inner" data-max-line="3" data-mto-branch-name>
+                {{#branch-name}}
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{branch-name}}}</span>
+                {{/branch-name}}
+                {{^branch-name}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank &#8226</span> {{{team.branch-name}}}</span> {{/branch-name}}
+              </div>
+            </div>
+            <div class="heading">
+              <h1>Making good things happen</h1>
+            </div>
+
+            <div class="badge badge--primary">
+              <div class="badge__image badge__image--primary">{{{account.snippets.community-investment-badge}}}</div>
+              <div class="badge__text"><div class="badge__text--inner textFit1" data-char-limit="20" style="line-height: 1.2;" data-replace-from="[-]" data-replace-to=" • ">{{{community-investment}}}</div></div><!--badge__text-->
+            </div><!--badge-->
+            
+            <div class="badge badge--secondary">
+              <div class="badge__image badge__image--primary">{{{account.snippets.community-investment-badge}}}</div>
+              <div class="badge__text"><div class="badge__text--inner textFit2" data-char-limit="20" style="line-height: 1.2;" data-replace-from="[-]" data-replace-to=" • ">{{{community-investment}}}</div></div><!--badge__text-->
+            </div><!--badge-->
+
+            <div class="footing"></div>
+            <div class="footer">
+              <div class="logo">
+                <img src="{{{account.logos.logo-primary}}}" />
+              </div>
+              <div class="town" data-max-height="dynamic">
+                <p data-mto-cta>Search Bendigo Bank{{#town-name}}
+                  <br/><span data-replace-from="[-]" data-replace-to=" • ">{{{town-name}}}</span>
+                  {{/town-name}}
+                  {{^town-name}}
+                  <br/><span>{{team.branch-town}}</span>
+                  {{/town-name}}</p> 
+              </div>     
+            </div>
+            <div class="metadata">
+              <span>{{account.snippets.abn-snippet}}.&thinsp;</span>
+              <span>A1390570 &thinsp;</span>
+              <span>{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}} EXPORT ID WILL GO HERE{{/metadata}}&thinsp;</span>
+              <span class="metadata__item js-date"></span>
+            </div>
+          </div>
+        </div>
+        <!--container fit-->
+
+      </div>
+      <!--bleed-->
+
+    </div>
+    <!--page-->
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/textfit.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/utils.js"></script>
+    <script>
+      {{ #placeholder-toggle }}document.body.classList.add("u-placeholder-{{ placeholder-toggle }}{{^placeholder-toggle}}hide{{/placeholder-toggle}}"); {{ /placeholder-toggle }}
+    </script>
+    <!--MTO Scripts-->
+    <!--<script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/helper/helperFunctions-1.1.js"></script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/mto.js"></script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/mtoData.js"></script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/handleData.js"></script>-->
+    <script>{{{account.snippets.mtoHelperFunctions}}}</script>
+    <script>{{{account.snippets.mto}}}</script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/mtoData.js"></script>
+    <script>{{{account.snippets.mtoHandleData_nameCta}}}</script>
+
+    <script>
+      var isExportPage = window.location.href.indexOf('exports') > -1;
+      let currentMTOTeams = "{{{team.mto}}}";
+      let mtoTextInput = '{{{mto}}}';
+      let mtoData = getMTOData();
+      let showMTO = {{#team.mto}}true{{/team.mto}}{{^team.mto}}false{{/team.mto}};
+                     
+                     if(!isExportPage && window.parent.document.querySelector(".sidebar") != null){
+                       setupMTO(mtoTextInput, currentMTOTeams, mtoData, showMTO);
+                       setupObserver(window.parent.document, { childList: true, subtree: true, }, setupMTO, [mtoTextInput, currentMTOTeams, mtoData, showMTO]);
+                     } else if(showMTO && (mtoTextInput != "" && mtoTextInput != null && mtoTextInput != undefined)){
+                       handleSelectedData(convertDataToPayload('{{{mto}}}'.split(",")));
+                     }
+    </script>
+    <script>
+
+      {{{account.snippets.dataReplace}}}
+      
+      const branchNameFormatObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          branchNameFormat();
+        });
+      });      
+
+      const branchNameFormatSources = document.querySelectorAll('.js-branch-name-format-src');
+
+      if ( branchNameFormatSources.length > 0 ) {
+        branchNameFormatSources.forEach(src => {
+          branchNameFormatObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }              
+      
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          detectProjectKit();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          injectDynamicContent();
+        });
+      });
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if (injectSources.length > 0) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });
+        });
+      }
+
+      function injectDate() {
+        const container = document.querySelector('.fit');
+        const date = container.querySelector('.js-date');
+
+        date.textContent = new Date().toLocaleDateString('en-AU');
+      }
+
+      injectDate();
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        detectProjectKit();
+        injectDynamicContent();
+      });
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit1',
+      });
+      
+      TextFit.fit({
+        selector: '.textFit2',
+      });
+
+      /*setInterval(() => {textFitMin('.textFit', 47)}, 500);    */
+      setInterval(() => {textFitMin('.textFit1', 23.5)}, 500);
+      setInterval(() => {textFitMin('.textFit2', 50)}, 500);
+      
+            function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+         
+        }
+        
+      }
+      
+      detectProjectKit();
+
+    </script>
+  </body>
+
+</html>
