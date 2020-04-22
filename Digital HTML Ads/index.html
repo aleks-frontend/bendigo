@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html data-sign="OS?">
+  <head>
+    <title>Bendigo Bank Digital HTML Advertisements</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ad.size" content="width={{digitalAdvertWidth}},height={{digitalAdvertHeight}}">
+
+    <style>
+      /*{{digitalAdvertWidth}}{{digitalAdvertHeight}}{{userImage}}{{digiAdvert_headline}}{{{digiAdvert_supportingText}}}{{{cta}}}*/
+
+      html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{margin:0;padding:0}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}ul{list-style:none}button,input,select,textarea{margin:0}html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}img,embed,iframe,object,audio,video{height:auto;max-width:100%}iframe{border:0}table{border-collapse:collapse;border-spacing:0}td,th{padding:0;text-align:left}
+      
+      :root{
+        --width: calc({{{digitalAdvertWidth}}}px);
+        --height: calc({{{digitalAdvertHeight}}}px);
+      }
+
+      html {
+        font-size: 11pt;
+        color: {{{account.colors.white}}};
+        word-break: break-word;
+        overflow: hidden;
+      }
+
+      .container{
+        width: var(--width);
+        height: var(--height);
+        background: {{{account.colors.bendigo-plum}}};
+        position: relative;
+        overflow: hidden;
+      }
+
+      .frame{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity .8s; 
+      }
+
+      .frame-container{
+        width: calc(100% + 2px);
+        height: 100%;
+        position: relative;
+      }
+
+
+      .frame1{opacity: 1}
+      .frame1, .frame2, .frame3, .frame4{
+        background-color: {{{account.colors.bendigo-plum}}};
+      }
+
+      .text{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-size: 728px 600px;
+      }
+
+      .headline{
+        background-image: url("https://bendigobank.outfit.io/projects/126195/documents/911727/dynamic_export?access_token=Rzit32RfTZM9P5PuBFMJWHSE&context%5BdigitalAdvertWidth%5D={{{digitalAdvertWidth}}}&context%5BdigitalAdvertHeight%5D={{{digitalAdvertHeight}}}&context%5BimageDisplayed%5D={{^userImage}}no-image{{/userImage}}{{#userImage}}image{{/userImage}}&context%5Btext%5D={{{digiAdvert_headline}}}&context%5BmaxLine%5D=null&context%5Btext-type%5D=headline");
+      }
+
+      .supporting-text{
+        background-image: url("https://bendigobank.outfit.io/projects/126195/documents/911727/dynamic_export?access_token=Rzit32RfTZM9P5PuBFMJWHSE&context%5BdigitalAdvertWidth%5D={{{digitalAdvertWidth}}}&context%5BdigitalAdvertHeight%5D={{{digitalAdvertHeight}}}&context%5BimageDisplayed%5D={{^userImage}}no-image{{/userImage}}{{#userImage}}image{{/userImage}}&context%5Btext%5D={{digiAdvert_supportingText}}{{^digiAdvert_supportingText}}Proud Sponsors of insert club name here{{/digiAdvert_supportingText}}&context%5BmaxLine%5D=null&context%5Btext-type%5D=supporting-text");
+      }
+
+      .branch-name{
+        background-image: url("https://bendigobank.outfit.io/projects/126195/documents/911727/dynamic_export?access_token=Rzit32RfTZM9P5PuBFMJWHSE&context%5BdigitalAdvertWidth%5D={{{digitalAdvertWidth}}}&context%5BdigitalAdvertHeight%5D={{{digitalAdvertHeight}}}&context%5BimageDisplayed%5D={{^userImage}}no-image{{/userImage}}{{#userImage}}image{{/userImage}}&context%5Btext%5D={{#digiAdvert_branch-name}} {{digiAdvert_branch-name}} {{/digiAdvert_branch-name}} {{#team.branch-name}} {{^digiAdvert_branch-name}} Community Bank[break] {{#team.branch-name-digital-ads}} {{team.branch-name-digital-ads}} {{/team.branch-name-digital-ads}} {{^team.branch-name-digital-ads}} {{team.branch-name}} {{/team.branch-name-digital-ads}} {{/digiAdvert_branch-name}} {{/team.branch-name}} {{^digiAdvert_branch-name}} {{^team.branch-name}} Branch Name Goes Here {{/team.branch-name}} {{/digiAdvert_branch-name}}&context%5BmaxLine%5D=null&context%5Btext-type%5D=branch-name");
+      }
+      
+      /*{{#team.branch-name-digital-ads}}{{team.branch-name-digital-ads}}{{/team.branch-name-digital-ads}}{{^team.branch-name-digital-ads}}{{team.branch-name}}{{/team.branch-name-digital-ads}}*/
+
+      .cta{
+        background-image: url("https://bendigobank.outfit.io/projects/126195/documents/911727/dynamic_export?access_token=Rzit32RfTZM9P5PuBFMJWHSE&context%5BdigitalAdvertWidth%5D={{{digitalAdvertWidth}}}&context%5BdigitalAdvertHeight%5D={{{digitalAdvertHeight}}}&context%5BimageDisplayed%5D={{^userImage}}no-image{{/userImage}}{{#userImage}}image{{/userImage}}&context%5Bcta%5D={{cta}}");
+      }
+
+      .cta.delay{
+        transition-timing-function: ease-in;
+        transition: opacity .4s;
+        transition-delay: 1.5s;
+      }
+
+      .headline.delay{
+        transition-timing-function: ease-in;
+        transition: opacity .5s;
+        transition-delay: .8s;
+      }
+
+      .supporting-text.delay{
+        transition-timing-function: ease-in;
+        transition: opacity .5s;
+        transition-delay: .8s;
+      }
+
+      .branch-name.delay{
+        transition-timing-function: ease-in;
+        transition: opacity .5s;
+        transition-delay: .8s;
+      }
+
+      .headline, .supporting-text, .branch-name, .cta{
+        display: none;
+      }
+
+      .show-headline .headline, .show-supporting-text .supporting-text, .show-branch-name .branch-name, .show-cta .cta{
+        display: block;
+      }
+
+      .mrec .frame1.show-image .text,
+      .mrec .frame2 .image,
+      .mrec .frame3 .image,
+      .mrec .frame4 .image,
+      .leaderboard .frame1.show-image .text:not(.cta),
+      .leaderboard .frame2 .image,
+      .leaderboard .frame3 .image,
+      .leaderboard .frame4 .image{
+        display: none;
+      }
+
+      .brick .frame4, .skyscraper .frame4{
+        display: none;
+      }
+
+      .image{
+        position: absolute;
+        overflow: hidden;
+      }
+
+      .leaderboard .image, .mrec .image{
+        animation: zoomImage 7s;
+      }
+
+      @keyframes zoomImage {
+        0% {
+          transform: scale(1,1);
+        }
+        100% {
+          transform: scale(1.1,1.1);
+        }
+      }
+
+      .mrec .image{
+        width: 100%;
+        height: 80%;
+      }
+
+      .brick .image, .skyscraper .image{
+        width: 100%;
+        height: 50%;
+      }
+
+      .leaderboard .image{
+        width: 80%;
+        height: 100%;
+      }
+
+      .reposition{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .mrec .shape, .brick .shape{
+        position: absolute;
+        bottom: -1px;
+        left: -1px;
+        width: calc(100% + 2px);
+        background-image: url("https://files.outfit.io/media_library_items/163174/300px%2520footer%2520curve%2520new%2520%25281%2529.svg"); 
+        background-repeat: no-repeat;
+        height: 101%;
+        background-position: center bottom;
+      }
+
+      .skyscraper .shape{
+        position: absolute;
+        bottom: -1px;
+        left: -1px;
+        width: calc(100% + 2px);
+        background-image: url("https://files.outfit.io/media_library_items/164188/Skyscraper%2520Footer.svg");
+        height: 101%;
+        background-repeat: no-repeat;
+        background-position: center bottom;
+      }
+
+      .leaderboard .shape{
+        position: absolute;
+        bottom: -1px;
+        right: -1px;
+        left: -1px;
+        height: calc(100% + 2px);
+        background-image: url("https://files.outfit.io/media_library_items/164189/LeaderboardEndCurve%2520%25281%2529.svg"); 
+        width: 100%;
+        background-repeat: no-repeat;
+        background-position: right center;
+      }
+
+      .mrec .logo, .brick .logo, .skyscraper .logo{
+        position: absolute;
+        left: 1.35rem;
+        bottom: 1.05rem;
+        width: 44%;
+      }
+
+      .skyscraper .logo{
+        width: 82.5%;
+      }
+
+      .leaderboard .logo{
+        position: absolute;
+        right: 1.2rem;
+        bottom: 0.6rem;
+        width: 20.8%;
+      }
+
+      .frame1.show-no-image .image,
+      .frame2.show-no-image .image,
+      .frame3.show-no-image .image,
+      .frame4.show-no-image .image{
+        display: none;
+      }
+
+      .gradient{
+        width: 100%;
+        height: 100%;
+        background-color: #870e40;
+        background: linear-gradient(0deg, rgba(135,14,64,1) 53%, rgba(135,14,64,0.012109238226540642) 61%);
+        position: absolute;
+      }
+
+      .mrec .gradient, .leaderboard .gradient{
+        display: none;
+      }
+
+      .headline, .supporting-text, .branch-name, .cta{
+        opacity: 0;
+      }
+
+      .brick .frame1 .headline, .skyscraper .frame1 .headline{
+        opacity: 1;
+      }
+
+      .keyline {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 1px solid black;
+        z-index: 2;
+      }
+      
+      {{^userImage}}.no-image.mrec .text.headline.global,
+      .no-image.leaderboard .text.headline.global{
+        display: none;
+      }
+
+      .brick .text.headline.global, .skyscraper .text.headline.global {
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        display:block !important;
+        opacity: 1 !important;
+      }{{/userImage}}
+      
+    </style>
+    <script type="text/javascript">
+      var clickTag = '{{{clickTag}}}{{^clickTag}}https://www.bendigobank.com.au/{{/clickTag}}';
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <a href="javascript:window.open(window.clickTag)"><div class="keyline"></div>
+        {{^userImage}}<div class="text headline global"></div>{{/userImage}}</a>
+      <a href="javascript:window.open(window.clickTag)">
+        <div class="frame frame1">
+          <div class="frame-container">
+            <div class="image"><div class="reposition">{{{userImage}}}</div></div>
+            <div class="gradient"></div>
+            <img class="shape"/>
+            <img class="logo" src="https://files.outfit.io/media_library_items/163241/Bendigo%2520Bank_Primary%2520%25281%2529.svg"/>
+            <div class="text headline"></div>
+            <div class="text supporting-text"></div>
+            <div class="text branch-name"></div>
+            <div class="text cta"></div>
+          </div>
+        </div>
+        <div class="frame frame2">
+          <div class="frame-container">
+            <div class="image"><div class="reposition">{{{userImage}}}</div></div>
+            <div class="gradient"></div>
+            <img class="shape"/>
+            <img class="logo" src="https://files.outfit.io/media_library_items/163241/Bendigo%2520Bank_Primary%2520%25281%2529.svg"/>
+            <div class="text headline delay"></div>
+            <div class="text supporting-text delay"></div>
+            <div class="text branch-name"></div>
+            <div class="text cta"></div>
+
+          </div>
+        </div>
+        <div class="frame frame3">
+          <div class="frame-container">
+            <div class="image"><div class="reposition">{{{userImage}}}</div></div>
+            <div class="gradient"></div>
+            <img class="shape"/>
+            <img class="logo" src="https://files.outfit.io/media_library_items/163241/Bendigo%2520Bank_Primary%2520%25281%2529.svg"/>
+            <div class="text headline"></div>
+            <div class="text supporting-text delay"></div>
+            <div class="text branch-name delay"></div>
+            <div class="text cta delay"></div>
+
+          </div>
+        </div>
+        <div class="frame frame4">
+          <div class="frame-container">
+            <div class="image"><div class="reposition">{{{userImage}}}</div></div>
+            <div class="gradient"></div>
+            <img class="shape"/>
+            <img class="logo" src="https://files.outfit.io/media_library_items/163241/Bendigo%2520Bank_Primary%2520%25281%2529.svg"/>
+            <div class="text headline"></div>
+            <div class="text supporting-text"></div>
+            <div class="text branch-name delay"></div>
+            <div class="text cta delay"></div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <script type="text/javascript">
+      var container = document.querySelector(".container")
+      var style = getComputedStyle(container);
+      var width = parseInt(style.getPropertyValue('width').replace("px", ""));
+      var height = parseInt(style.getPropertyValue('height').replace("px", ""));
+      var format = "";
+      let frameElements = [];
+
+      if(width == 300 && height == 250)	{ 	format = "mrec" 		}
+      if(width == 300 && height == 600)	{ 	format = "brick" 		}
+      if(width == 160 && height == 600)	{ 	format = "skyscraper" 	}
+      if(width == 728 && height == 90)	{ 	format = "leaderboard" 	}
+
+      if(format == "mrec"){
+        frameElements = ['[]', '["headline"]', '["supporting-text"]', '["branch-name","cta"]'];
+      } else if(format == "brick" || format == "skyscraper"){
+        frameElements = ['["headline"]', '["supporting-text"]', '["branch-name","cta"]', '[]'];
+        {{^userImage}}
+        frameElements = ['["headline"]', '["headline", "supporting-text"]', '["headline", "branch-name","cta"]', '[]'];
+        {{/userImage}}
+      } else if(format == "leaderboard"){
+        frameElements = ['["cta"]', '["headline","cta"]', '["supporting-text","cta"]', '["branch-name","cta"]'];
+      }
+
+      container.classList.add(format);
+
+
+      //If no user image is added remove frame1 (image frame) on certain format sizes.
+      {{^userImage}}
+      if(format == "mrec" || format == "leaderboard"){
+        document.querySelector(".frame1").remove();
+        frameElements.splice(0, 1);
+        let el = document.querySelector(".frame2").querySelector(".delay");
+        el.style.opacity = 1;
+        el.classList.remove("delay");
+        document.querySelector(".frame2").style.opacity = 1;
+      }
+      {{/userImage}}
+
+        if(format == "leaderboard"){
+          let cta = document.querySelectorAll(".cta");
+          cta.forEach(x => {
+            x.classList.remove("delay");
+            x.style.opacity = "1";
+          });
+        }
+
+        if(format == "brick" || format == "skyscraper"){
+
+        }
+
+        let frames = document.querySelectorAll(".frame");
+
+        frames.forEach((frame, index)=>{
+          let array = JSON.parse(frameElements[index]);
+          array.map(x => frame.classList.add("show-"+x));
+        });
+
+        var interval = "";
+        setupAnimation();
+
+        function setupAnimation(){
+          var frames = document.querySelectorAll(".frame");
+          frames.forEach((frame, index) => {
+            if(index == 0){frame.style.opacity = 1} else {frame.style.opacity = 0}
+          });
+
+          interval = setInterval(function(){
+            changeFrame();
+          }, 3500);
+
+        }
+
+        function changeFrame(){
+          var frames = document.querySelectorAll(".frame");
+
+          frames.forEach((frame, index) => {
+            if(getComputedStyle(frame).getPropertyValue('opacity') == 1){
+              if(index+1 == frames.length){
+                clearInterval(interval);
+              } else{
+                frames[index+1].style.opacity = 1;
+                var frameClasses = [ ...frames[index+1].classList];
+                frameClasses = frameClasses.filter(cls => cls.includes("show-"));
+                frameClasses = frameClasses.map(cls => cls.replace("show-", ""));
+                var container = frames[index+1].querySelector(".frame-container");
+                frameClasses.forEach(cls => {
+                  var element = container.querySelector("."+cls);
+                  element.style.opacity = 1;
+                })
+              }
+            }
+          });
+        } 
+        
+        
+        console.log('{{#team.branch-name-digital-ads}}{{team.branch-name-digital-ads}}{{/team.branch-name-digital-ads}}{{^team.branch-name-digital-ads}}{{team.branch-name}}{{/team.branch-name-digital-ads}}')
+    </script>
+  </body>
+</html>
