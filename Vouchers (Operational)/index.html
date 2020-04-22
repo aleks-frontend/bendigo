@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html data-sign="OSM">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      /* Inputs Order
+      {{show-crop}}
+      {{placeholder-opacity}}
+      {{placeholder-image-1}}
+      {{placeholder-image-2}}
+      {{placeholder-toggle-new}}
+      {{placeholder-validation}}
+      {{{BB_variation--v}}}
+      {{{BB_colour-theme--v}}}
+      {{BB_icon--v}}
+      {{{BB_upper-heading--v}}}
+      {{{BB_first-name--v}}}
+      {{{BB_last-name--v}}}
+      {{{BB_upper-body-text--v}}}
+      {{#spreadsheet.BB-voucher-details--v}}{{/spreadsheet.BB-voucher-details--v}}
+      {{{BB_team-branch-name--v}}}
+      {{{BB_voucher-value--v}}}
+      {{{BB_team-branch-address--v}}}
+      {{{BB_team-phone-number--v}}}        
+      {{{BB_call-to-action--v}}}
+      {{{BB_lower-body-text--v}}}
+      {{{BB_gl-number--v}}}
+      {{{BB_voucher-expiry-date--v}}}
+      */
+
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+      @import url('https://outfit-assets-production.s3.amazonaws.com/Arial-narrow/stylesheet.css');
+
+      :root {
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --soft-grey: {{{account.colors.soft-grey}}};
+        --charcoal: {{{account.colors.charcoal}}};
+        --white: #fff;
+        --black: #000;
+      }
+
+      html {
+        font-family: 'Bendigo Sans';
+        font-size: 11pt;
+        color: #000;
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .page { display: none; }
+
+      .variation--single-page .page--singlePage,
+      .variation--multi-page .page--multiPage {
+        display: block;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        padding: 23pt 23pt 18pt;
+      }
+
+      .body { flex: 1 0 0%; }
+
+      .body__top {       
+        height: 475pt;
+        max-height: 475pt;
+        margin-bottom: 16pt;
+        padding: 27pt 22pt 15pt;
+        clip-path: inset(0 -2.4rem 0rem 0 round 0rem 0 6.7rem 0);
+        -webkit-clip-path: inset(0 -2.4rem 0rem 0 round 0rem 0 6.7rem 0);
+        font-size: 0;
+      }
+
+      .colorTheme--bendigo-plum .body__top,
+      .page--multiPage.bendigo-plum .body__top { 
+        background-color: var(--bendigo-plum);
+        color: var(--white);
+      }
+
+      .colorTheme--soft-grey .body__top,
+      .page--multiPage.soft-gray .body__top,
+      .page--multiPage.soft-grey .body__top { 
+        background: var(--soft-grey); 
+        color: var(--black);
+      }
+
+      .body__topInner.overflow::before,
+      .body__topInner.overflow:hover:after {
+        font-size: 25pt;
+      }
+
+      .icon {
+        width: 125pt;
+        height: 105pt;
+        margin-bottom: 19pt;
+        object-fit: contain;
+        object-position: left top;
+      }
+
+      .heading {
+        display: flex;
+        max-height: 2.5rem;
+        margin-bottom: 40.7pt;
+        font-size: 57.5pt; 
+      }
+
+      .heading__inner { line-height: 1em; }
+
+      .colorTheme--soft-grey .heading { color: var(--bendigo-plum); }
+      .page--multiPage.soft-grey .heading { color: var(--bendigo-plum); }
+      .page--multiPage.soft-gray .heading { color: var(--bendigo-plum); }
+
+      .subheading {
+        margin-bottom: 36.7pt;
+        font-size: 30.3pt;   
+      }
+
+      .copy {
+        margin-bottom: 20pt;
+        font-size: 16.46pt;
+        font-weight: 500;;
+        line-height: 1.2em;
+      }
+
+      .heading,
+      .subheading {
+        line-height: 1em;
+        font-weight: bold;
+      } 
+
+      .variation--multiPage .heading {
+        line-height: 0.5em ;
+      }
+
+      .heading:last-child,
+      .subheading:last-child,
+      .copy:last-child {
+        margin-bottom: 0;
+      }
+
+      .branch {
+        font-size: 16.2pt;
+        font-weight: normal;
+        line-height: 1.2em;
+      }
+
+      .body__bottom {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 0%;
+        font-size: 0;  
+      }
+
+      .logo { width: 204pt; }
+
+      .logo--primary {  
+        margin-bottom: 29pt;
+        margin-left: 22pt;
+      }
+
+      .content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 186pt;
+        padding: 17pt 67pt 19pt 22pt;
+        background-color: var(--soft-grey);
+      }
+
+      .content:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -15pt;
+        left: -15pt;
+        right: -15pt;
+        border-top: 1pt dashed var(--charcoal);
+      }
+
+      .voucher {
+        margin-bottom: 10pt;
+        font-size: 35.2pt;
+        font-weight: bold;
+        line-height: 1.2em;
+        letter-spacing: -0.8pt;
+        color: var(--bendigo-plum);
+      }
+
+      .text__container { 
+        flex: 1;
+        /*padding-bottom: 28pt;*/
+      }
+
+      .text {
+        font-size: 13.95pt;
+        line-height: 1.2em;
+      }
+
+      .signature {
+        display: flex;
+        padding-top: 7pt;
+        border-top: 1pt solid var(--black);
+        margin-top: 15pt;
+      }
+
+      .signature__item {
+        flex: 1 0 0%;
+        font-size: 7.85pt;
+        line-height: 1.2em;
+      }
+
+      .signature__item--secondary { padding-left: 76pt; }
+
+      .footer {
+        display: flex;
+        flex-direction: column;
+        padding: 0 20pt;
+      }
+
+      .terms {
+        font-family: 'Arial Narrow';
+        position: relative;
+        margin-top: 14pt;
+        font-size: 6pt;
+        line-height: 1.4em;
+      }
+
+      .warning {
+        padding: 0;
+        font-size: 1em;
+        line-height: inherit;
+        background-color: #f00;
+        color: var(--white);
+      }
+
+      /* Custom Overflow message for invalid phone number */
+      .u-phone-custom-overflow { display: inline-block; }
+      .u-phone-custom-overflow.overflow:hover:after { 
+        content: 'Invalid format!'; 
+        font-size: 0.7em;
+      }         
+
+      .separator {
+        float: right;
+        width: 1px;
+        height: 388pt;
+      }
+
+      .floatBox {
+        position: relative;
+        float: right;
+        clear: right;
+        width: 64pt;
+        height: 38pt;
+      }
+      
+      [data-community-bank="true "],
+      [data-community-bank="True "],
+      [data-community-bank="true"],
+      [data-community-bank="True"],
+      [data-community-bank=" true "],
+      [data-community-bank=" True "]{
+        display: inline;
+      }
+
+      [data-community-bank="false "],
+      [data-community-bank="False "],
+      [data-community-bank="false"],
+      [data-community-bank="False"],
+      [data-community-bank=" false "],
+      [data-community-bank=" False "],
+      [data-community-bank=" "],
+      [data-community-bank="  "],
+      [data-community-bank=""],
+      [data-community-bank=" "]{
+        display: none;
+      }
+
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" data-reduce-export-font-size-by-percent="0" data-reduce-firefox-font-size-by-percent="0" data-prevent-export-overflow="false"
+        class="variation--{{{BB_variation--v}}}{{^BB_variation--v}}single-page{{/BB_variation--v}}
+               colorTheme--{{{BB_colour-theme--v}}}{{^BB_colour-theme--v}}bendigo-plum{{/BB_colour-theme--v}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-2 }}"></div>
+    </div><!-- end placeholderMaster -->
+
+    <!--single-page-->
+    <div class="page page--singlePage">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="body">
+            <div class="body__top">
+              <div class="body__topInner" data-max-height="dynamic">
+                <div class="separator"></div>
+                <div class="floatBox"></div>
+                {{#BB_icon--v}}
+                <img class="icon" src="{{{BB_icon--v}}}">
+                {{/BB_icon--v}}
+                {{#BB_upper-heading--v}}
+                <div class="heading" data-replace-from="[-]" data-replace-to=" • ">
+                  <div class="heading__inner textFit--vert"> 
+                    {{{BB_upper-heading--v}}}
+                  </div><!--heading--inner-->
+                </div><!--heading-->
+                {{/BB_upper-heading--v}}
+                <div class="subheading" data-replace-from="[-]" data-replace-to=" • " data-max-line="1">{{{BB_first-name--v}}} {{{BB_last-name--v}}}</div><!--subheading-->
+                {{#BB_upper-body-text--v}}<div class="copy" data-replace-from="[-]" data-replace-to=" • "  data-max-line="4">{{{BB_upper-body-text--v}}}</div><!--copy-->{{/BB_upper-body-text--v}}
+                <div class="branch"><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank •</span>
+                  {{#BB_team-branch-name--v}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB_team-branch-name--v}}}</span>{{/BB_team-branch-name--v}}
+                  <!-- QUESTION FOR STEVEN: we are not sure how to replace this logic here
+  <span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank <br></span>{{{team.branch-name}}}</span>
+
+       STEVEN ANSWER: Please uncomment this section and do the conditionals as you normally would (without the metadata fix). But use the same text input that is already mapped: <<BB_team-branch-name--v>> rahter than <<team.branch-name>>. The metadata is already mapped to this input so you can just use this.
+                    <!-- END QUESTION FOR STEVEN -->
+                </div><!--branch-->
+              </div><!--body__topInner-->
+            </div><!--body__top-->
+            <div class="body__bottom">
+              <img class="logo logo--primary" src="{{{account.logos.logo-primary}}}">
+              <div class="content">
+                {{#BB_voucher-value--v}}<div class="voucher" data-replace-from="[-]" data-replace-to=" • ">${{{BB_voucher-value--v}}} Bank Account Voucher</div><!--voucher-->{{/BB_voucher-value--v}}
+                <div class="text__container">
+                  <div class="text" data-replace-from="[-]" data-replace-to=" • " data-max-height="90">{{{BB_call-to-action--v}}} {{{BB_team-branch-address--v}}} or phone 
+                    <span class="u-phone-custom-overflow">
+                      <span class="js-landline-formater-src">
+                        {{{BB_team-phone-number--v}}}
+                      </span><!--js-landline-formater--src-->
+                      <span class="js-landline-formater-target"></span><!--js-landline-formater-target-->
+                    </span><!--u-phone-custom-overflow-->                   
+                    {{{BB_lower-body-text--v}}}
+                  </div><!--text-->
+                </div><!--text__container-->
+                <div class="signature">
+                  <div class="signature__item signature__item--primary">Authorised Signature</div><!--signature__item--primary-->
+                  <div class="signature__item signature__item--secondary">adm</div><!--signature__item--secondary-->
+                </div><!--signature-->
+              </div><!--content-->
+            </div><!--body__bottom-->
+          </div><!--body-->
+          <div class="footer">
+            <img class="logo logo--secondary" src="{{{account.logos.logo-primary}}}">
+            <div class="terms" data-replace-from="[-]" data-replace-to=" • " data-max-height="25">
+              {{#BB_gl-number--v}}<span>{{{BB_gl-number--v}}} </span>{{/BB_gl-number--v}}{{^BB_gl-number--v}}<span class="warning">GL Number required</span>{{/BB_gl-number--v}} Voucher can be redeemed at any Bendigo Bank branch and is valid until {{{BB_voucher-expiry-date--v}}}{{^BB_voucher-expiry-date--v}}<span class="warning">Date required</span>{{/BB_voucher-expiry-date--v}}. Voucher is not redeemable for cash. Terms and conditions apply when opening a new account.
+              <span class="metadata">
+                <span class="metadata__item">{{{account.snippets.abn-snippet}}} </span> <!--metadata-->
+                <span class="metadata__item metadata__item--small">A1389134, </span> <!--metadata-->
+                <span class="metadata__item metadata__item--small">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT{{/metadata}}, </span> <!--metadata-->
+                <span class="metadata__item metadata__item--small js-date"></span> <!--metadata-->
+              </span> <!--metadata-->
+            </div><!--terms-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+    <!--multipage-->
+    {{#spreadsheet.BB-voucher-details--v}}
+    <div class="page page--multiPage js-bg-color-page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="body">
+            <div class="body__top">
+              <div class="body__topInner" data-max-height="dynamic">
+                <div class="separator"></div><!--separator-->
+                <div class="floatBox"></div><!--floatBox-->
+                {{#icon}}
+                <img class="icon" src="{{icon}}">
+                {{/icon}}
+                {{#heading}}
+                <div class="heading" data-replace-from="[-]" data-replace-to=" • " data-max-line="3">
+                  <div class="heading__inner textFit--vert"> 
+                    {{heading}}
+                  </div><!--heading-->
+                </div><!--heading--> 
+                {{/heading}}
+                <div class="subheading" data-replace-from="[-]" data-replace-to=" • " data-max-line="1">{{first-name}} {{last-name}}</div><!--subheading-->
+                {{#body-text}}<div class="copy" data-replace-from="[-]" data-replace-to=" • " data-max-line="4.5"><div class="js-customRichText-src">{{body-text}}</div></div><!--copy-->{{/body-text}}
+                <div class="branch">
+                  {{#BB_team-branch-name--v}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB_team-branch-name--v}}}</span>{{/BB_team-branch-name--v}}
+                  <!-- QUESTION FOR STEVEN: Should we remove this section? 
+                    <span><span data-community-bank="<<team.community-bank>> <<^team.community-bank>>false <</team.community-bank>>">Community Bank <br></span><<team.branch-name>></span>
+
+       STEVEN ANSWER: Please uncomment this section and do the conditionals as you normally would (without the metadata fix). But use the same text input that is mapped: <<BB_team-branch-name--v>> rahter than <<team.branch-name>>. The metadata is already mapped to this input so you can just use this.
+                    <!-- END QUESTION FOR STEVEN -->
+                </div><!--branch-->
+              </div><!--body__topInner-->
+            </div><!--body__top-->
+            <div class="body__bottom">
+              <img class="logo logo--primary" src="{{{account.logos.logo-primary}}}">
+              <div class="content">
+                {{#voucher-value}}<div class="voucher">${{voucher-value}} Bank Account Voucher</div><!--voucher-->{{/voucher-value}}
+                <div class="text__container">
+                  <div class="text" data-replace-from="[-]" data-replace-to=" • " data-max-height="90">{{{BB_call-to-action--v}}} {{{BB_team-branch-address--v}}} or phone 
+                    <span class="u-phone-custom-overflow">
+                      <span class="js-landline-formater-src">
+                        {{{BB_team-phone-number--v}}}
+                      </span><!--js-landline-formater-src-->
+                      <span class="js-landline-formater-target"></span><!--js-landline-formater-target-->
+                    </span><!--u-phone-custom-overflow-->                 
+                    {{{BB_lower-body-text--v}}}
+                  </div><!--text-->
+                </div><!--text__container-->
+                <div class="signature ">
+                  <div class="signature__item signature__item--primary">Authorised Signature</div><!--signature__item--primary-->
+                  <div class="signature__item signature__item--secondary">adm</div><!--signature__item--secondary-->
+                </div><!--signature-->
+              </div><!--content-->
+            </div><!--body__bottom-->
+          </div><!--body-->
+          <div class="footer">
+            <img class="logo logo--secondary" src="{{{account.logos.logo-primary}}}">
+            <div class="terms" data-replace-from="[-]" data-replace-to=" • "  data-max-height="25">
+              {{#BB_gl-number--v}}<span>{{{BB_gl-number--v}}} </span>{{/BB_gl-number--v}}{{^BB_gl-number--v}}<span class="warning">GL Number required</span>{{/BB_gl-number--v}} Voucher can be redeemed at any Bendigo Bank branch and is valid until {{{BB_voucher-expiry-date--v}}}{{^BB_voucher-expiry-date--v}}<span class="warning">Date required</span>{{/BB_voucher-expiry-date--v}} Voucher is not redeemable for cash. Terms and conditions apply when opening a new account.
+              <span class="metadata">
+                <span class="metadata__item">{{{account.snippets.abn-snippet}}} </span> <!--metadata-->
+                <span class="metadata__item metadata__item--small">A1389134, </span> <!--metadata-->
+                <span class="metadata__item metadata__item--small">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT{{/metadata}}, </span> <!--metadata-->
+                <span class="metadata__item metadata__item--small js-date"></span> <!--metadata-->
+              </span> <!--metadata-->
+            </div><!--terms-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/spreadsheet.BB-voucher-details--v}}
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}"); {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    <script>
+
+      console.clear();
+
+      {{{account.snippets.dataReplace}}}
+
+      function formatLandline() {
+        const sources = document.querySelectorAll('.js-landline-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-landline-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 8
+          if (phone.length === 8) {
+            const formated = phone.replace(/(\d{4})(\d{4})/, "$1 $2");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 8 || ( phone.length > 8 && phone.length < 11 ) ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }            
+
+      const formatLandlineObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatLandline();
+        });
+      });      
+
+      const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
+
+      if ( formatLandlineSources.length > 0 ) {
+        formatLandlineSources.forEach(src => {
+          formatLandlineObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }          
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      function injectDate() {
+        const containers = document.querySelectorAll('.fit');
+
+        containers.forEach(container => {
+          const date = container.querySelector('.js-date');
+
+          date.textContent = new Date().toLocaleDateString('en-AU');          
+        });
+      }
+
+      injectDate();
+
+      placeholderController();
+      checkCrop();
+
+
+
+      setInterval(() => {textFitMin('.textFit--vert', 40)}, 500);
+
+      // mapObj object is passed as an argument, so it would be possible to add this to snippets
+      // and create some conventions and rules for these marks and add new ones
+      const mapObj = {
+        '{b': '<strong>',
+        'b}': '</strong>',
+        '{i': '<i>',
+        'i}': '</i>',
+        '{h1': '<h1>',
+        'h1}': '</h1>',
+        '{h2': '<h2>',
+        'h2}': '</h2>',
+        '{nl}': '<br>'
+      };
+
+      function customRichText(mapObj) {
+        const sources = document.querySelectorAll('.js-customRichText-src');
+
+        sources.forEach((source, index) => {
+          // Hiding all the source elements
+          source.style.cssText = 'opacity: 0; position: absolute;';
+          // Adding 'position: relative' to parent element so the source is absolutely positioned
+          // according to it's first parent
+          source.parentNode.style.position = 'relative';
+
+          let formated = source.innerText;
+
+          // Creating a regular expression with all the keys from the mapObj
+          const regexp = new RegExp(Object.keys(mapObj).join('|'), 'gi');
+          // Running a replace method and providing the created regExp 
+          // and adding a function as a second argument
+          formated = formated.replace(regexp, (matched) => {
+            return mapObj[matched.toLowerCase()];
+          });
+
+          if ( source.parentNode.querySelector('.js-customRichText-target') === null ) {
+            const target = document.createElement('div');
+            target.classList.add('js-customRichText-target');
+            source.parentNode.appendChild(target);            
+            target.innerHTML = formated;          
+          }
+        })
+      };
+
+      customRichText(mapObj);
+
+      function customBgColor() {
+        const pages = document.querySelectorAll('.js-bg-color-page');
+        const colorsArr = [];
+        {{#spreadsheet.BB-voucher-details--v}}
+        colorsArr.push('{{background-colour}}');
+          {{/spreadsheet.BB-voucher-details--v}}    
+
+            pages.forEach((page, index) => {
+              const bgColor = colorsArr[index].toLowerCase().split(' ').join('-');
+
+              if ( bgColor === 'bendigo-plum' || bgColor === 'soft-grey' || bgColor === 'soft-gray' ) page.classList.add(bgColor);
+
+            })
+           }
+
+           customBgColor();
+
+           document.addEventListener('DOMContentLoaded', function(event) {
+             const fonts = ['Bendigo Sans', ];
+             const fontObservers = [];
+
+             fonts.forEach(font => {
+               const obs = new FontFaceObserver(font);
+               fontObservers.push(obs.load())
+             });
+
+             Promise.all(fontObservers).then(() => {
+               maxLineCheck();
+               maxHeightCheck();
+               injectDynamicContent();
+               hideEmptyTitles();
+               checkExport();
+               charLimit();
+               customRichText(mapObj);
+               customBgColor();
+               formatLandline();
+
+               // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+               TextFit.fit({
+                 selector: '.textFit--vert',
+                 fitMode: 'vertical'
+               });
+
+               document.dispatchEvent(new Event('printready'));
+             });
+           });
+
+    </script>
+
+
+  </body>
+</html>
