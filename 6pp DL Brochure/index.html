@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html data-sign="OSM">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      /* Inputs Order
+      {{show-crop}}
+      {{placeholder-opacity}}
+      {{placeholder-image-1}}
+      {{placeholder-image-2}}
+      {{placeholder-toggle-new}}
+      {{placeholder-validation}}
+      {{BB_side-front-left-panel-content--dlb}}
+      {{BB_branch-name--dlb}}
+      {{BB_branch-address--dlb}}
+      {{BB_branch-phone-number--dlb}}
+      {{BB_branch-email--dlb}}
+      {{BB_trading-hours--dlb}}
+      {{BB_weekend-trading-hours--dlb}}
+      {{BB_facebook-handle--dlb}}
+      {{BB_instagram-handle--dlb}}
+      {{BB_disclaimer--dlb}}
+      {{BB_branch-website-dlb}}
+      {{BB_side-front-right-panel-image-type--dlb}}
+      {{BB_side-front-right-panel-image--dlb}}
+      {{BB_community-investment--dlb}}
+      {{BB_town-name--dlb}}
+      {{BB_side-back-right-panel-text--dlb}}
+      */
+
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/arial/stylesheet.css");
+
+      :root {
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --peach: {{{account.colors.peach}}};
+        --pink: #fcd9d1;
+        --white: {{{account.colors.white}}};
+      }
+
+      html {
+        font-family: 'Bendigo Sans';
+        font-size: 11pt;
+        color: #000;
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit { display: grid; }
+      .fit--frontPage { grid-template-columns: 283pt 1fr 292pt; }
+      .fit--backPage { grid-template-columns: 1fr 284pt; }
+
+      .column {
+        display: flex;
+        flex-direction: column;
+      }
+      .column--left { flex: 1; }
+
+      .fit--frontPage .column--left {
+        margin: 22pt 15pt 22pt 21pt;
+        padding: 31pt 21.5pt;
+        background: var(--peach);
+        color: var(--white);
+      }
+
+      .fit--backPage .column--left {
+        padding: 32pt 24pt 32pt 34pt;
+        background: var(--white);
+      }
+
+      .column--middle {
+        background-color:  var(--bendigo-plum);
+        color: var(--white);
+      }
+
+      .fit--backPage .column--right {
+        margin-top: 9pt;
+        padding: 31pt 31.5pt 31pt 25.3pt;
+        background: var(--peach);
+        color: var(--white);
+      }
+
+      .text p,
+      .copy li,
+      .copy p,
+      .subheading,
+      .branchName,
+      .branchAddress,
+      .info,
+      .time__label,
+      .time__value,
+      .social__text,
+      .story__heading,
+      .footer__text{
+        font-size: 10.2pt;
+        line-height: 1.25em;
+      }
+
+      .heading {
+        margin-bottom: 10.6pt;
+        font-size: 18.2pt;
+        font-weight: 500;
+        line-height: 1.2em;
+      }
+
+      .column--middle .heading {
+        margin-bottom: 8.1pt;
+      }
+
+      .fit--backPage .heading {
+        color: var(--bendigo-plum);
+      }
+
+      .fit--backPage .column--right .heading { 
+        margin-bottom: 6.3pt;
+        color: var(--white);
+      }
+
+      .subheading {
+        margin-bottom: 2pt;
+        font-weight: bold;
+      }
+
+      .text { margin-bottom: 17.9pt; }
+      .fit--backPage .text { margin-bottom: 19.9pt; }
+      .text p { margin-bottom: 8.8pt; }
+
+      .fit--backPage .text p { margin-bottom: 6.6pt; }
+
+      .copy p { margin-bottom: 8pt; }
+      .copy p:last-child { margin-bottom: 0; }
+      .copy ul { margin-bottom: 15pt; }
+
+      .copy li {
+        margin-bottom: 0;
+        border-bottom: 1pt solid var(--white);
+        padding: 4.5pt 0pt;
+      }
+      .copy li:first-child { border-top: 1pt solid var(--white); }
+
+      .fit--backPage .copy li {
+        padding: 4.5pt 0pt;
+        font-size: 9pt;
+        line-height: 1.2em;
+      }
+
+      .body {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        flex: 1;
+        padding: 54pt 26pt 13pt 26pt;
+      }
+
+      .body__inner {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .column--right .body {
+        padding: 28pt 22pt;
+        clip-path: inset(0 -3.9rem 0rem 0 round 0 0 8.8rem 0);
+        -webkit-clip-path: inset(0 -3.9rem 0rem 0 round 0 0 8.8rem 0);
+      }
+
+      .body__top { flex: 1; }
+
+      .branchName { margin-bottom: 4.2pt; }
+
+      .branchAddress { margin-bottom: 6pt; }
+
+      .info__container {margin-bottom: 10pt; }
+      .no-branch-phone.no-branch-phone-smart.no-branch-email.no-branch-email-smart.info__container {display: none; }
+
+      .info {
+        display: flex;
+        margin-bottom: 5pt;
+      }
+
+      .no-branch-phone.no-branch-phone-smart .info--phone,
+      .no-branch-email.no-branch-email-smart .info--email { display: none; } 
+
+      .info:last-child { margin-bottom: 0; }
+
+      .info__label {
+        font-weight: bold;
+        line-height: 1.2em;
+      }
+
+      .info__value { line-height: 1.2em; margin-left: 0.3em; }
+
+      .time { margin-bottom: 14pt; }     
+      .time__value { margin-bottom: 3pt; }
+      .time__value:last-child { margin-bottom: 0; }
+
+      .social {
+        display: flex;
+        margin-bottom: 7.1pt;
+        align-items: center;
+      }
+
+      .social__icon {
+        width: 20pt;
+        height: 20pt;
+      }
+
+      .social__text { margin-left: 4pt; }
+
+      .illustration {
+        display: none;
+        position: absolute;
+        top: 230pt;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url(https://files.outfit.io/media_library_items/169354/BB-DL%2520image.svg);
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      .backgroundImage {
+        display: none;
+      }
+
+      .panelImage--custom-image .backgroundImage { display: block; top: 4.3rem;}
+      .panelImage--illustration .illustration { display: block; }
+
+      .preTitle,
+      .title {
+        position: relative;
+        font-weight: 500;
+        color: var(--bendigo-plum);
+      }
+
+      .preTitle {
+        margin-bottom: 15.2pt;
+        font-size: 13.3pt;
+        line-height: 1.2em;
+      }
+
+      .title {
+        position: relative;
+        margin-bottom: 4pt;
+        font-size: 34.5pt;
+        line-height: 1.05em;
+      }
+
+      .badge {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1rem;
+        line-height: 1.2em;
+        letter-spacing: 0.02em;
+        color: var(--white);
+        position: relative;
+      }
+
+      .badge svg {
+        width: 3.89rem;
+        height: 3.89rem;
+      }
+      
+
+
+      .badge__text {
+        position: absolute;
+        top: 0.15em;
+        right: 0;
+        bottom: 0;
+        left: 0;     
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+        max-width: 2.6em;
+        margin: auto;
+      }
+
+      .badge__text--inner {
+
+      }
+
+      .inner-text {
+
+      }
+      
+      .cls-1{
+        fill: {{{account.colors.bendigo-plum}}} !important;
+      }
+      .cls-2{
+        fill: {{{account.colors.bendigo-coral}}} !important;
+      }
+
+      .story__container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 25pt 20pt;
+      }
+
+      .story {
+        display: flex;
+        height: 112pt;
+        padding: 5pt 5pt 5pt 11pt;
+        background-color: var(--pink);
+      }
+
+      .story__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+      }
+
+      .story__heading {
+        margin-bottom: 5pt;
+        font-weight: 500;
+        color: var(--bendigo-plum);
+      }
+
+      .story__text {
+        font-size: 9.1pt;
+        line-height: 1.2em;
+      }
+
+      .story__image {
+        position: relative;
+        width: 86pt;
+        flex-shrink: 0;
+        margin-left: 7pt;
+      }
+
+      .image {
+        position: absolute;
+        left: 35pt;
+        bottom: 55pt;
+        width: 551pt;
+        height: 104pt;
+        z-index: 1;
+      }
+
+      .six-stories-variant .image { display: none; }
+
+      .disclaimer {
+        font-family: 'Arial Narrow';
+        font-size: 7pt;
+        line-height: 1.2em;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        height: 73pt;
+        padding-left: 27.6pt;
+        padding-bottom: 11pt;
+        background: var(--white);
+      }
+
+      .logo {
+        width: 153pt;
+        height: 24pt;
+      }
+
+      .footer__text {
+        font-size: 11.2pt;
+        line-height: 1.2em;
+        color: var(--bendigo-plum);
+      }
+
+      .u-bold { font-weight: bold; }
+
+      
+      [data-community-bank] {
+        display: none;
+      }
+      [data-community-bank="true "],
+      [data-community-bank="True "],
+      [data-community-bank=" true "],
+      [data-community-bank=" True "]{
+        display: inline;
+      }
+
+      [data-community-bank="false "],
+      [data-community-bank="False "],
+      [data-community-bank=" false "],
+      [data-community-bank=" False "],
+            [data-community-bank=" "],
+      [data-community-bank="  "],
+      [data-community-bank=""],
+      [data-community-bank=" "]{
+        display: none;
+      }
+
+      .warning {
+        display: none;
+        padding: 0.1em;
+        font-size: 17pt;
+        color: white !important;
+        background-color: red;
+      }
+
+      .no-list .warning {
+        display: inline-block;
+
+      }
+
+      .u-tt-lowercase { text-transform: lowercase; }
+
+      .u-display-inline-block { display: inline-block; }
+
+      .u-phone-custom-overflow.overflow:hover:after {
+        content: 'Invalid format!'; 
+        font-size: 0.7em;        
+      }
+      
+      /*Fix for email being above 40 characters - wraps onto the second line to allow for more space*/
+      .info.info--email { flex-flow: wrap; }
+      .info--email .info__value { margin-left: 0; }
+      .info--email .info__label { margin-right: 0.3em; }
+      
+      
+      
+      /*changing the badge colour to the correct colours. 
+      Badge is located in a snippet and doesn't export correctly 
+      without this fix
+      .cls-1{fill:{{{account.colors.bendigo-plum}}} !important;}
+      .cls-2{fill:{{{account.colors.bendigo-coral}}} !important;}
+      */
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="panelImage--{{{BB_side-front-right-panel-image-type--dlb}}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-2 }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--frontPage">
+
+          <div class="column column--left">
+            <div class="column__inner" data-max-height="dynamic">
+              <div class="heading">What can you expect?</div><!--heading-->
+              <div class="text">
+                <p>You can rely on us for banking products and technology you expect from a big bank.</p>
+                <p>And you can rely on us for personal attention you wouldn't expect from a big bank.</p>
+              </div><!--text-->
+              <div class="copy" data-replace-from="[-]" data-replace-to=" • ">{{{BB_side-front-left-panel-content--dlb}}}</div><!--copy-->
+            </div><!--column__inner-->
+          </div><!--column--left-->
+          <div class="column column--middle">
+            <div class="body">
+              <div class="body__top">
+                <div class="body__top--inner" data-max-height="dynamic">
+                  <div class="heading">Talk to us today</div><!--heading-->
+
+                  <div class="branchName" data-max-line="3" data-replace-from="[-]" data-replace-to=" • " data-mto-branch-name>
+                    {{#BB_branch-name--dlb}}
+                    <span>{{{BB_branch-name--dlb}}}</span>
+                    {{/BB_branch-name--dlb}}
+                    {{^BB_branch-name--dlb}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank </span> {{{team.branch-name}}}</span>{{/BB_branch-name--dlb}}
+                  </div><!--branchName-->
+                  <div class="branchAddress" data-max-line="3.2" data-replace-from="[-]" data-replace-to=" • " data-mto-address>
+                    {{#BB_branch-address--dlb}}<span>{{{BB_branch-address--dlb}}}</span>{{/BB_branch-address--dlb}}
+                    {{^BB_branch-address--dlb}}<span>{{{team.branch-street-address}}} {{{team.branch-town}}} {{{team.branch-state}}}{{#team.branch-postcode}}, {{/team.branch-postcode}}{{{team.branch-postcode}}}</span>{{/BB_branch-address--dlb}}
+                  </div><!--branchAddress-->
+                  <div class="info__container
+                              {{^BB_branch-phone-number--dlb}}no-branch-phone{{/BB_branch-phone-number--dlb}}
+                              {{^team.branch-phone}}no-branch-phone-smart{{/team.branch-phone}}
+                              {{^BB_branch-email--dlb}}no-branch-email{{/BB_branch-email--dlb}}
+                              {{^team.email}}no-branch-email-smart{{/team.email}}
+                              ">
+                    <div class="info info--phone">
+                      <div class="info__label">Phone: </div><!--info__label-->
+                      <div class="info__value" data-mto-phone>
+                        {{#BB_branch-phone-number--dlb}}
+                        <span class="u-phone-custom-overflow u-display-inline-block">
+                          <span class="js-landline-formater-src">
+                            {{{BB_branch-phone-number--dlb}}}
+                          </span>
+                          <span class="js-landline-formater-target"></span>
+                        </span>
+                        {{/BB_branch-phone-number--dlb}}
+                        {{^BB_branch-phone-number--dlb}}<span>{{{team.branch-phone}}}</span>{{/BB_branch-phone-number--dlb}}
+                      </div><!--info__value-->
+                    </div><!--info-->
+                    <div class="info info--email">
+                      <div class="info__label">Email: </div><!--info__label-->
+                      <div class="info__value" data-max-line="1">
+                        {{#BB_branch-email--dlb}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-email--dlb}}}</span>{{/BB_branch-email--dlb}}
+                        {{^BB_branch-email--dlb}}<span>{{{team.email}}}</span>{{/BB_branch-email--dlb}}
+                      </div><!--info__value-->
+                    </div><!--info-->
+                  </div><!--info__container-->
+                  <div class="time">
+                    <div class="time__label">We're open:</div><!--time__label-->
+                    <div class="time__value" data-max-line="1.2" data-replace-from="[-]" data-replace-to=" • ">{{{BB_trading-hours--dlb}}}</div><!--time__value-->
+                    <div class="time__value" data-max-line="1.2" data-replace-from="[-]" data-replace-to=" • ">{{{BB_weekend-trading-hours--dlb}}}</div><!--time__value-->
+                  </div><!--time-->
+                  <div class="social__container">
+                    {{#BB_facebook-handle--dlb}}
+                    <div class="social">
+                      <img class="social__icon" src="https://files.outfit.io/media_library_items/162197/BB-DL%2520Bro-facebook.svg"><!--social__icon-->
+                      <div class="social__text" data-max-line="1.2" data-replace-from="[-]" data-replace-to=" • ">{{{BB_facebook-handle--dlb}}}</div><!--social__text-->
+                    </div><!--social-->
+                    {{/BB_facebook-handle--dlb}}
+                    {{#BB_instagram-handle--dlb}}
+                    <div class="social">
+                      <img class="social__icon" src="https://files.outfit.io/media_library_items/162196/BB-DL%2520Bro-inastagram.svg"><!--social__icon-->
+                      <div class="social__text" data-max-line="1.2" data-replace-from="[-]" data-replace-to=" • ">{{{BB_instagram-handle--dlb}}}</div><!--social__text-->
+                    </div><!--social-->
+                    {{/BB_instagram-handle--dlb}}
+                  </div><!--social__container-->
+                </div><!--body__top--inner-->
+              </div><!--body__top-->
+              <div class="body__bottom">
+                <div class="disclaimer" data-max-line="8.3">
+                  <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_disclaimer--dlb}}}</span>
+                  <!--<span>{{{account.snippets.abn-snippet}}}</span><!---->
+                  <span>A1390567,</span> <!--metadata-->
+                  <span>{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT ID WILL GO HERE{{/metadata}},</span> <!--metadata-->
+                  <span class="metadata__item js-date"></span> <!--metadata-->
+                </div><!--disclaimer-->
+              </div><!--body__bottom-->
+            </div><!--body-->
+            <div class="footer">
+              <div class="footer__text" data-max-line="1.2">
+                bendigobank.com.au/{{#BB_branch-website-dlb}}<span data-replace-from="[-]" data-replace-to=" • " data-mto-web-url>{{{BB_branch-website-dlb}}}</span>{{/BB_branch-website-dlb}}
+                {{^BB_branch-website-dlb}}<span>{{{team.parent-branch-web-url}}}</span>{{/BB_branch-website-dlb}}
+              </div><!--footer__text-->
+            </div><!--footer-->
+          </div><!--column--middle-->
+          <div class="column column--right">
+            <div class="body">
+              <div class="body__inner" data-max-height="dynamic">
+                <div class="illustration"></div><!--illustration-->
+                <div class="backgroundImage"><div class="reposition-fix">{{{BB_side-front-right-panel-image--dlb}}}</div></div><!---backgroundImage-->
+                <div class="preTitle" data-mto-branch-name>
+                  {{#BB_branch-name--dlb}}
+                  <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-name--dlb}}}</span>
+                  {{/BB_branch-name--dlb}}
+                  {{^BB_branch-name--dlb}}<span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false{{/team.community-bank}}">Community Bank <br></span> {{{team.branch-name}}}{{/BB_branch-name--dlb}}                
+                </div><!--preTitle-->
+                <div class="title">Making good things happen</div><!--title-->
+                {{#BB_community-investment--dlb}}
+                <div class="badge">
+                  {{{account.snippets.community-investment-badge}}}
+                  <div class="badge__text">
+                    <div class="badge__text--inner textFit" data-char-limit="20" data-replace-from="[-]" data-replace-to=" • ">{{{BB_community-investment--dlb}}}</div>
+                  </div><!--badge__text-->
+                </div><!--badge-->
+                {{/BB_community-investment--dlb}}
+              </div><!--body__inner-->
+            </div><!--body-->
+            <div class="footer">
+              <img class="logo" src="{{{account.logos.logo-primary}}}">
+            </div><!--footer-->
+          </div><!--column-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--backPage">
+
+          <div class="column column--left">
+            <div class="column__inner" data-max-height="dynamic">
+              <div class="heading">See the difference your banking makes</div><!--subheading-->
+              <div class="text" data-max-height="146">
+                <p>When you bank with us, profits pour into the community.</p>
+                <p data-replace-from="[-]" data-replace-to=" • ">{{{BB_community-investment--dlb}}} so far.</p>
+                <p>Across Australia, Community Bank branches have invested <span class="u-tt-lowercase">{{{account.snippets.national-contribution-figure}}} to help their communities thrive.</p>
+                <p>A bank giving back sounds unusual. For us, it's business as usual.</p>
+                <p class="u-bold">Here's how your banking has made <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_town-name--dlb}}}</span> an even nicer place to live.</p>
+              </div><!--text-->
+              <div class="story__container js-story__container">
+                {{#collection.BB_company-sponsorship-stories--dlb}}
+                {{#block.BB_sponsorship-story--dlb}}
+                <div class="story">
+                  <div class="story__content">
+                    <div class="story__content--inner" data-max-height="150">
+                      {{#BB_profile-heading--dlb}}
+                      <div class="story__heading" data-max-height="dynamic" data-replace-from="[-]" data-replace-to=" • ">{{{BB_profile-heading--dlb}}}</div><!--story__heading-->
+                      {{/BB_profile-heading--dlb}}      
+                      {{#BB_profile-body--text--dlb}}
+                      <div class="story__text" data-max-height="dynamic" data-replace-from="[-]" data-replace-to=" • ">{{{BB_profile-body--text--dlb}}}</div><!--story__text-->
+                      {{/BB_profile-body--text--dlb}}
+                    </div>
+                  </div><!--story__content-->
+                  {{#BB_profile-picture--dlb}}
+                  <div class="story__image"><div class="reposition-fix">{{{BB_profile-picture--dlb}}}</div></div><!--story__image-->
+                  {{/BB_profile-picture--dlb}}
+                </div><!--story-->
+                {{/block.BB_sponsorship-story--dlb}}
+                {{/collection.BB_company-sponsorship-stories--dlb}}
+              </div><!--story__container-->
+              <img class="image" src="https://files.outfit.io/media_library_items/173148/Asset%25202.svg">
+            </div><!--column__inner-->
+          </div><!--column--left-->
+          <div class="column column--right">
+            <div class="column__inner" data-max-height="dynamic">
+              <div class="heading">Who do we support?</div><!--subheading-->
+              <div class="copy {{^BB_side-back-right-panel-text--dlb}}no-list{{/BB_side-back-right-panel-text--dlb}}">
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_side-back-right-panel-text--dlb}}}</span>
+                <span class="warning">Please fill this field</span>
+              </div><!--copy-->
+
+            </div><!--column__inner-->
+          </div><!--column-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}"); {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    
+
+    
+    
+    <script>
+      
+      {{{account.snippets.dataReplace}}}
+      
+      function formatLandline() {
+        const sources = document.querySelectorAll('.js-landline-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-landline-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 8
+          if (phone.length === 8) {
+            const formated = phone.replace(/(\d{4})(\d{4})/, "$1 $2");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 8 || ( phone.length > 8 && phone.length < 11 ) ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }      
+
+      const formatLandlineObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatLandline();
+        });
+      });      
+
+      const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
+
+      if ( formatLandlineSources.length > 0 ) {
+        formatLandlineSources.forEach(src => {
+          formatLandlineObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }       
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          detectProjectKit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+
+
+      function storyGridCounter() {
+        const storyGrid = document.querySelector('.js-story__container');
+        const storyGridItems = storyGrid.querySelectorAll('.story');
+
+        if ( storyGridItems.length > 4 ) {
+          document.body.classList.add('six-stories-variant');
+        }
+      }
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        detectProjectKit();
+        hideEmptyTitles();
+        storyGridCounter();
+
+      });
+
+
+      function injectDate() {
+        const container = document.querySelector('.fit');
+        const date = container.querySelector('.js-date');
+
+        date.textContent = new Date().toLocaleDateString('en-AU');
+      }
+
+      injectDate();
+
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit',
+        fitMode: 'horizontal',
+        alignItems: 'center'
+      });
+
+            function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+         
+        }
+        
+      }
+      
+      detectProjectKit();
+
+    </script>
+
+
+  </body>
+</html>
