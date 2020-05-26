@@ -1402,7 +1402,6 @@
       }       
 
       
-      if (OutfitIframeShared) {
         // Tracking text changes and firing text restriction functions (mutationObserver)
         const overflowObserver = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
@@ -1431,12 +1430,6 @@
             injectDynamicContent();
           });
         });      
-
-
-
-      }
-
-      
 
       const injectSources = document.querySelectorAll('[data-target-id]');
 
