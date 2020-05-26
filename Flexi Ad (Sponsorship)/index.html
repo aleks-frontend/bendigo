@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html data-sign="OSM">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="https://outfit-assets-production.s3.amazonaws.com/Arial-narrow/stylesheet.css">
+
+    <style>
+      /* Inputs Order
+      {{show-crop}}
+      {{BB_colour-theme--fas}}
+      {{flip-image}}
+      {{{BB_background-image--fas}}}
+      {{{BB_branch-name--sas}}}
+      {{BB_announcement-text--fas}}
+      {{{BB_announcement-free-text--fas}}}
+      {{{BB_heading--fas}}}
+      {{BB_lower-text--fas}}}
+      {{{BB_application-close-date--fas}}}
+      {{{BB_branch-phone--fas}}}
+      {{{BB_branch-town--fas}}}
+      */
+
+
+      :root {
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --soft-grey: {{{account.colors.soft-grey}}};
+        --bendigo-coral: {{{account.colors.bendigo-coral}}};
+        --slate: {{{account.colors.slate}}};
+        --white: {{{account.colors.white}}};
+        --grey: #88817F;
+        --blue: #00aeef;
+        --black: #000;
+        --url-grey-primary:  {{{account.colors.plum-tint-30}}};
+        --url-grey-secondary: #58585a;
+        --text-fit-min: 18;
+      }
+
+      .colourTheme--plum-theme {
+        --dynamic-colour:var(--bendigo-plum);
+        --dynamic-heading-colour: var(--white);
+        --dynamic-branch-name-primary-colour: var(--white);
+        --dynamic-branch-name-secondary-colour: var(--bendigo-plum);
+        --dynamic-website-colour: var(--url-grey-primary);
+        --dynamic-text-colour: var(--white);  
+      }
+
+      .colourTheme--grey-theme {
+        --dynamic-colour:var(--grey);
+        --dynamic-heading-colour: var(--bendigo-plum);
+        --dynamic-branch-name-primary-colour: var(--bendigo-plum);
+        --dynamic-branch-name-secondary-colour: var(--bendigo-plum);
+        --dynamic-website-colour: var(--url-grey-secondary);
+        --dynamic-text-colour: var(--black);  
+      }
+
+
+      .colourTheme--mono-theme {
+        --dynamic-colour:var(--black);
+        --dynamic-heading-colour: var(--white);
+        --dynamic-branch-name-primary-colour: var(--white);
+        --dynamic-branch-name-secondary-colour: var(--black);
+        --dynamic-website-colour: var(--white);
+        --dynamic-text-colour: var(--white);  
+      }
+
+      .colourTheme--greyscale-theme {
+        --dynamic-colour:var(--black);
+        --dynamic-heading-colour: var(--black);
+        --dynamic-branch-name-primary-colour: var(--black);
+        --dynamic-branch-name-secondary-colour: var(--black);
+        --dynamic-text-colour: var(--black);  
+      }
+
+      html {
+        font-family: 'Bendigo Sans';
+        font-size: 11pt;
+        color: var(--white);
+        word-break: break-word;
+      }
+
+      .colourTheme--greyscale-theme .background__container {
+        background: black;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      } 
+
+      .colourTheme--mono-theme .backgroundImage,
+      .colourTheme--greyscale-theme .backgroundImage,
+      .colourTheme--mono-theme [data-flip-image="flipped"] .backgroundImage,
+      .colourTheme--greyscale-theme [data-flip-image="flipped"] .backgroundImage,
+      .colourTheme--mono-theme .badge,
+      .colourTheme--greyscale-theme .badge{
+        mix-blend-mode: luminosity;
+      }
+
+      [data-flip-image="flipped"] .backgroundImage { transform: rotateY(-180deg);}
+
+      .colourTheme--grey-theme .body,
+      .colourTheme--greyscale-theme .body{
+        background: rgba(226,231,233,0.9);
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+      .u-bold { font-weight: bold; }
+      .u-display-inline-block { display: inline-block; white-space: nowrap;} 
+
+      /* Custom Overflow message for invalid phone number */
+      .u-phone-custom-overflow.overflow:hover:after {
+        content: 'Invalid format!'; 
+        font-size: 0.7em;
+      }      
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 3mm;
+      }
+
+      .body {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        /*flex: 1 0 0%;*/
+        height: calc(100% - 2.75082rem);
+        background: var(--dynamic-colour);
+      }
+
+      .section__container {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      .section {
+        position: relative;
+      }
+
+      .branchName {
+        display: none;
+        margin-bottom: 1em;
+        line-height: 1.4em;
+        font-size: 0.42rem;
+        font-weight: 400;
+        color: var(--dynamic-branch-name-primary-colour);
+      }
+
+      .heading__container {
+        height: auto;
+        margin-bottom: 0.38em;
+        width: 100%;
+      }
+
+      .info {
+        margin-bottom: 0.75em;
+        font-size: 0.44rem;
+        line-height: 1.3;
+      }
+
+      .info p {
+        margin-bottom: 0.7em;
+      }
+
+      .info__container:last-child .info:last-child,
+      .info p:last-child {
+        margin-bottom: 0;
+      }
+
+      .heading {
+        word-break: normal;
+        color: var(--dynamic-heading-colour);
+      }
+
+      .heading__inner {
+        font-size: 1.24em;
+        line-height: 1.1em;
+        font-weight: 500;
+      }
+
+      .content {
+        flex: 1 0 0%;
+        color: var(--dynamic-text-colour);
+      }
+
+      .badge {
+        position: absolute;
+        background-image: url(https://files.outfit.io/media_library_items/180951/BB-seal-sposorship-7.svg);
+        color: var(--bendigo-plum);
+        background-size: contain;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; 
+        z-index: 5;
+      }
+
+      .colourTheme--plum-theme .badge {
+        color: var(--bendigo-plum);
+      }
+
+      .colourTheme--grey-theme .badge {
+        background-image: url(https://files.outfit.io/media_library_items/180954/BB-seal-sposorship-3.svg);
+        color: var(--white);
+      }
+
+      .badge__text {
+        position: relative;
+        display: none;
+        font-size: 0.52rem;
+        line-height: 1.05em;
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+        word-break: keep-all;
+      }
+
+      .announcementText--coming-soon .badge__text--comingSoon,
+      .announcementText--apply-now .badge__text--applyNow,
+      .announcementText--you-re-invited .badge__text--youreInvited,
+      .badge__text--freeText {
+        display: block;
+      }
+
+      .footer {
+        padding: 1.5% 9% 1.2%;
+        padding-bottom: 0.2rem !important;
+        padding-left: 4.8% !important;
+        background: #fff;
+        height: 2.75082rem;
+        /* max-height: 2.7rem; */
+        max-height: 3.05rem;
+        min-height: 2rem;
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
+
+      .footer__section {
+        font-size: 0;
+        width: 100%;
+        margin-bottom: 0.3rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .footer__section, 
+      .metadata {
+        margin-top: auto;
+      }
+
+      .logo {
+        display: none;
+        max-width: 8.6rem;
+        min-width: 2.5rem;
+        flex-shrink: 0;
+      }
+
+      .colourTheme--plum-theme .logo--primary,
+      .colourTheme--grey-theme .logo--primary,
+      .colourTheme--mono-theme .logo--secondary,
+      .colourTheme--greyscale-theme .logo--secondary {
+        display: block;
+      }
+
+      .metadata {
+        position: relative;
+        margin-top: 0%;
+        font-size: 0;
+      }
+
+      .metadata__item {
+        font-family: 'Arial Narrow';
+        color: rgba(0,0,0,0.7);
+        font-size: 7.25pt;
+        line-height: 1.1;
+      }
+
+      .metadata__item--small { font-size: 7.25pt; /*font-size:0.22rem*/}
+
+      .keyline {
+        position: absolute;
+        /* top: 3mm; */
+        /* left: 3mm; */
+        /* right: 3mm; */
+        /* bottom: 3.35mm; */
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 1pt solid black;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        z-index: 100;
+        pointer-events: none;
+      }
+
+      [data-community-bank="true "],
+      [data-community-bank="True "],
+      [data-community-bank=" true "],
+      [data-community-bank=" True "]{
+        display: inline;
+      }
+
+      [data-community-bank="false "],
+      [data-community-bank="False "],
+      [data-community-bank=" false "],
+      [data-community-bank=" False "],
+      [data-community-bank=" "]{
+        display: none;
+      }
+
+      .js-textFit-min {
+        display: none;
+        font-size: 18px;
+      }
+
+      @media (orientation: portrait) {   
+        .background__container {
+          position: relative;
+          height: 42.2%;
+        }    
+
+        .backgroundImage {
+          bottom: -30%;
+        }
+
+        .backgroundImage:after{
+          content:"";
+          background: url('https://files.outfit.io/media_library_items/172915/rect-horizontal.png');
+          background-repeat: repeat-x;
+          background-size: contain;
+          display: inline-block;
+          position: absolute;
+          bottom: 0;
+          z-index: 4;
+          height: 5vh;
+          width: 100%;
+        }
+
+        .colourTheme--grey-theme .backgroundImage:after,
+        .colourTheme--greyscale-theme .backgroundImage:after{
+          background: url('https://files.outfit.io/media_library_items/173834/grey-rect-vert.png');
+          background-repeat: repeat-x;
+          background-size: contain;
+        }
+
+        .colourTheme--mono-theme .backgroundImage:after {
+          background: url('https://files.outfit.io/media_library_items/174479/black-rect-vert%2520copy.png');
+          background-repeat: repeat-x;
+          background-size: contain;
+        }
+
+        .body,
+        .section {
+          border-radius: 0 0 3.4rem 0;
+        }
+
+        .branchName--primary {
+          display: none;
+        }
+
+        .section__container {
+          flex: 1 0 0%;
+        }
+
+        .section {
+          display: flex;
+          flex-direction: column;
+          flex: 1 0 0%;
+          padding: 3.5% 9% 2.4% 4.3%;
+          padding: 9.2% 9.4% 2.4% 10.2%;
+          background: var(--bendigo-plum);
+          opacity: 0.9;
+          z-index: 5;
+        }
+
+        .colourTheme--grey-theme .section { background: linear-gradient(0deg, rgba(226,231,233,1) 0%, rgba(226,231,233,1) 70%, rgba(226,231,233,0.9) 100%); }
+        .colourTheme--greyscale-theme .section { background: linear-gradient(0deg, rgba(226,231,233,1) 0%, rgba(226,231,233,1) 70%, rgba(226,231,233,0.9) 100%); }
+        .colourTheme--mono-theme .section { background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 70%, rgba(0,0,0,0.9) 100%); }
+
+        .content__inner {
+          height: 97%;
+          max-height: 100%;
+        }
+
+        .footer { height: 2.75082rem; } 
+
+        .footer__section {
+          padding-left: calc(10.2% - 2mm);
+        }
+
+        .badge {
+          top: -1.83rem;
+          right: 0.62rem;
+          width: 2.65rem;
+          height: 2.65rem;
+          padding: 0.3rem 0.2rem 0;
+        }
+      }
+
+      @media (orientation: landscape) {
+        .container {
+          height: 100%;
+        }
+
+        .background__container { order: 2; }
+
+        .background__container:after{
+          content:"";
+          background: url('https://files.outfit.io/media_library_items/172916/rect-vert.png');
+          background-repeat: repeat-y;
+          background-size: contain;
+          display: inline-block;
+          position: absolute;
+          left: 0;
+          z-index: 4;
+          height: 100%;
+          width: 74.2%;
+          border-radius: 0 0 6rem 0;
+          background-size: 50% 100%;
+          background-position: right;
+        }
+
+        .colourTheme--grey-theme .background__container:after,
+        .colourTheme--greyscale-theme .background__container:after{
+          background: url('https://files.outfit.io/media_library_items/173835/grey-rect.png');
+          background-repeat: repeat-y;
+          background-size: 50% 100%;
+          background-position: right;
+        }
+
+        .colourTheme--mono-theme .background__container:after {
+          background: url('https://files.outfit.io/media_library_items/174478/black-rect-vert%2520copy%25202.png');
+          background-repeat: repeat-y;
+          background-size: 50% 100%;
+          background-position: right;
+        }
+
+        .backgroundImage {
+          bottom: 0;
+          width: 58%;
+          left: unset;
+        }
+
+        .body { 
+          flex-direction: row;
+          height: calc(100% - 2.55rem);
+        }
+
+        .section__container {
+          width: 74.2%;
+          border-radius: 0 0 6rem 0;
+          z-index: 5;
+        }
+
+        .section {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          padding: 8vh 20% 1% 6.6%;
+          border-radius: 0 0 6rem 0;
+          opacity: 0.9;
+          background: var(--bendigo-plum);
+        }   
+
+        .colourTheme--grey .section {
+          background: var(--soft-grey);
+        }    
+
+        .colourTheme--grey-theme .section { background: linear-gradient(90deg, rgba(226,231,233,1) 0%, rgba(226,231,233,1) 75%, rgba(226,231,233,0.9) 100%); }
+        .colourTheme--greyscale-theme .section { background: linear-gradient(90deg, rgba(226,231,233,1) 0%, rgba(226,231,233,1) 75%, rgba(226,231,233,0.9) 100%); }
+        .colourTheme--mono-theme .section { background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 70%, rgba(0,0,0,0.9) 100%); }
+
+        .branchName--secondary {
+          display: block;
+        }  
+
+        .heading__container {
+          max-height: 2.8rem;
+          margin-bottom: 0.3em;
+        }
+
+        .heading__inner { 
+          font-size: 1.42em;
+          line-height: 1.05em;
+        }
+
+        .content__inner { 
+          display: flex; 
+          flex-direction: column;
+          height: 99%;
+          max-height: 100%; }
+
+        .info__container { flex: 1 0 0%; }
+
+        .info__container:first-child {  margin-right: 3%;}
+
+        .info {
+          margin-bottom: 0.67em;
+          /*font-size: 0.461rem;*/
+        }
+
+        .footer {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          height: 2.55rem;
+          padding: 0.8% 4.2% 0.7% 4%;
+          padding-bottom: 0.25rem !important;
+          padding-left: 4.8% !important;
+        }
+
+        .footer__section {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .logo {
+          margin-left: 0;
+          width: 5rem;
+        }
+
+        .metadata { margin-top: 0%; }
+
+        .metadata__item { font-size: 7pt; }
+
+        .badge {
+          top: 1.35rem;
+          right: -1.75rem;
+          width: 2.9rem;
+          height: 2.9rem;
+          padding: 0.25rem 0.2rem 0;
+        }
+
+        .badge__text {
+          font-size: 0.58rem;
+        }
+      }
+
+      /*110mm x 170mm*/
+      @media (min-height: 169mm) and (orientation: portrait){
+        .background__container {
+          height: 43.4%;
+        }
+      }
+
+      /*127mm x 200mm*/
+      @media (min-height: 199mm) and (orientation: portrait) {
+        .background__container {
+          height: 49.6%;
+        }
+      }
+
+      /*297mm x 210mm*/
+      @media (min-height: 205mm) and (orientation: portrait){
+        .background__container {
+          height: 42.6%;
+        }
+      }
+
+      /*130mm x 380mm*/
+      @media (min-height: 305mm) and (orientation: portrait){
+        .background__container {
+          height: 33.1%;
+        }
+      }
+
+      /* 180mm x 110mm */
+      @media (orientation: landscape) and (min-height: 90mm) {
+        .background__container:after {
+          width: 75.2%;
+        }
+      }
+
+      /*240mm x 180mm*/
+      @media (min-height: 160mm) and (orientation: landscape){
+        .background__container:after {
+          width: 72.4%;
+        }
+      }
+
+      /* 180mm x 110mm */
+      @media (orientation: landscape) and (min-height: 90mm) {
+        .background__container:after {
+          width: 72.7%;
+        }
+      }
+
+      /*110mm x 170mm*/
+      @media (min-height: 169mm) and (orientation: portrait) {
+        .section {
+          padding: 5.2% 9.3% 2%;
+        }
+      }
+
+      /*297mm x 210mm*/
+      @media (min-height: 205mm) and (orientation: portrait){
+        .section {
+          padding: 7.7% 20.7% 2% 10.7%;
+        }
+      }
+
+      /*130mm x 380mm*/
+      @media (min-height: 305mm) and (orientation: portrait){
+        .section {
+          padding: 9.3% 21.6% 2% 10%;
+        }
+      }
+
+      /* 180mm x 110mm */
+      @media (orientation: landscape) and (min-height: 90mm) {
+        .section {   
+          padding: 4.9% 9% 1.5% 5.5%;
+        }
+
+        .section__container {
+          width: 75.2%;
+        }
+      }
+
+      /*240mm x 180mm*/
+      @media (min-height: 160mm) and (orientation: landscape){
+        .section {
+          padding: 5.1% 6.31% 2.5% 6.5%;
+        }
+
+        .section__container {
+          width: 72.7%;
+        }
+      }
+
+      /*110mm x 170mm*/
+      @media (min-height: 169mm) and (orientation: portrait) {
+        .section {
+          padding: 5.2% 9.3% 2%;
+        }
+      }
+
+      /*297mm x 210mm*/
+      @media (min-height: 205mm) and (orientation: portrait){
+        .section {
+          padding: 7.7% 20.7% 2% 9.3%;
+        }
+      }
+
+      /*130mm x 380mm*/
+      @media (min-height: 305mm) and (orientation: portrait){
+        .section {
+          padding: 9.3% 21.6% 2% 10%;
+        }
+      }
+
+      /* 180mm x 110mm */
+      @media (orientation: landscape) and (min-height: 90mm) {
+        .section {   
+          padding: 4.9% 9% 1.5% 7.5%;
+        }
+
+        .section__container {
+          width: 75.2%;
+        }
+      }
+
+      /*240mm x 180mm*/
+      @media (min-height: 160mm) and (orientation: landscape){
+        .section {
+          padding: 5.1% 6.31% 2.5% 9.3%;
+        }
+
+        .section__container {
+          width: 72.7%;
+        }
+      }
+
+      /*110mm x 170mm*/
+      @media (min-height: 169mm) and (orientation: portrait){
+        .branchName {
+          margin-bottom: 0.75em;
+          font-size: 0.457rem;
+          line-height: 1.25;
+        }
+      }
+
+      /*130mm x 380mm*/
+      @media (min-height: 305mm) and (orientation: portrait) {
+        .branchName {
+          margin-bottom: 1.75em;
+          font-size: 0.306rem;
+        }
+      }
+
+      /*180mm x 110mm*/
+      @media (min-height: 90mm) and (orientation: landscape){      
+        .branchName {
+          margin-bottom: 1.1rem;
+          font-size: 0.44rem;
+        }
+      }
+
+      /*240mm x 180mm*/
+      @media (min-height: 179mm) and (orientation: landscape){      
+        .branchName {
+          margin-bottom: 2.5em;
+          font-size: 0.45rem;
+        }
+      }
+
+      @media (orientation: portrait) and (min-height: 201mm) and (max-width: 304mm) {
+        .branchName--primary {
+          display: block;
+        }
+      }
+
+      /*110mm x 170mm*/
+      @media (min-height: 169mm) and (orientation: portrait){
+        .heading__container {
+          max-height: 2.58rem;
+          margin-bottom: 0.37em;
+        }
+        .heading__inner {
+          font-size: 1.03rem;
+        }
+
+        :root { --text-fit-min: 19; }
+      }
+
+      /*127mm x 200mm*/
+      @media (min-height: 199mm)  and (orientation: portrait){
+        .heading__container {
+          max-height: 25%;
+          margin-bottom: 0.47em;
+        }
+        .heading__inner {
+          font-size: 1.17rem;
+        }
+      }
+
+      /*297mm x 210mm*/
+      @media (min-height: 205mm) and (orientation: portrait){ 
+        .heading__container {
+          max-height: 3rem;
+          margin-bottom: 0.4rem;
+        }
+        .heading__inner {
+          font-size: 1.32rem;
+        }
+
+        :root { --text-fit-min: 28; }
+      }
+
+      @media (min-height: 273mm) and (orientation: portrait){ 
+
+        :root { --text-fit-min: 32; }
+      }
+
+      /*130mm x 380mm*/
+      @media (min-height: 305mm) and (orientation: portrait){
+        .heading__container {
+          max-height: 2.8rem;
+          margin-bottom: 0.6rem;
+        }
+        .heading__inner {
+          font-size: 1.12rem;
+          line-height: 0.9;
+        }
+
+        :root { --text-fit-min: 44; }
+      }
+
+
+      /*180mm x 110mm*/
+      @media (min-height: 120mm) and (orientation: landscape) {
+        .heading__container {
+          max-height: 3.8rem;
+        }
+        .heading__inner {
+          font-size: 1.55rem;
+        }      
+
+        :root { --text-fit-min: 26; }        
+      }
+
+      /*180mm x 110mm*/
+      @media (min-height: 140mm) and (orientation: landscape) {     
+        :root { --text-fit-min: 29; } 
+      }
+
+      @media (min-height: 160mm) and (orientation: landscape) {
+        .heading__container {
+          max-height: 3.8rem;
+          margin-bottom: 0.9em;
+        }
+        .heading__inner {
+          font-size: 1.53rem;
+        }        
+
+        :root { --text-fit-min: 35; }
+      }
+
+      @media (min-height: 305mm) and (max-width: 100mm) and (orientation: portrait){
+        .heading__container {
+          max-height: 24%;
+          margin-bottom: 0.47em;
+        }
+        .heading__inner {
+          font-size: 0.78rem;
+          line-height: 0.9;
+        }
+      }
+
+      @media (max-height: 90mm) and (max-width: 200mm) and (orientation: landscape) {
+
+        :root { --text-fit-min: 25; }        
+      }
+
+      @media (max-height: 90mm) and (max-width: 195mm) and (orientation: landscape) {        
+        :root { --text-fit-min: 17; }        
+      }
+
+      @media (max-height: 90mm) and (max-width: 172mm) and (orientation: landscape) {
+        :root { --text-fit-min: 15; }        
+      }
+
+      @media (max-height: 90mm) and (max-width: 120mm) and (orientation: landscape) {
+        :root { --text-fit-min: 13; }        
+      }
+
+      /* 180mm x 110mm */
+      @media (min-height: 90mm) and (orientation: landscape) {
+        .info__container:first-child {
+          margin-bottom: 0.4%;
+        }
+      }    
+
+      @media (orientation: landscape) and (max-width: 200mm) {
+        .info__container { flex: 0 0 0%; }
+      }
+
+      /*@media (max-width: 110mm) and (orientation: portrait){
+      .info {
+      font-size: 0.4rem;
+      }
+      }*/
+
+      /*110mm x 170mm*/
+      /* @media (min-height: 169mm) and (orientation: portrait){
+      .info {
+      font-size: 0.34rem;
+      line-height: 1.35em;
+      }
+      }*/
+
+      /*127mm x 200mm*/
+      @media (min-height: 199mm) and (orientation: portrait) {
+        .info {
+          font-size: 0.353rem;
+          line-height: 1.5em;
+          margin-bottom: 0.45em;
+        }
+      }
+
+      /*297mm x 210mm*/
+      /* @media (min-height: 205mm) and (orientation: portrait){
+      .info {
+      font-size: 0.28rem;
+      }
+      } */
+
+      /*130mm x 380mm*/
+      @media  (min-height: 305mm) and (orientation: portrait){
+        .info {
+          margin-bottom: 0.6em;
+          /* font-size: 0.36rem;
+          line-height: 1.3em; */
+        }
+      }
+
+      /*240mm x 80mm */
+      @media (min-height: 60mm) and (orientation: landscape) {
+        .info {
+          margin-bottom: 0.3em;
+          /* font-size: 0.41rem;
+          line-height: 1.7em; */
+        }
+
+        .info p {
+          margin-bottom: 0.3em;
+        }
+
+        .info:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      /*180mm x 110mm */
+      /* @media (min-height: 90mm) and (orientation: landscape) {
+      .info {
+      font-size: 0.365rem;
+      }
+      } */
+
+      /*240mm x 180mm*/
+      /* @media (min-height: 160mm) and (orientation: landscape) {
+      .info {
+      font-size: 0.349rem;
+      }
+      }     */   
+
+      @media (orientation: landscape) and (min-height: 160mm) {
+        .info__container:first-child { flex: 0 0 0%; }
+
+        /* .info {
+        font-size: 0.343rem;
+      } */
+      }
+
+      /*110mm x 170mm*/
+      @media (min-height: 169mm) and (orientation: portrait) {
+        .footer {
+          padding: 2.6% 4.4% 1.2%;
+        }
+      }
+
+      /*127mm x 200mm*/
+      @media (min-height: 199mm) and (orientation: portrait){
+        .footer {
+          padding: 3.9% 7.5% 1%;
+        }
+      }
+
+      /*297mm x 210mm*/
+      @media (min-height: 205mm) and (orientation: portrait){
+        .footer {
+          padding: 1.5% 2.4% 1%;
+        }
+      }
+
+      /*130mm x 380mm*/
+      @media (min-height: 305mm) and (orientation: portrait){
+        .footer {
+          padding: 4.9% 7.5% 3.5%;
+        }
+      }
+
+      /*240mm x 180mm*/
+      @media (min-height: 160mm) and (orientation: landscape) {
+        .footer {
+          padding: 1.5% 4.1% 1%;
+        }
+      }
+
+      /* 180mm x 110mm */
+      @media (min-height: 90mm) and (orientation: landscape) {
+        .footer {
+          padding: 1.5% 5.9% 0.9% 5%;
+        }
+      }
+
+      /*240mm x 180mm*/
+      @media (min-height: 160mm) and (orientation: landscape) {
+        .footer {
+          padding: 2% 5.9% 0.9% 4.2%;
+        }
+      }
+
+      @media (max-width: 140mm) and (orientation: portrait){
+        .footer__section {
+          padding-left: 0rem;
+        }
+      }
+
+      /*127mm x 200mm*/
+      @media (min-height: 199mm) and (orientation: portrait){
+        .footer__section {
+          padding-left: 0.5rem;
+        }
+      }
+
+      /*130mm x 380mm*/
+      @media (min-height: 305mm) and (orientation: portrait){
+        .footer__section {
+          margin-bottom: 0.2rem;
+          padding-left: 0.83rem;
+        }
+      }
+
+      /* 180mm x 110mm */
+      @media (orientation: landscape) and (min-height: 90mm) {
+        .footer__section {
+          padding-left: 0.45rem;
+        }
+      }
+
+      /*240mm x 180mm*/
+      @media (min-height: 160mm) and (orientation: landscape){
+        .footer__section {
+          padding-left: 4.5%;
+        }
+      }
+
+      /*110mm x 170mm*/
+      @media (min-height: 169mm) and (orientation: portrait) {
+        .footer__section {
+          padding-left: 4.5%;
+        }
+      }
+
+      /*127mm x 200mm*/
+      @media (min-height: 199mm) and (orientation: portrait){
+        .footer__section {
+          padding-left: 0.5rem;
+        }
+      }
+
+      /*297mm x 210mm*/
+      @media (min-height: 205mm) and (orientation: portrait){
+        .footer__section {
+          padding-left: 5%;
+          margin-bottom: 0.4rem;
+        }
+      }
+
+      /*130mm x 380mm*/
+      @media (min-height: 305mm) and (orientation: portrait){
+        .footer__section {
+          margin-bottom: 0.2rem;
+        }
+      }
+
+      /* 180mm x 110mm */
+      @media (orientation: landscape) and (min-height: 90mm) {
+        .footer__section {
+          padding-left: 0.15rem;
+        }
+      }
+
+      /*240mm x 180mm*/
+      @media (min-height: 160mm) and (orientation: landscape){
+        .footer__section {
+          padding-left: 2.6%;
+        }
+      }
+
+      /*@media (min-width:94mm) and (max-width: 109.9mm) {
+        .logo {
+          width: 3.7rem;
+        }
+      }
+
+      @media (min-width:110mm) and (max-width: 179.9mm) {
+        .logo {
+          width: 5.1rem;
+        }
+      }
+
+      @media (min-width:180mm) {
+        .logo {
+          width: 4.9rem;
+        }
+      }
+
+      @media (min-width:180mm) and (orientation: landscape) {
+        .logo {
+          width: 6.1rem;
+        }
+      } */
+      
+      {{{account.snippets.flexi-ad-logo-width}}}
+
+      /* 180mm x 110mm */
+      @media (orientation: landscape) and (min-height: 90mm) {
+        .metadata { margin-top: 0%; }
+      }
+
+      @media (min-height: 160mm) and (orientation: landscape) {
+        .metadata { margin-top: 0%; }
+      }
+
+
+      /*110mm x 170mm*/
+      @media (min-height: 169mm) and (orientation: portrait){
+        .branchName {
+          margin-bottom: 1.6em;
+          font-size: 0.45rem;
+          line-height: 1.25;
+          margin-top: 0.7em;
+        }
+
+        .branchName--primary {
+          display: block;
+        }
+      }
+
+      /*127mm x 200mm*/
+      @media (min-height: 199mm) and (orientation: portrait) {
+        .branchName--primary {
+          display: none;
+        }
+      }
+
+      /*130mm x 380mm*/
+      @media (min-height: 305mm) and (orientation: portrait) {
+        .branchName {
+          margin-bottom: 1.75em;
+          font-size: 0.306rem;
+        }
+
+        .branchName--primary {
+          display: block;
+        }
+      }
+
+      @media (min-height: 179mm) and (orientation: landscape) {
+        .branchName--primary {
+          display: none;
+        }
+      }
+
+      @media (orientation: portrait) and (min-height: 201mm) and (max-width: 304mm) {
+        .branchName--primary {
+          display: block;
+        }
+      }
+
+
+
+      @media (orientation: landscape) and (min-width: 94mm) and (max-width: 149mm) and (min-height: 69mm) and (max-height: 150mm) {
+        .info {
+          font-size: 9pt !important;
+          line-height: 12pt;
+        }
+      }
+
+      @media (min-width: 94mm) and (max-width: 149mm) and (min-height: 151mm) and (max-height: 250mm){
+        .info {
+          font-size: 9.6pt !important;
+          line-height: 14pt;
+        }
+      }
+
+      @media (min-width: 94mm) and (max-width: 149mm) and (min-height: 251mm) {
+        .info {
+          font-size: 12pt !important;
+          line-height: 16pt;
+        }
+      }
+
+
+
+
+
+      @media (min-width: 150mm) and (max-width: 271mm) and (max-height: 150mm) {
+        .info {
+          font-size: 9.6pt !important;
+          line-height: 14pt;
+        }
+      }
+
+      @media (min-width: 150mm) and (max-width: 271mm) and (min-height: 151mm) and (max-height: 220mm){
+        .info {
+          font-size: 11pt !important;
+          line-height: 15pt;
+        }
+      }
+
+      @media (min-width: 150mm) and (max-width: 271mm) and (min-height: 221mm) and (max-height: 381mm) {
+        .info {
+          font-size: 12pt !important;
+          line-height: 16pt;
+        }
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+   
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="layout--portrait-flexi
+                                                                   colourTheme--{{{BB_colour-theme--fas}}}{{^BB_colour-theme--fas}}plum-theme{{/BB_colour-theme--fas}}
+                                                                   announcementText--{{BB_announcement-text--fas}}{{^BB_announcement-text--fas}}coming-soon{{/BB_announcement-text--fas}}">
+
+
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="body">
+
+            <div class="background__container" data-flip-image="{{flip-image}}">
+              <div class="backgroundImage"><div class="reposition-fix">{{{BB_background-image--fas}}}</div></div><!--background-->
+            </div><!--background__container-->
+            <div class="section__container">
+              <div class="section">
+                <div class="branchName branchName--primary" data-max-line="2" data-mto-branch-name>
+                  {{#BB_branch-name--sas}}
+                  <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-name--sas}}}</span>   
+                  {{/BB_branch-name--sas}}
+                  {{^BB_branch-name--sas}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank <br></span> <span data-replace-from="[-]" data-replace-to=" • ">{{{team.branch-name}}}</span></span> {{/BB_branch-name--sas}}
+                </div><!--branchName-->
+                <div class="branchName branchName--secondary" data-max-line="2" data-mto-branch-name>
+                  {{#BB_branch-name--sas}}
+                  <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-name--sas}}}</span>   
+                  {{/BB_branch-name--sas}}
+                  {{^BB_branch-name--sas}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank </span> <span data-replace-from="[-]" data-replace-to=" • ">[-]{{{team.branch-name}}}</span></span> {{/BB_branch-name--sas}}
+                </div><!--branchName-->
+                <div class="heading__container">
+                  <div class="heading__inner textFit--vert">
+                    {{#BB_heading--fas}}
+                    <div class="heading"span data-replace-from="[-]" data-replace-to=" • ">{{{BB_heading--fas}}}</div><!--heading-->
+                    {{/BB_heading--fas}}
+                  </div><!--heading__inner-->
+                </div><!--heading__container-->
+                <div class="content">
+                  <div class="content__inner" data-max-height="dynamic">
+                    {{#BB_lower-text--fas}}
+                    <div class="info__container">
+                      <div class="info info--primary"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_lower-text--fas}}}</span></div><!--info-->
+                    </div><!--info__container-->
+                    {{/BB_lower-text--fas}}
+                    <div class="info__container">
+                      {{#BB_application-close-date--fas}}
+                      <div class="info info--tertiary"><span data-replace-from="[-]" data-replace-to=" • " data-max-line="3">{{{BB_application-close-date--fas}}}</span></div><!--info-->
+                      {{/BB_application-close-date--fas}}
+                      <div class="info u-bold" data-mto-cta>To find out more call
+                        <span class="u-phone-custom-overflow u-display-inline-block">
+                          <span class="js-landline-formater-src">{{{BB_branch-phone--fas}}}</span>
+                          <span class="js-landline-formater-target"></span>
+                        </span>
+                        {{^BB_branch-phone--fas}} {{{team.phone}}} {{/BB_branch-phone--fas}} or search Bendigo Bank <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-town--fas}}}</span>{{^BB_branch-town--fas}}<span data-replace-from="[-]" data-replace-to=" • ">{{{team.branch-town}}}</span>{{/BB_branch-town--fas}}.</div><!--info-->
+                    </div><!--info__container-->
+                  </div><!--content__inner-->
+                </div><!--content-->
+              </div><!--section-->
+              <div class="badge">
+                {{^BB_announcement-free-text--fas}}
+                <div class="badge__text badge__text--comingSoon">coming soon</div><!--badge__text--comingSoon-->
+                <div class="badge__text badge__text--applyNow">apply<br>now</div><!--badge__text--applyNow-->
+                <div class="badge__text badge__text--youreInvited">you're<br>invited</div><!--badge__text--youreInvited-->
+                {{/BB_announcement-free-text--fas}}
+                <div class="badge__text badge__text--freeText" data-max-line="2"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_announcement-free-text--fas}}}</span></div><!--badge__text--freeText-->
+              </div><!--badge-->
+            </div><!--section__container-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="footer__section">
+              <img class="logo logo--primary" src="{{{account.logos.logo-primary}}}">
+              <img class="logo logo--secondary" src="{{{account.logos.logo-greyscale}}}">
+            </div><!--footer__section-->
+            <div class="metadata">
+              <span class="metadata__item metadata__item--small">{{account.snippets.abn-snippet}} </span> <!--metadata-->
+
+              <span class="metadata__item metadata__item--small">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT{{/metadata}}, </span> <!--metadata-->
+              <span class="metadata__item metadata__item--small js-date"></span> <!--metadata-->
+            </div> <!--metadata-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+      
+      <div class="keyline"></div>
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script src="fontfaceobserver.js"></script>
+
+    <script>{{{account.snippets.mtoHelperFunctions}}}</script>
+    <script>{{{account.snippets.mto}}}</script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/mtoData.js"></script>
+    <script>{{{account.snippets.mtoHandleData_nameCta}}}</script>
+
+    <script>
+      var isExportPage = window.location.href.indexOf('exports') > -1;
+      let currentMTOTeams = "{{{team.mto}}}";
+      let mtoTextInput = '{{{mto}}}';
+      let mtoData = getMTOData();
+      let showMTO = {{#team.mto}}true{{/team.mto}}{{^team.mto}}false{{/team.mto}};
+
+                     if(!isExportPage && window.parent.document.querySelector(".sidebar") != null){
+                       setupMTO(mtoTextInput, currentMTOTeams, mtoData, showMTO);
+                       setupObserver(window.parent.document, { childList: true, subtree: true, }, setupMTO, [mtoTextInput, currentMTOTeams, mtoData, showMTO]);
+                     } else if(showMTO && (mtoTextInput != "" && mtoTextInput != null && mtoTextInput != undefined)){
+                       handleSelectedData(convertDataToPayload('{{{mto}}}'.split(",")));
+                     }
+    </script>
+
+
+    <script>
+      {{{account.snippets.dataReplace}}}
+
+
+
+      function formatLandline() {
+        const sources = document.querySelectorAll('.js-landline-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-landline-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 8
+          if (phone.length === 8) {
+            const formated = phone.replace(/(\d{4})(\d{4})/, "$1 $2");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 8 || ( phone.length > 8 && phone.length < 11 ) ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }      
+
+      const formatLandlineObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatLandline();
+          console.log('changed number');
+        });
+      });      
+
+      const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
+
+      if ( formatLandlineSources.length > 0 ) {
+        formatLandlineSources.forEach(src => {
+          formatLandlineObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }       
+
+      
+      if (OutfitIframeShared) {
+        // Tracking text changes and firing text restriction functions (mutationObserver)
+        const overflowObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            maxLineCheck();
+            maxHeightCheck();
+            charLimit();
+            detectProjectKit();
+            hideEmptyTitles();
+            textFun();
+            TextFit.fit({
+              selector: '.textFit--vert',
+              fitMode: 'vertical',
+              alignItems: 'flex-start'
+            });
+
+
+          });
+
+          maxLineCheck();
+        });
+        setInterval(textFitMin(".textFit--vert", 20) , 500);
+
+
+        const injectObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            injectDynamicContent();
+          });
+        });      
+
+
+
+      }
+
+      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }   
+
+      function injectDate() {
+        const container = document.querySelector('.fit');
+        const date = container.querySelector('.js-date');
+
+        date.textContent = new Date().toLocaleDateString('en-AU');
+      }
+
+      injectDate();
+
+
+      // Calling text size restriction functions once the fonts are loaded
+
+
+
+
+
+
+      function textFun() {
+        document.querySelector('.textFit--vert').removeAttribute("style");
+      }
+
+      function textFun2() {
+        document.querySelector('.textFit--vert').removeAttribute("data-font-size");
+      }
+
+      function dynamicTextFitMinFontSize() {
+        const docComputedStyle = getComputedStyle(document.documentElement);
+        const minFontSize = parseInt(docComputedStyle.getPropertyValue('--text-fit-min'));
+
+        textFitMin('.textFit--vert', minFontSize);
+      }
+
+      setInterval(() => { dynamicTextFitMinFontSize()}, 1500);
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      TextFit.fit({
+        selector: '.textFit--vert',
+        fitMode: 'vertical',
+        alignItems: 'flex-start'
+      });
+
+
+
+      window.addEventListener('resize', function () {
+        console.log('The size is changing');
+        maxHeightCheck();
+        textFun();
+        console.log('Font size is gone'); 
+
+        TextFit.fit({
+          selector: '.textFit'
+        });
+
+        TextFit.fit({
+          selector: '.textFit--vert',
+          fitMode: 'vertical',
+          alignItems: 'flex-start'
+        });
+        maxLineCheck();
+      });
+
+
+
+      function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+
+        }
+
+      }
+
+      detectProjectKit();
+
+    </script>
+    <script type="text/javascript">
+      // Add many fallbacks for Print Ready
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Bendigo Sans'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+        
+        Promise.all(fontObservers).then(() => {
+          
+          console.log('Font is available');
+
+          TextFit.fit({
+            selector: '.textFit'
+          });
+
+          TextFit.fit({
+            selector: '.textFit--vert',
+            fitMode: 'vertical',
+            alignItems: 'flex-start'
+          });
+          maxLineCheck();
+          maxHeightCheck();
+                    injectDynamicContent();
+          hideEmptyTitles();
+          document.dispatchEvent(new Event('printready'));
+        }); 
+      });
+
+    </script>  
+
+
+  </body>
+</html>
