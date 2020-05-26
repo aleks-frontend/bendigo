@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html data-sign="OS?">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css">
+
+    <style>
+      :root{
+        --width: calc({{{digitalAdvertWidth}}}px * 2);
+        --height: calc({{{digitalAdvertHeight}}}px * 2); 
+      }
+      
+      html {
+        font-family: "Bendigo Sans";
+        font-size: 11pt;
+        color: {{{account.colors.white}}};
+        /*word-break: break-word;*/
+        overflow: hidden;
+      }
+      
+      .container{
+        width: var(--width);
+        height: var(--height);
+        position: relative;
+      }
+      
+      .placeholder{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--width);
+        height: var(--height);
+        background-image: url('{{{placeholder-image}}}');
+        background-size: contain;
+        opacity: 0.3;
+      }
+      
+      
+      /*Global Styles for All Digital Advert Sizes*/
+      .text{
+        text-align: center;
+      }
+      
+      .text.small {
+        font-weight: 500;
+      }
+
+      .cta {
+        background-color: {{{account.colors.bendigo-coral}}};
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+      }
+
+      .mrec .text{
+        margin-top: 65pt;
+        margin-bottom: 27pt;
+        height: 250px;
+        padding: 0 10pt;
+        font-size: 52pt;
+        line-height: 1.2;
+      }
+      
+      .mrec .text.branch-name{
+        height: 150px;
+      }
+
+      .mrec .cta {
+        position: absolute;
+        left: 177px;
+        right: 177px;
+        top: 267px;
+        height: 71px;
+        border-radius: 40px;
+      }
+      
+      .mrec .cta div{
+        font-size: 21pt;
+        line-height: 1;
+      }
+      
+      .brick .text{
+        margin-top: 450pt;
+        margin-bottom: 57pt;
+        padding: 0 10pt;
+        height: 300px;
+      }
+      .no-image.brick .text.headline{
+        margin-top: 100px;
+      }
+      
+      .brick .text.branch-name{
+        height: 150px;
+      }
+
+      .brick .cta {
+        height: 87px;
+        border-radius: 87px;
+        font-size: 25pt;
+        position: absolute;
+        left: 148px;
+        right: 148px;
+        top: 884px;
+      }
+      
+      .no-image.brick .text.supporting-text, .no-image.brick .text.branch-name{
+        margin-top: 350px;
+      }
+
+      .no-image.brick .cta {
+        top: 655px;
+      }
+      
+      .brick .cta div{
+        font-size: 25pt;
+        line-height: 1;
+      }
+      
+      /*Leaderboard*/
+      .leaderboard {
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .leaderboard .text{
+        margin-top: 18pt;
+        margin-left: 28pt;
+        margin-bottom: unset;
+        text-align: left;
+        max-width: 60%;
+        height: 90px;
+      }
+
+      .leaderboard .text.large{
+        padding: unset;
+        font-size: 52pt;
+        line-height: 54pt;
+      }
+
+      .leaderboard .cta {
+        height: 71px;
+        width: 242px;
+        border-radius: 40px;
+        font-size: 21pt;
+        position: absolute;
+        right: 30pt;
+        top: 18px;
+      }
+      
+      .leaderboard .cta div{
+        font-size: 21pt;
+        line-height: 1;
+      }
+      
+      /*Skyscraper Styling*/
+      .skyscraper .text{
+        margin-top: 446pt;
+        margin-bottom: 65pt;
+      }
+      .skyscraper .text{
+        padding: 0 10pt;
+        font-size: 52pt;
+        line-height: 1.2;
+        height: 300px;
+      }
+
+      .skyscraper .cta {
+        position: absolute;
+        top: 894px;
+        left: 29px;
+        right: 29px;
+        height: 75px;
+        border-radius: 87px;
+        font-size: 22pt;
+      }
+      
+      .skyscraper .cta div{
+        font-size: 22pt;
+        line-height: 1;
+      }
+      
+      .skyscraper.no-image .cta{
+        top: 800px;
+      }
+      
+      .no-image.skyscraper .text{
+        margin-top: 83pt;
+      }
+      
+      .no-image.skyscraper .text {
+        margin-bottom: 89pt;
+      }
+      
+      .no-image.skyscraper .supporting-text, .no-image.skyscraper .branch-name{
+        margin-top: 400px;
+      }
+
+      .text.headline, .text.supporting-text{
+        font-weight: bold !important;
+      }
+
+    </style>
+  </head>
+  <body data-crop='false'>
+    <div class="container {{imageDisplayed}}">
+      <div class="placeholder"></div>
+      {{#text}}<div class="text {{{digitalAdvertTextSize}}} {{{text-type}}}">{{text}}</div>{{/text}}
+      {{#cta}}<div class="cta"><div data-max-height="10"><span data-replace-from="[-]" data-replace-to=" • ">{{{cta}}}</span></div></div>{{/cta}}
+    </div>
+    
+    <script>
+      window.showCrop = false;
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="textfit-strml.js"></script>
+    <script>
+      {{{account.snippets.dataReplace}}}
+      console.clear();
+           
+      var container = document.querySelector(".container")
+      var style = getComputedStyle(container);
+      var width = parseInt(style.getPropertyValue('width').replace("px", "")) / 2;
+      var height = parseInt(style.getPropertyValue('height').replace("px", "")) / 2;
+      var format = "";
+      
+      
+      if(width == 300 && height == 250)	{ 	format = "mrec" 		}
+      if(width == 300 && height == 600)	{ 	format = "brick" 		}
+      if(width == 160 && height == 600)	{ 	format = "skyscraper" 	}
+      if(width == 728 && height == 90)	{ 	format = "leaderboard" 	}
+      
+      container.classList.add(format);
+      
+      var text = document.querySelector(".text");
+      text.innerHTML = ("{{{text}}}".trim()).split("[amp]").join("&").split("[break]").join("<br>");
+      var text = document.getElementsByClassName('text')[0];
+
+      if(format == "leaderboard" || format == "skyscraper" || format == "mrec" || format == "brick"){
+        textFit(text, {maxFontSize: 57, multiLine: true});
+        if(parseInt(text.getElementsByClassName('textFitted')[0].style.fontSize) < "37"){
+          text.classList.add("overflow");
+        }
+      }
+    </script>
+    
+    <script>
+    let cta = document.querySelector(".cta div");
+      if(cta.offsetHeight > 40){
+        cta.classList.add("overflow");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bendigo Bank MTO - CSV to JSON</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="minireset.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <h1>Bendigo Bank MTO - Store CSV to JSON Object</h1>
+    </header>
+
+    <main>          
+        <h3><span data-replace-from="[-]" data-replace-to=" • ">Please Select a CSV File:</span></h3>
+        <input type="file" name="file" id="file">
+        <section class="codeOutput">
+            <section class="code-header"><h3><span data-replace-from="[-]" data-replace-to=" • ">JS</span></h3></section>
+          	<section class="download-button"></section>
+            <code class="output"></code>
+        </section>
+      
+        
+    </main>
+
+    <script src="script.js"></script>
+  <script>{{{account.snippets.dataReplace}}}</script>
+</body>
+</html>

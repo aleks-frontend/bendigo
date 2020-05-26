@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html data-sign="OSM" async>
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      /* Inputs Order
+      {{show-crop}}
+      {{placeholder-opacity}}
+      {{placeholder-image-1}}
+      {{placeholder-image-2}}
+      {{placeholder-image-3}}
+      {{placeholder-image-4}}
+      {{placeholder-toggle-new}}
+      {{placeholder-validation}}
+      {{BB_variation-type--bcc}}
+      */
+
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+
+      :root {
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --bendigo-coral: #ef404a;
+        --charcoal: {{{account.colors.charcoal}}};
+      }
+
+      html {
+        font-family: 'Bendigo Sans';
+        font-size: 11pt;
+        color: var(--bendigo-plum);
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .page {
+        display: none;
+      }
+
+      .variation--single-card .page--singlePageFront,
+      .variation--single-card .page--singlePageBack,
+      .variation--multi-card .page--multiPageFront,
+      .variation--multi-card .page--multiPageBack {
+        display: block;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .fit--front { padding: 22pt 22.9pt 20.3pt; }
+
+      .fit--back { 
+        padding: 28.3pt 23pt 15.8pt; 
+        color: var(--charcoal);
+      }
+
+      .header {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header--front {   margin-bottom: 15.2pt; }
+
+      .header--back { margin-bottom: 12.7pt; }
+
+      .variation--multi-card .page--multiPageFront .header {
+        margin-bottom: 15pt;
+      }
+
+      .variation--multi-card .page--multiPageBack .header {
+        margin-bottom: 13pt;
+      }
+
+      .header__title {
+        font-size: 10pt;
+        font-weight: 500;
+        line-height: 1.2em;
+      }
+
+      .logo {
+        align-self: flex-end;
+        max-width: 97pt;
+        height: 16pt;
+        object-fit: contain;
+        object-position: right center;
+      }
+
+      .body {
+        flex: 1;
+      }
+
+      .section--top {
+        margin-bottom: 9pt;
+      }
+
+      .page--singlePageBack .section--top { margin-bottom: 13.7pt; }
+
+      .page--multiPageBack .section--top { margin-bottom: 13pt; }
+
+      .section--middle { margin-bottom: 4.6pt; }
+
+      .heading {
+        font-size: 12pt;
+        font-weight: 500;
+        line-height: 1.2em;
+      }
+
+      .title {
+        font-size: 8.8pt;
+        font-weight: 500;
+        line-height: 1.3em;
+      }
+
+      .title--alt {
+        margin-bottom: 2.5pt;
+      }
+
+      .info {
+        position: relative;
+        margin-bottom: 1.7pt;
+        font-size: 7.2pt;
+        font-weight: normal;
+        line-height: 1.2em;
+      }
+      
+      .info > span { 
+        display: inline-block;
+        /*margin-left: 0.2em;*/
+      }
+
+      .info:last-child { margin-bottom: 0pt; }
+      
+      .footer {
+        position: absolute;
+        bottom: 20.3pt;
+      }
+
+      .footer__info {
+        font-weight: 300;
+        font-size: 6.3pt;
+        line-height: 1.1em;
+      }
+
+      .url {
+        font-size: 7pt;
+        font-weight: bold;
+        line-height: 1.2em;
+        color: var(--bendigo-coral);
+      }
+
+      .phone-field {
+        display: flex;
+        align-items: center;
+        width: 18.2em;
+        max-height: 12pt;        
+      }
+      
+      .phone-field.no-landline.no-landline-smart { display: none; }
+      
+      .phone-field > span {
+        display: inline-block;
+        margin-left: 0.5em;
+      }
+
+      .warning {
+        display: none;
+        padding: 0.1em;
+        font-size: 7.3pt;
+        color: white !important;
+        background-color: red;
+      }
+
+      .no-mobile-number .warning--mobile,
+      .no-phone-number.no-team-phone .warning--phone,
+      .no-phone,
+      .no-landline.no-mobile .warning--phone {
+        display: inline-block;  	
+      }     
+
+      .no-mobile-number.phone-field,
+      .no-phone-number.no-team-phone.phone-field {
+        max-height: none;
+      }
+      
+      .no-landline.no-landline-smart.no-mobile .warning--phone-extended { display: inline-block; }      
+      
+      /* Custom Overflow message for invalid phone number */
+      .u-phone-custom-overflow.overflow:hover:after { 
+        content: 'Invalid format!'; 
+        font-size: 0.7em;
+      }      
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="variation--{{{BB_variation-type--bcc}}}{{^BB_variation-type--bcc}}single-card{{/BB_variation-type--bcc}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-2 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-3 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-4 }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page page--singlePageBack">
+
+      <div class="bleed">
+
+        <div class="container fit fit--back">
+
+          <div class="header header--back">
+            <div class="header__title" data-max-line="2">
+              <span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-franchise-name}}}</span>
+            </div><!--header__title-->
+            
+          </div><!--header-->
+          <div class="body">
+            <div class="section section--top">
+              {{#BB_director-name--bcc}}
+              <div class="title" data-max-line="1.2">
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_director-name--bcc}}}</span>
+              </div><!--title-->
+              {{/BB_director-name--bcc}}
+              
+              {{#BB_director-title--bcc}}
+              <div class="title title--alt" data-max-line="1.2">
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_director-title--bcc}}}</span>
+              </div><!--title-->
+              {{/BB_director-title--bcc}}
+              
+              {{#BB_director-qualification--bcc}}
+              <div class="info" data-max-line="1.2">
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_director-qualification--bcc}}}</span>
+              </div><!--info-->
+              {{/BB_director-qualification--bcc}}
+              
+            </div><!--section--top-->
+            <div class="section section--middle">
+              <div class="{{^BB_director-mobile-number--bcc}}no-mobile{{/BB_director-mobile-number--bcc}} {{^BB_director-phone-number--bcc}}no-landline{{/BB_director-phone-number--bcc}}">
+                <span class="warning warning--phone">At least one phone number needs to be inputted.</span>
+                {{#BB_director-mobile-number--bcc}}
+                <div class="info">m <span class="u-phone-custom-overflow">
+                  <div class="js-mobile-formater-src">
+                    {{{BB_director-mobile-number--bcc}}}
+                  </div>  
+                  <div class="js-mobile-formater-target"></div>
+                  </span>
+                </div><!--info-->
+                {{/BB_director-mobile-number--bcc}}
+                {{#BB_director-phone-number--bcc}}
+                <div class="info">p <span class="u-phone-custom-overflow">
+                  <div class="js-landline-formater-src">
+                    {{{BB_director-phone-number--bcc}}}
+                  </div>  
+                  <div class="js-landline-formater-target"></div>                  
+                  </span>
+                </div><!--info-->
+                {{/BB_director-phone-number--bcc}}
+              </div>
+              {{#BB_director-email-address--bcc}}
+              <div class="info" data-max-line="1.2"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_director-email-address--bcc}}}</span></div><!--info-->
+              {{/BB_director-email-address--bcc}}
+            </div><!--section--middle-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="footer__info" data-max-line="3">Franchisee of Bendigo and Adelaide Bank Limited ABN 11 068 049 178<br> AFSL 237879 <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_franchise-abn--bcc}}}</span></div><!--footer__info-->
+          </div><!--footer-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    
+    <!--single-page-->
+    <div class="page page--singlePageFront">
+
+      <div class="bleed">
+
+        <div class="container fit fit--front">
+          <!-- Footer was moved to the top of the HTML structure because of an export bug -->
+          <div class="footer">
+            <div class="url">bendigobank.com.au</div><!--url-->
+          </div><!--footer-->
+          <div class="header header--front">
+            <img class="logo" src="{{{account.logos.logo-primary}}}">
+          </div><!--header-->
+          <div class="body">
+            <div class="section section--top">
+              <div class="heading" data-max-line="1">      
+                {{#BB-branch-first-name}}<span>{{{BB-branch-first-name}}}</span>{{/BB-branch-first-name}} 
+                {{#BB-branch-last-name}}<span>{{{BB-branch-last-name}}}</span>{{/BB-branch-last-name}}
+              </div><!--heading-->
+              {{#BB_title--bcc}}
+              <div class="title" data-max-line="1"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_title--bcc}}}</span></div><!--title-->
+              {{/BB_title--bcc}}
+            </div><!--section--top-->
+            <div class="section section--middle">
+              <div class="{{^BB-team-phone-number}}no-landline{{/BB-team-phone-number}} {{^BB-team-phone-number}}no-landline-smart{{/BB-team-phone-number}} {{^BB_mobile-number--bcc}}no-mobile{{/BB_mobile-number--bcc}}">
+                <span class="warning warning--phone-extended">At least one phone number needs to be stated.</span>
+                {{#BB_mobile-number--bcc}}
+                <div class="info phone-field">m <span class="u-phone-custom-overflow">
+                  <div class="js-mobile-formater-src">
+                    {{{BB_mobile-number--bcc}}}
+                  </div>  
+                  <div class="js-mobile-formater-target"></div>
+                  </span>
+                </div>
+                {{/BB_mobile-number--bcc}}
+                <div class="info phone-field {{^BB-team-phone-number}}no-landline{{/BB-team-phone-number}} {{^BB-team-phone-number}}no-landline-smart{{/BB-team-phone-number}} u-phone-custom-overflow">
+                  p {{#BB-team-phone-number}}<span class="u-phone-custom-overflow">
+                  <div class="js-landline-formater-src">
+                    {{BB-team-phone-number}}
+                  </div>  
+                  <div class="js-landline-formater-target"></div>
+                  </span>
+                  {{/BB-team-phone-number}}
+                </div><!--info-->
+              </div>
+              <div class="info" data-max-line="1.2">
+                {{#BB-team-email-address}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-email-address}}}</span>{{/BB-team-email-address}}
+              </div><!--info-->
+            </div><!--section--middle-->
+            <div class="section section--bottom">
+
+              <div class="info" data-max-line="2">
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-name}}}</span>
+              </div><!--info-->
+
+              <div class="info" data-max-line="2">
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-street-address}}}</span>
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-town}}}</span>
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-state}}}</span>
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-postcode}}}</span>
+              </div><!--info-->
+
+            </div><!--section--bottom-->
+
+          </div><!--body-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+    
+    
+    
+    
+    
+    
+    
+
+    <!--multipage-->
+    {{#spreadsheet.BB_newcardholder--bcc}}
+    <div class="page page--multiPageBack">
+
+      <div class="bleed">
+
+        <div class="container fit fit--back">
+
+          <div class="header">
+            <div class="header__title" data-max-line="1"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_franchise-name--bcc}}}</span>{{^BB_franchise-name--bcc}}<span data-replace-from="[-]" data-replace-to=" • ">{{{team.name}}}</span>{{/BB_franchise-name--bcc}}</div><!--header__title-->
+          </div><!--header-->
+          <div class="body">
+            <div class="section section--top">
+              {{#director-name}}
+              <div class="title" data-max-line="1.2"><span data-replace-from="[-]" data-replace-to=" • ">{{director-name}}</span></div><!--title-->
+              {{/director-name}}
+              {{#director-title}}
+              <div class="title title--alt" data-max-line="1.2"><span data-replace-from="[-]" data-replace-to=" • ">{{director-title}}</span></div><!--title-->
+              {{/director-title}}
+              {{#director-qualification}}
+              <div class="info" data-max-line="1.2"><span data-replace-from="[-]" data-replace-to=" • ">{{director-qualification}}</span></div><!--info-->
+              {{/director-qualification}}
+            </div><!--section--top-->
+            <div class="section section--middle">
+              <div class="{{^director-mobile}}no-mobile{{/director-mobile}} {{^director-phone}}no-landline{{/director-phone}}">
+                <span class="warning warning--phone">At least one phone number needs to be inputted.</span>
+                {{#director-mobile}}
+                <div class="info" data-max-line="1.2">m 
+                  <span>
+                    <div class="js-mobile-formater-src">
+                      {{director-mobile}}
+                    </div>  
+                    <div class="js-mobile-formater-target"></div>
+                  </span>                  
+                </div><!--info-->
+                {{/director-mobile}}
+                {{#director-phone}}
+                <div class="info">p 
+                  <span class="u-phone-custom-overflow">
+                    <div class="js-landline-formater-src">
+                      {{director-phone}}
+                    </div>  
+                    <div class="js-landline-formater-target"></div>
+                  </span>
+                </div><!--info-->
+                {{/director-phone}}
+              </div>
+              {{#director-email}}
+              <div class="info" data-max-line="1.2"><span data-replace-from="[-]" data-replace-to=" • ">{{director-email}}</span></div><!--info-->
+              {{/director-email}}
+            </div><!--section--middle-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="footer__info" data-max-line="3">Franchisee of Bendigo and Adelaide Bank Limited ABN 11 068 049 178<br> AFSL 237879 <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_franchise-abn--bcc}}}</span></div><!--footer__info-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    
+    <div class="page page--multiPageFront">
+
+      <div class="bleed">
+
+        <div class="container fit fit--front">
+          <!-- Footer was moved to the top of the HTML structure because of an export bug -->
+          <div class="footer">
+            <div class="url">bendigobank.com.au</div><!--url-->
+          </div><!--footer-->          
+          <div class="header">
+            <img class="logo" src="{{{account.logos.logo-primary}}}">
+          </div><!--header-->
+          <div class="body">
+            <div class="section section--top">
+              <div class="heading" data-max-line="1">
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{first-name}}}</span> <span data-replace-from="[-]" data-replace-to=" • ">{{{surname}}}</span>
+              </div><!--heading-->
+              {{#title}}
+              <div class="title" data-max-line="1.2"><span data-replace-from="[-]" data-replace-to=" • ">{{title}}</span></div><!--title-->
+              {{/title}}
+            </div><!--section--top-->
+            <div class="section section--middle">
+              <div class="{{^mobile-number}}no-mobile{{/mobile-number}} {{^phone-number}}no-landline{{/phone-number}}">
+                <span class="warning warning--phone">At least one phone number needs to be inputted.</span>
+                {{#mobile-number}}
+                <div class="info phone-field">m 
+                  <span class="u-phone-custom-overflow">
+                    <div class="js-mobile-formater-src">
+                      {{mobile-number}}
+                    </div>  
+                    <div class="js-mobile-formater-target"></div>
+                  </span>
+                </div><!--info-->
+                {{/mobile-number}}
+                {{#phone-number}}
+                <div class="info phone-field">p 
+                  <span class="u-phone-custom-overflow">
+                    <div class="js-landline-formater-src">
+                      {{phone-number}}
+                    </div>  
+                    <div class="js-landline-formater-target"></div>
+                  </span>
+                </div><!--info-->   
+                {{/phone-number}}
+              </div>
+              {{#email-address}}
+              <div class="info" data-max-line="1.2"><span data-replace-from="[-]" data-replace-to=" • ">{{email-address}}</span></div><!--info-->
+              {{/email-address}}       
+            </div><!--section--middle-->
+            <div class="section section--bottom">
+              {{#branch-name}}
+              <div class="info" data-max-line="1.2"><span data-replace-from="[-]" data-replace-to=" • ">{{branch-name}}</span></div><!--info-->
+              {{/branch-name}}
+              {{#street-address}}
+              <div class="info" data-max-line="1.2"><span data-replace-from="[-]" data-replace-to=" • ">{{street-address}}</span></div><!--info-->
+              {{/street-address}}
+            </div><!--section--bottom-->
+          </div><!--body-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/spreadsheet.BB_newcardholder--bcc}}
+
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}"); {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    <script>
+      {{{account.snippets.dataReplace}}}
+
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      function formatMobile() {
+        const sources = document.querySelectorAll('.js-mobile-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-mobile-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 10
+          if (phone.length === 10) {
+            const formated = phone.replace(/(\d{4})(\d{3})(\d{3})/, "$1 $2 $3");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 10 ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }
+
+      function formatLandline() {
+        const sources = document.querySelectorAll('.js-landline-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-landline-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 8
+          if (phone.length === 8) {
+            const formated = phone.replace(/(\d{4})(\d{4})/, "$1 $2");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 8 || ( phone.length > 8 && phone.length < 11 ) ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }            
+
+      const formatMobileObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatMobile();
+        });
+      });
+
+      const formatLandlineObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatLandline();
+        });
+      });      
+
+      const formatMobileSources = document.querySelectorAll('.js-mobile-formater-src');
+      const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
+
+      if ( formatMobileSources.length > 0 ) {
+        formatMobileSources.forEach(src => {
+          formatMobileObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      } 
+
+      if ( formatLandlineSources.length > 0 ) {
+        formatLandlineSources.forEach(src => {
+          formatLandlineObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }      
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+        formatLandline();
+        formatMobile();
+        document.dispatchEvent(new Event('printready'));
+      });
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+
+    </script>
+
+  </body>
+</html>

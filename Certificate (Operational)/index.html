@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html data-sign="OSZ" async>
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+      @import url('https://fonts.googleapis.com/css?family=Muli:200,300,900&display=swap');
+      @import url('https://outfit-assets-production.s3.amazonaws.com/Arial-narrow/stylesheet.css');
+
+      /* 
+      input order
+
+      {{BB_certificate-details-spreadsheet2--cero}}
+      {{show-crop}}
+      {{placeholder-opacity}}
+      {{placeholder-image-1}}
+      {{placeholder-toggle-new}}
+      {{placeholder-validation}}
+      {{{BB_variation-type--cero}}}
+      {{{BB_colour-theme--cero}}}
+      {{{BB_certificate-icon--cero}}}
+      {{{BB_certificate-title--cero}}}
+      {{{BB_certificate-title-text--cero}}}
+      {{{BB_name-of-recipient--cero}}}
+      {{#BB_certificate-details--cero}}{{/BB_certificate-details--cero}}
+      {{{BB_date--cero}}}
+      {{{BB_branch-name--cero}}}
+      {{{BB_co-brand-logo--cero}}}
+      {{{BB_abn-and-licence-number-cero}}}
+
+      */
+
+      :root {
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --soft-grey: {{{account.colors.soft-grey}}};
+        --slate: {{{account.colors.slate}}};
+        --apricot: {{{account.colors.apricot}}};
+        --white: #fff;
+        --70-black: #555555;
+      }
+
+      html {
+        font-family: "Bendigo Sans", "Muli", sans-serif;
+        color: var(--70-black);
+        word-break: break-word;
+      }
+
+      .colourTheme--bendigoPlum {
+        --dynamic-colour: var(--bendigo-plum);
+        --dynamic-heading-colour: var(--apricot);
+        --dynamic-text-colour: var(--white);
+      }
+
+      .colourTheme--softGrey {
+        --dynamic-colour: var(--soft-grey);
+        --dynamic-heading-colour: var(--bendigo-plum);
+        --dynamic-text-colour: var(--70-black);
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 0.52rem;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }    
+
+      .page {
+        display: none;
+      }
+
+      .variationType--singlePage .page--singlePage,
+      .variationType--multiPage .page--multiPage {
+        display: block;
+      } 
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        padding: 0.52rem 0.52rem 0.4rem;
+      }
+
+      .body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1.35rem 1.33rem 0.86rem;
+        background-color: var(--dynamic-colour);
+        clip-path: inset(0 -3.9rem 0rem 0 round 0 0 8.8rem 0);
+        -webkit-clip-path: inset(0 -3.9rem 0rem 0 round 0 0 8.8rem 0);
+      }
+
+      .certificateTitle--branch .body {
+        padding-top: 1.2rem;
+      }
+
+      .certificateTitle--serviceRecognition .body {
+        padding-top: 1.3rem;
+      }
+
+      .body__top {
+        flex: 1;
+      }
+
+      .certificateTitle--appreciation .certificate {
+        height: 5.55rem;
+      }
+
+      .certificateTitle--branch .certificate {
+        height: 6.05rem;
+      }
+
+      .certificateTitle--grants .certificate,
+      .certificateTitle--sponsorship .certificate {
+        height: 5.05rem;
+      }
+
+      .certificateTitle--sponsorship .certificate {
+        height: 5.05rem;
+      }
+
+      .certificateTitle--serviceRecognition .certificate,
+      .certificateTitle--freeText .certificate{
+        height: 5.95rem;
+      }
+
+      .certificateTitle--scholarship .certificate {
+        height: 4.86rem;
+      }
+
+      .certificateTitle--congratulations .certificate {
+        height: 5.9rem;
+      }
+
+      .certificate__icon {
+        display: none;
+        object-fit: contain;
+        object-position: top left;
+      }
+
+      .certificateTitle--appreciation .certificate__icon {
+        margin-top: 0.37rem;
+        margin-bottom: 0.57rem;
+        height: 2.43rem;
+        width: 2.7rem;
+      }
+
+      .certificateTitle--branch .certificate__icon {
+        margin-bottom: 0.5rem;
+        height: 2.45rem;
+        width: 3rem;
+      }
+
+      .certificateTitle--grants .certificate__icon,
+      .certificateTitle--sponsorship .certificate__icon {
+        margin-top: 0.14rem;
+        margin-bottom: 0.02rem;
+        margin-left: 0.15rem;
+        height: 2.64rem;
+        width: 2.42rem;
+      }
+
+
+      .certificateTitle--serviceRecognition .certificate__icon,
+      .certificateTitle--freeText .certificate__icon {
+        margin-bottom: 0.47rem;
+        height: 2.37rem;
+        width: 3rem;
+      }
+
+      .certificateTitle--scholarship .certificate__icon {
+        margin-top: 0.3rem;
+        margin-bottom: 0.45rem;
+        height: 2.04rem;
+        width: 2.92rem;
+      }
+
+      .certificateTitle--congratulations .certificate__icon {
+        margin-bottom: 0.72rem;
+        margin-left: 0.15rem;
+        height: 2.64rem;
+        width: 2.72rem;
+      }
+
+      .certificateTitle--freeText .certificate__icon {
+        margin-bottom: 0.42rem;
+        margin-left: 0.15rem;
+        height: 2.64rem;
+        width: 2.72rem;
+      }
+
+      .colourTheme--bendigoPlum.certificateTitle--appreciation .certificate__icon--appreciationPlum,
+      .colourTheme--softGrey.certificateTitle--appreciation .certificate__icon--appreciationGrey,
+      .colourTheme--bendigoPlum.certificateTitle--branch .certificate__icon--branchPlum,
+      .colourTheme--softGrey.certificateTitle--branch .certificate__icon--branchGrey,
+      .colourTheme--bendigoPlum.certificateTitle--grants .certificate__icon--grantsPlum,
+      .colourTheme--softGrey.certificateTitle--grants .certificate__icon--grantsGrey,
+      .colourTheme--bendigoPlum.certificateTitle--sponsorship .certificate__icon--sponsorshipPlum,
+      .colourTheme--softGrey.certificateTitle--sponsorship .certificate__icon--sponsorshipGrey,
+      .colourTheme--bendigoPlum.certificateTitle--serviceRecognition .certificate__icon--serviceRecognitionPlum,
+      .colourTheme--softGrey.certificateTitle--serviceRecognition .certificate__icon--serviceRecognitionGrey,
+      .colourTheme--bendigoPlum.certificateTitle--scholarship .certificate__icon--scholarshipPlum,
+      .colourTheme--softGrey.certificateTitle--scholarship .certificate__icon--scholarshipGrey,
+      .colourTheme--bendigoPlum.certificateTitle--congratulations .certificate__icon--congratulationsPlum,
+      .colourTheme--softGrey.certificateTitle--congratulations .certificate__icon--congratulationsGrey,
+      .colourTheme--bendigoPlum.certificateTitle--freeText .certificate__icon--freeText,
+      .colourTheme--softGrey.certificateTitle--freeText .certificate__icon--freeText {
+        display: block;
+      }
+
+
+      .heading {
+        display: none;
+        font-size: 1.349rem;
+        font-weight: bold;
+        letter-spacing: -0.0017em;
+        line-height: 1.05em;
+        color: var(--dynamic-heading-colour);
+      }
+
+      .certificateTitle--appreciation .heading--appreciation,
+      .certificateTitle--branch .heading--branch,
+      .certificateTitle--grants .heading--grants,
+      .certificateTitle--sponsorship .heading--sponsorship,
+      .certificateTitle--serviceRecognition .heading--serviceRecognition,
+      .certificateTitle--scholarship .heading--scholarship,
+      .certificateTitle--congratulations .heading--congratulations,
+      .certificateTitle--freeText .heading--freeText {
+        display: block;
+      }
+
+      .subheading {
+        margin-bottom: 0.37rem;
+        font-size: 46pt;
+        font-weight: bold;
+        line-height: 1.2em;
+        color: var(--dynamic-text-colour);
+      }
+
+      .details {
+        position: relative;
+        max-height: 3.4rem;
+        font-size: 0.937rem;
+        color: var(--dynamic-text-colour);
+      }
+
+      .details__inner {
+        width: 100%;
+        font-size: 1em;
+        line-height: 1.2em;
+      }
+
+      .body__bottom {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 4.2rem;
+      }
+
+      .date,
+      .branchName {
+        font-size: 0.464rem;
+        line-height: 1.2em;
+        color: var(--dynamic-text-colour);
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        height: 1.58rem;
+        padding: 0.4rem 0rem 0.45rem 0.6rem
+      }
+
+      .logo {
+        width: 4.95rem;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .logo--primary {
+        object-position: left center;
+      }
+
+      .logo--coBrand {
+        display: none;
+        object-position: right center;
+      } 
+
+      .variationType--singlePage .logo--coBrand,
+      .variationType--multiPage .logo--coBrand {
+        display: block;
+      }
+
+      .metadata__container {
+        font-family: 'Arial Narrow';
+        position: absolute;
+        left: 0.62rem;
+        bottom: 0.37rem;
+        width: 10rem;
+      }
+
+      .metadata {
+        position: relative;
+        font-size: 0.142rem;
+        line-height: 1.2em;
+      }
+
+      .metadata__item {
+        margin-right: 0.01rem;
+      }
+
+      .metadata__item:last-child {
+        margin-right: 0;
+      }
+
+      .js-ChoiceInputsInject {
+        display: none;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+      
+      
+      [data-community-bank="true "],
+      [data-community-bank="True "],
+      [data-community-bank=" true "],
+      [data-community-bank=" True "]{
+        display: inline;
+      }
+
+      [data-community-bank="false "],
+      [data-community-bank="False "],
+      [data-community-bank=" false "],
+      [data-community-bank=" False "],
+      [data-community-bank=" false"],
+      [data-community-bank=" False"]
+      [data-community-bank=" "],
+      [data-community-bank="  "],
+      [data-community-bank=""],
+      [data-community-bank=" "]{
+        display: none;
+      }
+      
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" class="variationType--{{{BB_variation-type--cero}}}{{^BB_variation-type--cero}}singlePage{{/BB_variation-type--cero}}"
+        data-crop="{{show-crop}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+    </div><!-- end placeholderMaster -->
+
+    <div class="page page--singlePage 
+                colourTheme--{{{BB_colour-theme--cero}}}{{^BB_colour-theme--cero}}bendigoPlum{{/BB_colour-theme--cero}}
+                certificateTitle--{{{BB_certificate-title--cero}}}{{^BB_certificate-title--cero}}congratulations{{/BB_certificate-title--cero}}">
+
+      <div class="bleed">
+
+        <div class="container fit">
+          <div class="body">
+            <div class="body__top">         
+              <div class="certificate">
+                <img class="certificate__icon certificate__icon--appreciationPlum" src="https://files.outfit.io/media_library_items/166668/Thumb_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--branchPlum" src="https://files.outfit.io/media_library_items/166664/Trophy_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--grantsPlum" src="https://files.outfit.io/media_library_items/166667/Scroll_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--sponsorshipPlum" src="https://files.outfit.io/media_library_items/166667/Scroll_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--serviceRecognitionPlum" src="https://files.outfit.io/media_library_items/166660/Star_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--scholarshipPlum" src="https://files.outfit.io/media_library_items/166659/Mortarboard_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--congratulationsPlum" src="https://files.outfit.io/media_library_items/166666/Medal_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--appreciationGrey" src="https://files.outfit.io/media_library_items/166662/Thumb_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--branchGrey" src="https://files.outfit.io/media_library_items/166663/Trophy_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--grantsGrey" src="https://files.outfit.io/media_library_items/166665/Scroll_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--sponsorshipGrey" src="https://files.outfit.io/media_library_items/166665/Scroll_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--serviceRecognitionGrey" src="https://files.outfit.io/media_library_items/166658/Star_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--scholarshipGrey" src="https://files.outfit.io/media_library_items/166661/Mortarboard_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--congratulationsGrey" src="https://files.outfit.io/media_library_items/166669/Medal_plum.svg"> <!--certificate__icon-->
+                {{#BB_certificate-icon--cero}}
+                <img class="certificate__icon certificate__icon--freeText" src="{{{BB_certificate-icon--cero}}}"> <!--certificate__icon-->
+                {{/BB_certificate-icon--cero}}
+                <div class="heading heading--appreciation">Appreciation</div> <!--heading-->
+                <div class="heading heading--branch">Branch<br>of the month</div> <!--heading-->
+                <div class="heading heading--grants">Grants</div> <!--heading-->
+                <div class="heading heading--sponsorship">Sponsorship</div> <!--heading-->
+                <div class="heading heading--serviceRecognition">Service<br>Recognition</div> <!--heading-->
+                <div class="heading heading--scholarship">Scholarship</div> <!--heading-->
+                <div class="heading heading--congratulations">Congratulations</div> <!--heading-->
+                {{#BB_certificate-title-text--cero}}
+                <div class="heading heading--freeText" data-max-line="2.5"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_certificate-title-text--cero}}}</span></div> <!--heading-->
+                {{/BB_certificate-title-text--cero}}
+              </div> <!--cetificate-->
+              {{#BB_name-of-recipient--cero}}
+              <div class="subheading textFit" data-max-line="1"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_name-of-recipient--cero}}}</span></div> <!--subheading-->
+              {{/BB_name-of-recipient--cero}}
+              <div class="details">
+                <div class="details__inner textFit--min">
+                  <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_certificate-details--cero}}}</span>
+                </div> <!--details__inner-->
+              </div> <!--details-->
+            </div> <!--body__top-->
+            <div class="body__bottom">
+              <div class="date" data-max-line="1"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_date--cero}}}</span></div> <!--date-->
+              <div class="branchName" data-max-line="3">
+                {{#BB_branch-name--cero}}
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-name--cero}}}</span>
+                {{/BB_branch-name--cero}}
+                {{^BB_branch-name--cero}}<span data-replace-from="[-]" data-replace-to=" • "><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false{{/team.community-bank}}">Community Bank &#8226</span> {{{team.branch-name}}}</span>{{/BB_branch-name--cero}}</div> <!--branchName-->
+            </div> <!--body__bottom-->
+          </div> <!--body-->
+          <div class="footer">
+            <img class="logo logo--primary" src="{{{account.logos.logo-primary}}}"> <!--logo--primary-->
+            {{#BB_co-brand-logo--cero}}
+            <img class="logo logo--coBrand" src="{{BB_co-brand-logo--cero}}"/> <!--logo--coBrand-->
+            {{/BB_co-brand-logo--cero}}
+          </div> <!--footer-->
+          <div class="metadata__container">
+            <div class="metadata" data-max-line="1.5">
+              <span class="metadata__item">{{{account.snippets.abn-snippet}}}</span> <!--metadata-->
+              <span class="metadata__item">A1373509,</span> <!--metadata-->
+              <span class="metadata__item">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT ID WILL GO HERE{{/metadata}},</span> <!--metadata-->
+              <span class="metadata__item js-date"></span> <!--metadata-->
+            </div> <!--metadata-->
+          </div> <!--metadata__container-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    
+    {{#spreadsheet.BB_certificate-details2-spreadsheet--cero}}
+    <div class="page page--multiPage">
+
+      <div class="bleed">
+
+        <div class="js-ChoiceInputsInject">
+          <div class="js-theme-colour">{{{colour-theme--cero}}}{{^colour-theme--cero}}bendigoPlum{{/colour-theme--cero}}</div> <!--js-theme-colour-->
+          <div class="js-certificate-title"><span data-replace-from="[-]" data-replace-to=" • ">{{{certificate-title--cero}}}{{^certificate-title--cero}}freeText{{/certificate-title--cero}}</span></div> <!--js-certificate-title-->
+        </div> <!--js-ChoiceInputsInject-->
+
+        <div class="container fit">
+          <div class="body">
+            <div class="body__top">         
+              <div class="certificate">
+                <img class="certificate__icon certificate__icon--appreciationPlum" src="https://files.outfit.io/media_library_items/166668/Thumb_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--branchPlum" src="https://files.outfit.io/media_library_items/166664/Trophy_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--grantsPlum" src="https://files.outfit.io/media_library_items/166667/Scroll_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--sponsorshipPlum" src="https://files.outfit.io/media_library_items/166667/Scroll_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--serviceRecognitionPlum" src="https://files.outfit.io/media_library_items/166660/Star_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--scholarshipPlum" src="https://files.outfit.io/media_library_items/166659/Mortarboard_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--congratulationsPlum" src="https://files.outfit.io/media_library_items/166666/Medal_apricot.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--appreciationGrey" src="https://files.outfit.io/media_library_items/166662/Thumb_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--branchGrey" src="https://files.outfit.io/media_library_items/166663/Trophy_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--grantsGrey" src="https://files.outfit.io/media_library_items/166665/Scroll_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--sponsorshipGrey" src="https://files.outfit.io/media_library_items/166665/Scroll_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--serviceRecognitionGrey" src="https://files.outfit.io/media_library_items/166658/Star_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--scholarshipGrey" src="https://files.outfit.io/media_library_items/166661/Mortarboard_plum.svg"> <!--certificate__icon-->
+                <img class="certificate__icon certificate__icon--congratulationsGrey" src="https://files.outfit.io/media_library_items/166669/Medal_plum.svg"> <!--certificate__icon-->
+                {{#certificate-icon--cero}}
+                <img class="certificate__icon certificate__icon--freeText" src="{{{certificate-icon--cero}}}"> <!--certificate__icon-->
+                {{/certificate-icon--cero}}
+                <div class="heading heading--appreciation">Appreciation</div> <!--heading-->
+                <div class="heading heading--branch">Branch<br>of the month</div> <!--heading-->
+                <div class="heading heading--grants">Grants</div> <!--heading-->
+                <div class="heading heading--sponsorship">Sponsorship</div> <!--heading-->
+                <div class="heading heading--serviceRecognition">Service<br>Recognition</div> <!--heading-->
+                <div class="heading heading--scholarship">Scholarship</div> <!--heading-->
+                <div class="heading heading--congratulations">Congratulations</div> <!--heading-->
+                {{#certificate-title-text--cero}}
+                <div class="heading heading--freeText" data-max-line="2.5"><span data-replace-from="[-]" data-replace-to=" • ">{{{certificate-title-text--cero}}}</span></div> <!--heading-->
+                {{/certificate-title-text--cero}}
+              </div> <!--cetificate-->
+              {{#name-of-recipient--cero}}
+              <div class="subheading textFit" data-max-line="1"><span data-replace-from="[-]" data-replace-to=" • ">{{{name-of-recipient--cero}}}</span></div> <!--subheading-->
+              {{/name-of-recipient--cero}}
+              <div class="details">
+                <div class="details__inner textFit--min"><span data-replace-from="[-]" data-replace-to=" • ">{{{ certificate-details--cero }}}</span></div> <!--details__inner-->
+              </div> <!--details-->
+            </div> <!--body__top-->
+            <div class="body__bottom">
+              <div class="date" data-max-line="1"><span data-replace-from="[-]" data-replace-to=" • ">{{{date--cero}}}</span></div> <!--date-->
+              <div class="branchName" data-max-line="3">
+                {{#branch-name--cero}}
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{branch-name--cero}}}</span>
+                {{/branch-name--cero}}
+                {{^branch-name--cero}}<span data-replace-from="[-]" data-replace-to=" • ">Bendigo Bank {{team.branch-name}}</span>{{/branch-name--cero}}</div> <!--branchName-->
+            </div> <!--body__bottom-->
+          </div> <!--body-->
+          <div class="footer">
+            <img class="logo logo--primary" src="{{{account.logos.logo-primary}}}"> <!--logo--primary-->
+			{{#co-brand-logo--cero}} 
+            	<img class="logo logo--coBrand" src="{{co-brand-logo--cero}} "/> <!--logo--coBrand-->
+            {{/co-brand-logo--cero}} 
+          </div> <!--footer-->
+          <div class="metadata__container">
+            <div class="metadata" data-max-line="1.5">
+              <span class="metadata__item">{{{account.snippets.abn-snippet}}}</span> <!--metadata-->
+              <span class="metadata__item">A1373509,</span> <!--metadata-->
+              <span class="metadata__item">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT ID WILL GO HERE{{/metadata}},</span> <!--metadata-->
+              <span class="metadata__item js-date"></span> <!--metadata-->
+            </div> <!--metadata-->
+          </div> <!--metadata__container-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/spreadsheet.BB_certificate-details2-spreadsheet--cero}}
+    
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}") {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    <script>
+      {{{account.snippets.dataReplace}}}
+      
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }  
+
+      function injectDate() {
+        const containers = document.querySelectorAll('.fit');
+
+        containers.forEach(container => {
+          const date = container.querySelector('.js-date');
+
+          date.textContent = new Date().toLocaleDateString('en-AU');
+        });
+      }
+
+      injectDate(); 
+
+
+      function choiceInputInject() {
+        const pages = document.querySelectorAll('.page--multiPage');
+
+        pages.forEach(page => {    
+          const colourTheme = page.querySelector('.js-theme-colour').textContent.toLowerCase();
+          const certificateTitle = page.querySelector('.js-certificate-title').textContent.toLowerCase();
+
+
+          if (colourTheme === 'soft grey') {
+            page.classList.add('colourTheme--softGrey');
+          } else {
+            page.classList.add('colourTheme--bendigoPlum');
+          }
+
+          switch(certificateTitle) {
+            case "appreciation":
+              page.classList.add('certificateTitle--appreciation');
+              break;
+            case "branch of the month":
+              page.classList.add('certificateTitle--branch');
+              break;
+            case "grants":
+              page.classList.add('certificateTitle--grants');
+              break;
+            case "sponsorship":
+              page.classList.add('certificateTitle--sponsorship');
+              break;
+            case "service recognition":
+              page.classList.add('certificateTitle--serviceRecognition');
+              break;
+            case "scholarship":
+              page.classList.add('certificateTitle--scholarship');
+              break;
+            case "congratulations":
+              page.classList.add('certificateTitle--congratulations');
+              break;
+            default:
+              page.classList.add('certificateTitle--freeText');
+          }
+
+        });
+      }
+      
+      choiceInputInject();
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      TextFit.fit({
+        selector: '.textFit--min',
+        fitMode: 'vertical',
+        alignItems: 'center'
+      });
+
+      setInterval(() => {textFitMin('.textFit--min', 21)}, 500);
+
+     function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+         
+        }
+        
+      }
+      
+      detectProjectKit();
+
+    </script>
+
+
+  </body>
+</html>

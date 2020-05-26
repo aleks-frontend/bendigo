@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html data-sign="OSM" async>
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/arial/stylesheet.css');
+
+      /* 
+      {{show-crop}}
+      {{placeholder-opacity}}
+      {{placeholder-image-1}}
+      {{placeholder-toggle-new}}
+      {{placeholder-validation}}
+      {{BB_variation-type--lh}}
+      {{BB_community-company-name--lh}}
+      {{BB_department-region-name--lh}}
+      {{BB_branch-name-lh}}
+      {{BB_address-lh}}
+      {{BB_phone-number--lh}}
+      {{BB_email-address--lh}}
+      {{BB_disclaimer-area-franchisee--lh}}
+      {{BB_community-company-abn--lh}}
+      */
+
+      :root {
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --bendigo-coral: {{{account.colors.bendigo-coral}}};
+        --slate: {{{account.colors.slate}}};
+        --white: #fff;
+        --black: #000;
+      }
+      
+      @media print { 
+        .is-export-mode {
+          --bendigo-plum: {{{account.colors.bendigo-plum-print-alt-cmyk}}};
+          --bendigo-coral: {{{account.colors.bendigo-coral-print-alt-cmyk}}};
+        }
+      }
+      
+
+      html {
+        font-family: 'Bendigo Sans';
+        font-size: 11pt;
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        padding: 0.87rem 1.16rem 0.59rem 1.15rem;
+      }
+
+      .header {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .variation--department .heading,
+      .variation--bendigo .heading {
+        display: none;
+      }
+
+      .heading {
+        max-width: 65%;
+        text-align: right;
+        font-size: 0.4rem;
+        line-height: 1.2em;
+        color: var(--bendigo-plum);
+      }
+
+      .logo {
+        display: none;
+        max-width: 4rem;
+        height: 0.6rem;
+        object-fit: contain;
+      } 
+
+      .variation--bendigo .logo--top,
+      .variation--department .logo--top,
+      .variation--community .logo--bottom {
+        display: block;
+      }
+
+      .logo--bottom {
+        margin-right: 15pt;
+      }
+
+      .body {
+        display: flex;
+        align-items: flex-end;
+        flex: 1;
+        padding-bottom: 0.13rem;
+      }
+
+      .body__content {
+        display: flex;
+        align-items: flex-end;
+        flex:1;
+      }
+
+      .info {
+        flex: 1;
+        padding-right: 20pt;
+      }
+
+      .info__item {
+        margin-top: 0.03rem;
+        font-size: 0.215rem;
+        line-height: 1.2em;
+        color: var(--bendigo-plum);
+      }
+
+      .info__email { margin-left: 10pt; }
+
+      .info__email:last-child { margin-left: 0; }
+
+      .info__email,
+      .info__phone {
+        display: inline-block;
+      }
+
+      .website {
+        font-size: 0.225rem;
+        font-weight: bold;
+        line-height: 1.2em;
+        color: var(--bendigo-plum);
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0.29rem;
+        border-top: 1pt solid var(--bendigo-plum);
+      }
+      .variation--community .footer { padding-left: 0.2rem; }
+
+      .footer__info {
+        flex: 1 0 auto;
+        font-family: 'Arial Narrow';
+        font-size: 0.1469rem;
+        line-height: 1.2em;
+        color: #616161;
+        text-align: right;
+        width: 100%;
+      }
+
+      .metadata {
+        display: none;
+      }
+      
+
+      [data-community-bank="true "],
+      [data-community-bank="True "],
+      [data-community-bank=" true "],
+      [data-community-bank=" True "],
+      [data-community-bank=" true"],
+      [data-community-bank=" True"],
+      .variation--community .metadata--communityCompany[data-community-bank=" true "],
+      .variation--community .metadata--communityCompany[data-community-bank=" True "],
+      .variation--community .metadata--communityCompany[data-community-bank="true "],
+      .variation--community .metadata--communityCompany[data-community-bank="True "]{
+        display: inline;
+      }
+
+      
+      .variation--bendigo .metadata--communityCompany[data-community-bank="true "],
+      .variation--bendigo .metadata--communityCompany[data-community-bank="True "],
+      [data-community-bank="false "],
+      [data-community-bank="False "],
+      [data-community-bank=" false "],
+      [data-community-bank=" False "],
+      [data-community-bank=" false"],
+      [data-community-bank=" False"],
+      [data-community-bank=" "],
+      [data-community-bank="  "],
+      [data-community-bank=""],
+      [data-community-bank=" "]{
+        display: none;
+      }
+      
+
+      .variation--bendigo .metadata--bendigoBranch,
+      .variation--bendigo .metadata--bendigoBranch,
+      .variation--community .metadata--communityCompany,
+      .variation--community .metadata--communityCompany,
+      .variation--department .metadata--departmentRegionName,
+      .metadata--info {
+        display: inline-block;
+      }   
+
+      .variation--community .info-branch-name {
+        display: none;
+      }
+
+      {{#BB_department-region-name--lh}}
+      .variation--department .info-branch-name {
+        display: none;
+      }
+      {{/BB_department-region-name--lh}}
+
+      /* Custom Overflow message for invalid phone number */
+      .u-phone-custom-overflow.overflow:hover:after {
+        content: 'Invalid format!'; 
+        font-size: 0.7em;
+      }      
+      
+      .u-display-inline-block { display: inline-block; }
+      
+      
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="variation--{{{BB_variation-type--lh}}}{{^BB_variation-type--lh}}bendigo{{/BB_variation-type--lh}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="header">
+            <div class="heading" data-max-line="3" data-replace-from="[-]" data-replace-to=" • " data-mto-company-name>{{{BB_community-company-name--lh}}} {{^BB_community-company-name--lh}} {{{team.community-company-name}}} {{/BB_community-company-name--lh}}</div><!--heading-->
+            <svg class="logo logo--top" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 793.7 123.53"><defs><style>.cls-1{fill:var(--bendigo-plum);}.cls-2{fill: var(--bendigo-coral);}</style></defs><path class="cls-1" d="M190.12,57.62a22,22,0,0,1,8.08,7.71,19.3,19.3,0,0,1,3,10.35,19.63,19.63,0,0,1-7,15.16,24.56,24.56,0,0,1-17,6.28H142.69V21.28H176a21.76,21.76,0,0,1,15.47,6,19.29,19.29,0,0,1,6.39,14.58A19,19,0,0,1,190.12,57.62Zm-31.48-22.4V51.91H174a8.43,8.43,0,0,0,6.13-2.48,8.12,8.12,0,0,0,0-11.78A8.55,8.55,0,0,0,174,35.22Zm17.33,48a9.65,9.65,0,0,0,6.65-2.75,8.34,8.34,0,0,0,2.75-6.23,8.5,8.5,0,0,0-2.75-6.34A9.25,9.25,0,0,0,176,65.22l-17.33-.1V83.18Z"/><path class="cls-1" d="M257.09,75.26h-35.7A14.51,14.51,0,0,0,225,82.55a8.84,8.84,0,0,0,6.65,2.74h.64a9.14,9.14,0,0,0,7.71-4h15.53a26.63,26.63,0,0,1-9.35,12,24.53,24.53,0,0,1-32.38-3.38,27.13,27.13,0,0,1-7.5-19.28,27.14,27.14,0,0,1,7.5-19.28,24.48,24.48,0,0,1,34.39-1.74A27.19,27.19,0,0,1,257,65.33a29.25,29.25,0,0,1,.52,5.28A22.92,22.92,0,0,1,257.09,75.26Zm-35.6-9.93H242.3a13.39,13.39,0,0,0-3.59-6.82,8.87,8.87,0,0,0-6.44-2.58h-.64a8.89,8.89,0,0,0-6.49,2.53A14,14,0,0,0,221.49,65.33Z"/><path class="cls-1" d="M293,43.57a19.84,19.84,0,0,1,20,19.86V97.12H298.5V66.81a10,10,0,0,0-20,0V97.12H264V43.89h1.79A14.58,14.58,0,0,1,278,49.69a19.67,19.67,0,0,1,6.76-4.33,21.16,21.16,0,0,1,8-1.79Z"/><path class="cls-1" d="M373.18,17.9V97.12H358.5v-5a23.25,23.25,0,0,1-15.21,5.6,23.5,23.5,0,0,1-17.91-7.92A27.3,27.3,0,0,1,318,70.61a27.31,27.31,0,0,1,7.34-19.23,23.5,23.5,0,0,1,17.91-7.92,23.22,23.22,0,0,1,15.21,5.71V17.9ZM337.05,81.44a11.38,11.38,0,0,0,17.75,0,15.13,15.13,0,0,0,3.7-10.35,15.62,15.62,0,0,0-3.75-10.51,11.16,11.16,0,0,0-17.7-.06A15.6,15.6,0,0,0,333.36,71,15.38,15.38,0,0,0,337.05,81.44Z"/><path class="cls-1" d="M383.69,33.37a8.93,8.93,0,0,1,0-12.78A9.09,9.09,0,0,1,399.17,27a8.7,8.7,0,0,1-2.7,6.39,8.91,8.91,0,0,1-12.78,0Zm-1.32,10.41h15.32V97.12H382.37Z"/><path class="cls-1" d="M459.9,43.89h1.59V96a26.87,26.87,0,0,1-7.82,19.65q-7.82,7.92-20.81,7.92-9.93,0-17-4.54a26.06,26.06,0,0,1-10.25-12.15h15.53q3.69,4.75,12,4.76,7,0,10.78-3.81a12.64,12.64,0,0,0,3.8-9.29V91.63a24.78,24.78,0,0,1-16.38,6.13,24.12,24.12,0,0,1-18.17-7.92,26.91,26.91,0,0,1-7.5-19.18,27.05,27.05,0,0,1,7.5-19.22,24.71,24.71,0,0,1,34.23-2.06Q451.88,43.89,459.9,43.89Zm-26,41.4A12.13,12.13,0,0,0,443.06,81a14.51,14.51,0,0,0,4-10.2,14.81,14.81,0,0,0-3.81-10.19,11.89,11.89,0,0,0-18.27,0,14.84,14.84,0,0,0-3.8,10.19,15.6,15.6,0,0,0,1.69,7.29,13.53,13.53,0,0,0,4.65,5.23A11.47,11.47,0,0,0,433.92,85.29Z"/><path class="cls-1" d="M476.07,51.44a28.37,28.37,0,0,1,39.45,0,26.62,26.62,0,0,1,0,38.4,28.6,28.6,0,0,1-39.51,0,26.56,26.56,0,0,1,.06-38.4Zm10.4,29.42a12.16,12.16,0,0,0,9.3,4.22,12.3,12.3,0,0,0,9.34-4.22A14.48,14.48,0,0,0,509,70.66a14.64,14.64,0,0,0-3.91-10.24,12.19,12.19,0,0,0-9.34-4.28,12.05,12.05,0,0,0-9.3,4.28,14.78,14.78,0,0,0-3.86,10.24A14.61,14.61,0,0,0,486.47,80.86Z"/><path class="cls-1" d="M603.78,57.62a22.07,22.07,0,0,1,8.08,7.71,19.39,19.39,0,0,1,3,10.35,19.61,19.61,0,0,1-7,15.16,24.52,24.52,0,0,1-17,6.28H556.35V21.28h33.27a21.79,21.79,0,0,1,15.48,6,19.29,19.29,0,0,1,6.39,14.58A19,19,0,0,1,603.78,57.62ZM572.3,35.22V51.91h15.31a8.41,8.41,0,0,0,6.13-2.48,8.1,8.1,0,0,0,0-11.78,8.53,8.53,0,0,0-6.13-2.43Zm17.32,48a9.67,9.67,0,0,0,6.66-2.75A8.33,8.33,0,0,0,599,74.2a8.49,8.49,0,0,0-2.74-6.34,9.27,9.27,0,0,0-6.66-2.64l-17.32-.1V83.18Z"/><path class="cls-1" d="M674.23,44h1.59V97.12h-14v-5.6a24.66,24.66,0,0,1-16.27,6.24,24.09,24.09,0,0,1-18.16-7.92,26.92,26.92,0,0,1-7.5-19.23,26.93,26.93,0,0,1,7.5-19.23,24,24,0,0,1,18.06-7.92q10.25,0,16.27,5.28Q665.57,44,674.23,44Zm-26,41.09a12.09,12.09,0,0,0,9.13-4.28,14.49,14.49,0,0,0,4-10.19,14.8,14.8,0,0,0-3.8-10.19,11.89,11.89,0,0,0-18.27,0,14.8,14.8,0,0,0-3.8,10.19,15,15,0,0,0,3.69,10.25A11.62,11.62,0,0,0,648.25,85.08Z"/><path class="cls-1" d="M714.05,43.57a19.84,19.84,0,0,1,20,19.86V97.12H719.55V66.81a10,10,0,0,0-20,0V97.12H685V43.89h1.79a14.58,14.58,0,0,1,12.26,5.8,19.57,19.57,0,0,1,6.76-4.33,21.16,21.16,0,0,1,8-1.79Z"/><path class="cls-1" d="M773.31,66.7,793.7,97.12h-18l-12.67-18.9-5.18,5.91v13H743.21V17.9h14.68V63.64l17.22-19.86h17.75Z"/><path class="cls-2" d="M75.32,57.7A35.09,35.09,0,0,1,88.15,70a30.67,30.67,0,0,1,4.78,16.44q0,14.08-11.15,24.07t-26.93,10H0V0H52.84A34.53,34.53,0,0,1,77.41,9.56,30.63,30.63,0,0,1,87.56,32.71,30.21,30.21,0,0,1,75.32,57.7Z"/><path class="cls-1" d="M47.52,57.7A35.09,35.09,0,0,1,60.35,70a30.67,30.67,0,0,1,4.78,16.44q0,14.08-11.15,24.07t-26.93,10H0V0H25A34.57,34.57,0,0,1,49.62,9.56,30.66,30.66,0,0,1,59.76,32.71,30.21,30.21,0,0,1,47.52,57.7Z"/></svg>
+          </div><!--header-->
+          <div class="body">
+            <div class="body__content">
+              <div class="info">
+                <div class="info__item" data-max-line="1.6" data-replace-from="[-]" data-replace-to=" • ">{{{BB_department-region-name--lh}}}</div><!--info__item-->
+                <div class="info__item info-branch-name" data-max-line="1.6" data-mto-branch-name>
+                  {{#BB_branch-name-lh}}
+                  <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_branch-name-lh}}}</span>
+                  {{/BB_branch-name-lh}}
+                  {{^BB_branch-name-lh}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank &#8226 </span>{{{team.branch-name}}}</span>{{/BB_branch-name-lh}}
+                </div><!--info__item-->
+                <div class="info__item" data-max-line="1.6" data-mto-address>
+                  {{#BB_address-lh}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB_address-lh}}}</span>{{/BB_address-lh}}
+                  {{^BB_address-lh}}<span>{{{team.branch-street-address}}} {{{team.branch-town}}} {{{team.branch-state}}}{{#team.branch-postcode}} {{/team.branch-postcode}}{{{team.branch-postcode}}}</span>{{/BB_address-lh}}
+                </div><!--info__item-->
+                <div class="info__item" data-max-line="1.6">
+                  {{#BB_phone-number--lh}}
+                  <div class="info__phone">p 
+                    <span class="u-phone-custom-overflow u-display-inline-block" data-mto-phone>
+                      <span class="js-landline-formater-src">
+                      {{{BB_phone-number--lh}}}
+                      </span>
+                      <div class="js-landline-formater-target"></div>
+                    </span>
+                  </div>
+                  {{/BB_phone-number--lh}}
+
+                  {{#team.branch-phone}}
+                  {{^BB_phone-number--lh}}
+                  
+                  <div class="info__phone">p {{{team.branch-phone}}}</div> 
+                  
+                  {{/BB_phone-number--lh}} 
+                  {{/team.branch-phone}}
+
+                  {{#BB_email-address--lh}}<div class="info__email" data-replace-from="[-]" data-replace-to=" • ">e {{{BB_email-address--lh}}}</div>{{/BB_email-address--lh}}
+                  {{^BB_email-address--lh}}<div class="info__email">{{#team.email}}e {{{team.email}}}{{/team.email}}</div>{{/BB_email-address--lh}}<!--info__item--email-->
+                </div><!--info__item-->
+              </div><!--info-->
+              <div class="website">bendigobank.com.au</div><!--website-->
+            </div><!--body__content-->
+          </div><!--body-->
+          <div class="footer">
+            <svg class="logo logo--bottom" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 793.7 123.53"><defs><style>.cls-1{fill:var(--bendigo-plum);}.cls-2{fill: var(--bendigo-coral);}</style></defs><path class="cls-1" d="M190.12,57.62a22,22,0,0,1,8.08,7.71,19.3,19.3,0,0,1,3,10.35,19.63,19.63,0,0,1-7,15.16,24.56,24.56,0,0,1-17,6.28H142.69V21.28H176a21.76,21.76,0,0,1,15.47,6,19.29,19.29,0,0,1,6.39,14.58A19,19,0,0,1,190.12,57.62Zm-31.48-22.4V51.91H174a8.43,8.43,0,0,0,6.13-2.48,8.12,8.12,0,0,0,0-11.78A8.55,8.55,0,0,0,174,35.22Zm17.33,48a9.65,9.65,0,0,0,6.65-2.75,8.34,8.34,0,0,0,2.75-6.23,8.5,8.5,0,0,0-2.75-6.34A9.25,9.25,0,0,0,176,65.22l-17.33-.1V83.18Z"/><path class="cls-1" d="M257.09,75.26h-35.7A14.51,14.51,0,0,0,225,82.55a8.84,8.84,0,0,0,6.65,2.74h.64a9.14,9.14,0,0,0,7.71-4h15.53a26.63,26.63,0,0,1-9.35,12,24.53,24.53,0,0,1-32.38-3.38,27.13,27.13,0,0,1-7.5-19.28,27.14,27.14,0,0,1,7.5-19.28,24.48,24.48,0,0,1,34.39-1.74A27.19,27.19,0,0,1,257,65.33a29.25,29.25,0,0,1,.52,5.28A22.92,22.92,0,0,1,257.09,75.26Zm-35.6-9.93H242.3a13.39,13.39,0,0,0-3.59-6.82,8.87,8.87,0,0,0-6.44-2.58h-.64a8.89,8.89,0,0,0-6.49,2.53A14,14,0,0,0,221.49,65.33Z"/><path class="cls-1" d="M293,43.57a19.84,19.84,0,0,1,20,19.86V97.12H298.5V66.81a10,10,0,0,0-20,0V97.12H264V43.89h1.79A14.58,14.58,0,0,1,278,49.69a19.67,19.67,0,0,1,6.76-4.33,21.16,21.16,0,0,1,8-1.79Z"/><path class="cls-1" d="M373.18,17.9V97.12H358.5v-5a23.25,23.25,0,0,1-15.21,5.6,23.5,23.5,0,0,1-17.91-7.92A27.3,27.3,0,0,1,318,70.61a27.31,27.31,0,0,1,7.34-19.23,23.5,23.5,0,0,1,17.91-7.92,23.22,23.22,0,0,1,15.21,5.71V17.9ZM337.05,81.44a11.38,11.38,0,0,0,17.75,0,15.13,15.13,0,0,0,3.7-10.35,15.62,15.62,0,0,0-3.75-10.51,11.16,11.16,0,0,0-17.7-.06A15.6,15.6,0,0,0,333.36,71,15.38,15.38,0,0,0,337.05,81.44Z"/><path class="cls-1" d="M383.69,33.37a8.93,8.93,0,0,1,0-12.78A9.09,9.09,0,0,1,399.17,27a8.7,8.7,0,0,1-2.7,6.39,8.91,8.91,0,0,1-12.78,0Zm-1.32,10.41h15.32V97.12H382.37Z"/><path class="cls-1" d="M459.9,43.89h1.59V96a26.87,26.87,0,0,1-7.82,19.65q-7.82,7.92-20.81,7.92-9.93,0-17-4.54a26.06,26.06,0,0,1-10.25-12.15h15.53q3.69,4.75,12,4.76,7,0,10.78-3.81a12.64,12.64,0,0,0,3.8-9.29V91.63a24.78,24.78,0,0,1-16.38,6.13,24.12,24.12,0,0,1-18.17-7.92,26.91,26.91,0,0,1-7.5-19.18,27.05,27.05,0,0,1,7.5-19.22,24.71,24.71,0,0,1,34.23-2.06Q451.88,43.89,459.9,43.89Zm-26,41.4A12.13,12.13,0,0,0,443.06,81a14.51,14.51,0,0,0,4-10.2,14.81,14.81,0,0,0-3.81-10.19,11.89,11.89,0,0,0-18.27,0,14.84,14.84,0,0,0-3.8,10.19,15.6,15.6,0,0,0,1.69,7.29,13.53,13.53,0,0,0,4.65,5.23A11.47,11.47,0,0,0,433.92,85.29Z"/><path class="cls-1" d="M476.07,51.44a28.37,28.37,0,0,1,39.45,0,26.62,26.62,0,0,1,0,38.4,28.6,28.6,0,0,1-39.51,0,26.56,26.56,0,0,1,.06-38.4Zm10.4,29.42a12.16,12.16,0,0,0,9.3,4.22,12.3,12.3,0,0,0,9.34-4.22A14.48,14.48,0,0,0,509,70.66a14.64,14.64,0,0,0-3.91-10.24,12.19,12.19,0,0,0-9.34-4.28,12.05,12.05,0,0,0-9.3,4.28,14.78,14.78,0,0,0-3.86,10.24A14.61,14.61,0,0,0,486.47,80.86Z"/><path class="cls-1" d="M603.78,57.62a22.07,22.07,0,0,1,8.08,7.71,19.39,19.39,0,0,1,3,10.35,19.61,19.61,0,0,1-7,15.16,24.52,24.52,0,0,1-17,6.28H556.35V21.28h33.27a21.79,21.79,0,0,1,15.48,6,19.29,19.29,0,0,1,6.39,14.58A19,19,0,0,1,603.78,57.62ZM572.3,35.22V51.91h15.31a8.41,8.41,0,0,0,6.13-2.48,8.1,8.1,0,0,0,0-11.78,8.53,8.53,0,0,0-6.13-2.43Zm17.32,48a9.67,9.67,0,0,0,6.66-2.75A8.33,8.33,0,0,0,599,74.2a8.49,8.49,0,0,0-2.74-6.34,9.27,9.27,0,0,0-6.66-2.64l-17.32-.1V83.18Z"/><path class="cls-1" d="M674.23,44h1.59V97.12h-14v-5.6a24.66,24.66,0,0,1-16.27,6.24,24.09,24.09,0,0,1-18.16-7.92,26.92,26.92,0,0,1-7.5-19.23,26.93,26.93,0,0,1,7.5-19.23,24,24,0,0,1,18.06-7.92q10.25,0,16.27,5.28Q665.57,44,674.23,44Zm-26,41.09a12.09,12.09,0,0,0,9.13-4.28,14.49,14.49,0,0,0,4-10.19,14.8,14.8,0,0,0-3.8-10.19,11.89,11.89,0,0,0-18.27,0,14.8,14.8,0,0,0-3.8,10.19,15,15,0,0,0,3.69,10.25A11.62,11.62,0,0,0,648.25,85.08Z"/><path class="cls-1" d="M714.05,43.57a19.84,19.84,0,0,1,20,19.86V97.12H719.55V66.81a10,10,0,0,0-20,0V97.12H685V43.89h1.79a14.58,14.58,0,0,1,12.26,5.8,19.57,19.57,0,0,1,6.76-4.33,21.16,21.16,0,0,1,8-1.79Z"/><path class="cls-1" d="M773.31,66.7,793.7,97.12h-18l-12.67-18.9-5.18,5.91v13H743.21V17.9h14.68V63.64l17.22-19.86h17.75Z"/><path class="cls-2" d="M75.32,57.7A35.09,35.09,0,0,1,88.15,70a30.67,30.67,0,0,1,4.78,16.44q0,14.08-11.15,24.07t-26.93,10H0V0H52.84A34.53,34.53,0,0,1,77.41,9.56,30.63,30.63,0,0,1,87.56,32.71,30.21,30.21,0,0,1,75.32,57.7Z"/><path class="cls-1" d="M47.52,57.7A35.09,35.09,0,0,1,60.35,70a30.67,30.67,0,0,1,4.78,16.44q0,14.08-11.15,24.07t-26.93,10H0V0H25A34.57,34.57,0,0,1,49.62,9.56,30.66,30.66,0,0,1,59.76,32.71,30.21,30.21,0,0,1,47.52,57.7Z"/></svg>
+            <div class="footer__info" data-max-line="3">
+
+              <!-- BENDIGO BRANCH -->
+              <span class="metadata metadata--bendigoBranch" >
+                <!-- IF data-community=false-->
+                {{#BB_disclaimer-area-franchisee--lh}}
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{BB_disclaimer-area-franchisee--lh}}}</span>                
+                {{/BB_disclaimer-area-franchisee--lh}}
+
+
+                <!-- IF data-community=true-->
+                <span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">
+                  {{^BB_disclaimer-area-franchisee--lh}} 
+                  <span>{{{team.community-company-name}}} ABN {{{team.community-company-abn}}} Franchisee of </span>
+                  {{/BB_disclaimer-area-franchisee--lh}}
+                </span>
+
+                <span>{{{account.snippets.abn-snippet}}}</span>
+              </span>
+              <!-- BENDIGO BRANCH -->
+
+              <!-- COMMUNITY COMPANY-->   
+              <span class="metadata metadata--communityCompany" data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">
+                {{#BB_community-company-abn--lh}}<span data-replace-from="[-]" data-replace-to=" • ">ABN <span data-mto-abn>{{{BB_community-company-abn--lh}}}</span></span>{{/BB_community-company-abn--lh}}    
+                
+                {{^BB_community-company-abn--lh}}  
+                
+                {{#team.community-company-acn}}<span>ACN {{{team.community-company-acn}}}</span>{{/team.community-company-acn}}
+                {{^team.community-company-acn}}<span>ABN {{{team.community-company-abn}}}</span>{{/team.community-company-acn}}
+                {{/BB_community-company-abn--lh}}
+                <span>Franchisee of {{{account.snippets.abn-snippet}}}</span>
+              </span>
+              <!-- COMMUNITY COMPANY -->   
+
+              <!-- DEPARTMENT / REGION NAME -->    
+              <span class="metadata metadata--departmentRegionName">{{{account.snippets.abn-snippet}}}</span>
+              <!-- DEPARTMENT / REGION NAME -->
+
+              <div class="metadata metadata--info"> 
+                <span class="metadata__item">A1406582, </span><!--metadata-->
+                <span class="metadata__item">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT ID WILL GO HERE{{/metadata}}, </span><!--metadata__item-->
+                <span class="metadata__item js-date"></span><!--metadata__item-->
+              </div><!--metadata-->
+            </div><!--footer__info-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}"); {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    
+    <script>
+      {{{account.snippets.dataReplace}}}
+      
+      setupLogo(window.showCrop, ".logo", "{{{account.logos.logo-primary-cmyk}}}", "{{{account.logos.logo-primary}}}")
+      function setupLogo(print, logoSelector, cmykLogoUrl, rgbLogoUrl){
+        let logoEls = document.querySelectorAll(logoSelector);
+        let logoToDisplay = print ? cmykLogoUrl : rgbLogoUrl;
+        logoEls.forEach(el => {
+          el.setAttribute("src", logoToDisplay);
+        });
+      }
+      
+      function formatLandline() {
+        const sources = document.querySelectorAll('.js-landline-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-landline-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 8
+          if (phone.length === 8) {
+            const formated = phone.replace(/(\d{4})(\d{4})/, "$1 $2");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 8 || ( phone.length > 8 && phone.length < 11 ) ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }      
+
+      const formatLandlineObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatLandline();
+        });
+      });      
+
+      const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
+
+      if ( formatLandlineSources.length > 0 ) {
+        formatLandlineSources.forEach(src => {
+          formatLandlineObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }       
+
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          detectProjectKit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      function injectDate() {
+        const container = document.querySelector('.fit');
+        const date = container.querySelector('.js-date');
+
+        date.textContent = new Date().toLocaleDateString('en-AU').slice(0,10);
+      }
+
+      injectDate();
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        detectProjectKit();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      
+      
+      function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+        }
+      }
+
+      detectProjectKit();
+
+    </script>
+    <script type="text/javascript">
+      // Add many fallbacks for Print Ready
+      document.addEventListener('DOMContentLoaded', function(event) {
+        document.dispatchEvent(new Event('printready'));
+      });
+
+      setTimeout(function() {
+        document.dispatchEvent(new Event('printready'));
+      }, 1000);
+
+      document.dispatchEvent(new Event('printready'));
+    </script>
+
+
+  </body>
+</html>

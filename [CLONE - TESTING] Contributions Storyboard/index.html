@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html data-sign="OS?">
+
+  <head>
+    <title>Outfit</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="./css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/placeholder-controller.css">
+
+    <style>
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+      @import url('https://fonts.googleapis.com/css?family=Muli:200,300,900&display=swap');
+
+      /*    
+      {{BB_format--CS}}
+      {{#csb-layout}}{{/csb-layout}}
+      {{#csb-image-type}}{{/csb-image-type}}
+      {{#csb-main-image}}{{/csb-main-image}}
+      {{#csb-main-image-caption}}{{/csb-main-image-caption}}
+      {{#csb-secondary-image}}{{/csb-secondary-image}}
+      {{#csb-secondary-image-caption}}{{/csb-secondary-image-caption}}    
+      {{#csb-fullwidth-image}}{{/csb-fullwidth-image}}
+      {{#csb-background-colour}}{{/csb-background-colour}}
+      {{#csb-heading}}{{/csb-heading}}
+      {{#csb-body-text}}{{/csb-body-text}}    
+      {{#community-investment}}{{/community-investment}}
+      {{#branch-name}}{{/branch-name}}
+      */
+
+      :root {
+        --plum: {{{account.colors.bendigo-plum}}};
+        --coral: {{{account.colors.bendigo-coral}}};
+        --sunshine: {{{account.colors.sunshine}}};
+        --soft-grey: {{{account.colors.soft-grey}}};
+        --slate: {{{account.colors.slate}}};
+        --white: #ffffff;
+        --black: #000000;
+      }        
+
+      body {
+        font-family: "Bendigo Sans", "Muli", sans-serif;
+        font-size: 0.28rem; /* 10pt on A4 */
+        color: var(--white);
+        word-break: break-word;     
+        -webkit-print-color-adjust: exact;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* Helper classes - 25.4W + 14.82 */
+      .u-hide {
+        display: none;
+      }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+      .bg {
+        background-color: var(--{{{csb-background-colour}}}{{^csb-background-colour}}plum{{/csb-background-colour}});
+      }
+
+      .page:not(.cover-image):not(.full-width-image) .bg-image,
+      .page:not(.custom-image) .bg-image {
+        display: none;
+      }
+
+      .bg-illustration {
+        background-color: var(--coral);
+      }
+
+      .bg-illustration::before {
+        content: "";
+        display: block;
+        position: absolute;      
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(180deg, rgba(252,212,203,1) 0%, rgba(252,212,203,1) 44%, rgba(250,185,175,1) 67%, rgba(245,133,126,1) 100%);
+      }
+
+      .bg-illustration::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-size: cover;
+        background-position: center bottom;
+      }    
+
+      .page:not(.cover-image) .bg-illustration,
+      .page:not(.illustration) .bg-illustration {
+        display: none;
+      }
+
+      .gradient {
+        position: absolute;
+        height: 45em;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: none;
+      }
+
+      .gradient:before, .gradient:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0, rgba(255, 255, 255, 1) 100%);
+        mix-blend-mode: screen;
+      }
+
+      .gradient:after {
+        top: 4.18rem;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0, rgba(136, 7, 79, 1) 55%);
+        mix-blend-mode: multiply;
+      }
+
+      .wrapper {
+        position: absolute;
+        top: 3mm;
+        right: 3mm;
+        bottom: 3mm;
+        left: 3mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+
+      .copy {
+        width: 100%;
+        max-height: 16rem;
+        padding: 1rem 1rem 0.7rem;
+      }
+      
+      .page.two-photo .copy {
+        max-height: 5.375rem;
+      }
+      
+      @media (min-width:1580px) {
+        .page.two-photo .copy {
+          max-height: 6.5rem;
+        }
+      }
+      
+      .page.full-width-image .copy {
+        max-height: 5.004rem;
+      }
+
+      .heading {
+        display: none !important;
+        font-size: 0.98rem;
+        font-weight: 500;
+        /*line-height: 1.1em;*/
+        letter-spacing: 0.015em;  
+      }
+
+      .format--a3 .heading--primary {
+        /*display: flex !important;*/
+        display: block !important;
+      }
+
+      .format--a4 .heading--secondary {
+        display: flex !important;
+      }
+
+      .imageType--illustration .heading {
+        color: var(--plum);
+      }
+
+      h1 {
+        font-size: 0.98rem;
+        font-weight: 500;
+        line-height: 1.1em;
+        letter-spacing: 0.015em;      
+      }
+
+      p {
+        font-size: 0.56rem;
+        font-weight: normal;
+        line-height: 1.2em;
+        letter-spacing: 0.015em;
+        margin-bottom: 0.6em;
+      }
+
+      ul {
+        font-size: 0.57rem;
+        font-weight: normal;
+        line-height: 1.2em;
+        letter-spacing: 0.015em;
+        list-style: unset;
+        padding-left: 0.7em;
+        margin-bottom: 0.6em;      
+      }
+
+      li + li {
+        margin-top: 0.1em;
+      }
+
+      p:last-child,
+      ul:last-child {
+        margin-bottom: 0;
+      }
+
+      .heading {
+        max-height: calc(4.2 * 1.1em);
+      }
+
+      .footer {
+        flex: 0 0 2.45rem;
+        height: 2.45rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.3rem 0 1.4rem;
+      }
+
+      .logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .logo img {
+        width: 6.15rem;
+        height: auto;
+      }
+
+      .tagline,
+      .tagline span {
+        font-size: 0.45rem;
+        font-weight: 500;
+        line-height: 1.1em;
+        color: var(--plum);
+        text-align: right;
+        letter-spacing: -0.001em;
+        max-width: 13rem;
+      }
+
+      .tagline {
+        margin-bottom: 0.4em;
+        max-height: 1rem;
+      }
+
+      .investment {
+        width: 5.2rem;
+        height: 5.2rem;
+        position: absolute;
+        top: 1.3rem;
+        right: 1.05rem;
+        padding-top: 0.05rem;
+        background-image: url('https://files.outfit.io/media_library_items/163523/community-investment-badge.svg');
+        background-size: contain;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.78rem;
+        line-height: 1.1em;
+        letter-spacing: 0.03em;
+        color: var(--white);
+      }
+
+      .favicon {
+        position: absolute;
+        bottom: 0.4rem;
+        right: 0.6rem;
+        width: 1.08rem;
+        height: auto;
+      }
+
+      .photo {
+        width: 9.5rem;
+        height: 10.95rem;
+        background-color: var(--white);
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0.4rem 0.4rem 0.1rem;
+        top: 1.4rem;
+        left: 12.75rem;
+        transform: rotate(6deg);
+        transform-origin: top left;
+      }
+
+      .photo-container {
+        height: 8.65rem;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .caption {
+        font-size: 0.5rem;
+        font-weight: normal;
+        color: var(--plum);
+        text-align: center;
+        margin: 0.25rem 0 0;
+        width: 100%;
+      }
+
+      /*Cover Image*/
+      .page.cover-image .heading {
+        margin-bottom: 0.1em;
+        line-height: 1.07em;
+        letter-spacing: 0;
+      }
+
+      .page.cover-image .textFit-vertical {
+        font-size: 1.68em !important;
+        line-height: 1.1 !important;
+        font-size: 1.68em !important;
+      }
+
+      .page.cover-image .bg {
+        bottom: calc(3mm + 2.3rem) !important;
+      }
+
+      .page.cover-image.illustration .bg-illustration::after {
+        background-image: url('https://files.outfit.io/media_library_items/163120/1390574-Outfit-CB-Contributions-storyboard-cover.svg');
+        bottom: calc(-3mm - 2.3rem);
+      }
+
+      .page.cover-image .bg-corner {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: url('https://files.outfit.io/media_library_items/163567/bottom-right-cover.svg') right bottom no-repeat;
+        background-size: contain;
+      }
+
+      .page.cover-image .copy {
+        padding: 1rem 7rem 1rem 1.45rem;
+        margin-top: auto;
+      }
+
+      .page.cover-image.custom-image .gradient {
+        display: block;
+        bottom: calc(3mm + 2.3rem);
+        height: 37em;
+      }
+
+      .page.cover-image.custom-image .gradient::after {
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0, rgba(136, 7, 79, 1) 85%);
+      }
+
+      .page.cover-image.illustration .copy {
+        padding: 1.21rem 7rem 1rem 1.3rem;
+        flex: 1;
+      }
+
+      .page.cover-image.illustration .investment {
+        top: 0.7rem;
+      }
+
+      .page.cover-image .text {
+        display: none;
+      }
+
+      .page.cover-image h1 {
+        font-size: 1.64rem;
+        margin-bottom: 0;
+      }
+
+      .page.cover-image.illustration h1 {
+        color: var(--plum);
+      }
+
+      .page:not(.cover-image) .footer,
+      .page:not(.cover-image) .investment {
+        display: none;
+      }
+
+      .page.cover-image .favicon {
+        display: none;
+      }
+      
+      .page.cover-image .heading--secondary,
+      .page.cover-image .heading--primary {
+        display: none !important;
+      }
+
+      
+      .page.cover-image .heading--front-page {
+        display: flex !important; 
+        /* font-size: 6em; */
+      }
+      
+
+      /*One photo*/
+
+      .page.one-photo .heading {
+        line-height: unset;
+        display: flex;
+        flex-direction: column;
+        width: 9.5em;
+        margin-bottom: 0.6em;
+      }
+
+      .page.one-photo .heading-inner {
+        max-height: 3.5em;
+      }
+
+      .page.one-photo .copy {
+        padding: 1.7rem 11.5rem 0.5rem 1.38rem;
+      }
+
+      .page.one-photo .copy .text {
+        width: calc(100% - 1rem);
+        max-height: 11rem;
+      }
+
+      .page.one-photo h1 {
+        margin-bottom: 0.8em;
+      }
+
+      .page:not(.two-photo) .photo-secondary,
+      .page:not(.one-photo):not(.two-photo) .photo,
+      .page:not(.one-photo):not(.two-photo) .favicon {
+        display: none;
+      }
+
+      /*Two photo*/
+
+      .page.two-photo .heading {
+        line-height: unset;
+        display: flex;
+        flex-direction: column;
+        width: 8em;
+        margin-right: 1em;
+      }
+
+      .page.two-photo .heading-inner {
+        max-height: 3.5em;
+      }
+
+      .page.two-photo .copy {
+        display: grid;
+        grid-template-rows: 100%;
+        grid-template-columns: 38% 57%;
+        grid-column-gap: 5%;
+        padding: 1.15rem 1.4rem;
+      }      
+
+      .page.two-photo .text {
+        max-height: 3.5rem;
+      }
+
+      .page.two-photo .photo {
+        width: 8.7rem;
+        height: 10rem;
+        padding: 0.35rem 0.4rem 0.1rem;
+      }
+
+      .page.two-photo .photo-container {
+        width: 7.9rem;
+        height: 7.9rem;
+      }
+
+      .page.two-photo .photo-primary {
+        transform: rotate(-8.5deg);
+        top: 7rem;
+        left: 1.55rem;
+        z-index: 1;
+      }
+
+      .page.two-photo .photo-secondary {
+        transform: rotate(6deg);
+        top: 5.05rem;
+        left: 11.8rem;
+        z-index: 0;
+      }
+
+      .page.two-photo .caption {
+        font-size: 0.45rem;
+      }
+
+      /*Full Width Image*/
+
+      .page.full-width-image .heading {
+        line-height: 1; 
+        display: flex;
+        width: 8em;
+        margin-right: 1em;
+      }
+
+      .page.full-width-image .heading-inner {
+        max-height: 3em;
+        padding: 0.02rem 0;
+      }
+
+      .page.full-width-image .gradient {
+        display: block;
+      }
+
+      .page.full-width-image .wrapper {
+        justify-content: flex-end;
+      }
+
+      .page.full-width-image .copy {
+        display: flex;
+        flex-direction: row;
+        padding: 1rem 1rem 0.7rem;
+        max-height: 6.004rem;
+      }
+
+      .page.full-width-image .copy .heading {
+        flex: 0 0 38%;
+        margin-right: 4%;
+        max-height: 4.2em;
+      }
+
+      .page.full-width-image .text { 
+        display: flex;
+        max-height: 3.2rem;
+      }
+
+      .errorPopup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 68%;
+        padding: 4%;
+        font-size: 0.4rem;
+        color: red;
+        background: #fff;
+        border: 5px solid red;
+        text-align: center;
+        z-index: 999;
+      }
+      
+      .format--a4.full-width-image.no-image.imageType--custom-image .errorPopup,
+      .format--a4.cover-image.no-image.imageType--custom-image .errorPopup,
+      .format--a3.cover-image.no-image.imageType--custom-image .errorPopup,
+      .format--a3.full-width-image.no-image.imageType--custom-image .errorPopup { display: block; }
+      
+      .heading--front-page {
+        display: none;
+      }
+      
+      [data-community-bank="true "],
+      [data-community-bank="True "],
+      [data-community-bank=" true "],
+      [data-community-bank=" True "]{
+        display: inline;
+      }
+
+      [data-community-bank="false "],
+      [data-community-bank="False "],
+      [data-community-bank=" false "],
+      [data-community-bank=" False "],
+      [data-community-bank=" "]{
+        display: none;
+      }
+      
+    </style>
+  </head>
+
+  <body style="background: white" data-crop="{{show-crop}}" class="u-placeholder-show">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page 
+                {{{csb-layout}}}{{^csb-layout}}cover-image{{/csb-layout}}
+                {{^csb-fullwidth-image}}no-image{{/csb-fullwidth-image}}
+                {{{csb-image-type}}}{{^csb-image-type}}custom-image{{/csb-image-type}}
+                imageType--{{{csb-image-type}}}
+                format--{{{BB_format--CS}}}">
+    <div class="errorPopup">Please upload an image</div>
+      <div class="bleed">
+
+        <div class="container fit">
+          <div class="bg bg-color reposition-fix"></div>       
+          <div class="bg bg-image reposition-fix">{{{csb-fullwidth-image}}}</div>
+          <div class="bg bg-illustration reposition-fix"></div>
+          <div class="gradient"></div>
+          <div class="bg-corner"></div>        
+          <div class="wrapper">
+            <div class="copy" data-max-height="css">
+              <div class="heading heading--primary">
+                <div class="heading-inner">
+                  <div class="textFit-vertical1"><span data-replace-from="[-]" data-replace-to=" • ">{{{csb-heading}}}</span></div>
+                </div>
+              </div>
+
+              <div class="heading heading--secondary">
+                <div class="heading-inner">
+                  <div class="textFit-vertical2"><span data-replace-from="[-]" data-replace-to=" • ">{{{csb-heading}}}</span></div>
+                </div>
+              </div>
+              
+             <div class="heading heading--front-page">
+                <div class="heading-inner">
+                  <div class="textFit-vertical2"><span data-replace-from="[-]" data-replace-to=" • ">{{{csb-heading}}}</span></div>
+                </div>
+              </div>
+              
+              <div class="text">
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{csb-body-text}}}</span>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="logo">
+                <img src="{{{account.logos.logo-primary}}}" />
+              </div>
+              <div class="tagline" data-max-height="css" data-mto-branch-name>
+                {{#branch-name}}<span data-replace-from="[-]" data-replace-to=" • ">{{{branch-name}}}</span>{{/branch-name}}
+               {{^branch-name}}<span><span data-community-bank="{{{team.community-bank}}} {{^team.community-bank}}false {{/team.community-bank}}">Community Bank &#8226</span> <span data-replace-from="[-]" data-replace-to=" • ">{{{team.branch-name}}}</span></span>{{/branch-name}}          
+              </div>
+            </div>
+            <div class="photo photo-primary">
+              <div class="photo-container">
+                <div class="reposition-fix">{{{csb-main-image}}}</div>
+              </div>
+              {{#csb-main-image-caption}}
+              <p class="caption" data-max-line="2">
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{csb-main-image-caption}}}</span>
+              </p>
+              {{/csb-main-image-caption}}
+            </div>
+            <div class="photo photo-secondary">
+              <div class="photo-container">
+                <div class="reposition-fix">{{{csb-secondary-image}}}</div>
+              </div>
+              {{#csb-secondary-image-caption}}
+              <p class="caption" data-max-line="2">
+                <span data-replace-from="[-]" data-replace-to=" • ">{{{csb-secondary-image-caption}}}</span>
+              </p>
+              {{/csb-secondary-image-caption}}
+            </div>
+            {{#community-investment}}
+            <div class="investment">
+              <div class="textFit" data-char-limit="20" data-replace-from="[-]" data-replace-to=" • ">{{{community-investment}}}</div>
+            </div>
+            {{/community-investment}}
+            <img src="{{{account.logos.bendigo-b-mono}}}" class="favicon" />
+          </div>
+        </div>
+        <!--container fit-->
+
+      </div>
+      <!--bleed-->
+
+    </div>
+    <!--page-->
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/textfit.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script>
+      {{ #placeholder-toggle }}document.body.classList.add("u-placeholder-{{ placeholder-toggle }}{{^placeholder-toggle}}hide{{/placeholder-toggle}}"); {{ /placeholder-toggle }}
+    </script>
+    <!--MTO Scripts-->
+    <!--<script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/helper/helperFunctions-1.1.js"></script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/mto.js"></script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/mtoData.js"></script>
+    <script src="https://outfit-assets-production.s3.amazonaws.com/scripts/pandora/mto/bendigo/handleData.js"></script>-->
+    <script>{{{account.snippets.mtoHelperFunctions}}}</script>
+    <script>{{{account.snippets.mto}}}</script>
+    <script>{{{account.snippets.mtoData}}}</script>
+    <script>{{{account.snippets.mtoHandleData_nameCta}}}</script>
+    <script>{{{account.snippets.dataReplace}}}</script>
+
+    <script>
+      var isExportPage = window.location.href.indexOf('exports') > -1;
+      let currentMTOTeams = "{{{team.mto}}}";
+      let mtoTextInput = '{{{mto}}}';
+      let mtoData = getMTOData();
+      let showMTO = {{#team.mto}}true{{/team.mto}}{{^team.mto}}false{{/team.mto}};
+                     
+                     if(!isExportPage && window.parent.document.querySelector(".sidebar") != null){
+                       setupMTO(mtoTextInput, currentMTOTeams, mtoData, showMTO);
+                       setupObserver(window.parent.document, { childList: true, subtree: true, }, setupMTO, [mtoTextInput, currentMTOTeams, mtoData, showMTO]);
+                     } else if(showMTO && (mtoTextInput != "" && mtoTextInput != null && mtoTextInput != undefined)){
+                       handleSelectedData(convertDataToPayload('{{{mto}}}'.split(",")));
+                     }
+    </script>
+    <script>
+
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          detectProjectKit();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          injectDynamicContent();
+        });
+      });
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if (injectSources.length > 0) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });
+        });
+      }
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        charLimit();
+        detectProjectKit();
+        injectDynamicContent();
+      });
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit-vertical1',
+        fitMode: 'vertical',
+        alignItems: 'flex-start',
+
+      });
+
+      TextFit.fit({
+        selector: '.textFit',
+
+      });
+
+      TextFit.fit({
+        selector: '.textFit-vertical2',
+        fitMode: 'vertical',
+        alignItems: 'center',
+
+      });
+
+      setInterval(() => {
+        textFitMin('.textFit-vertical1', 44.5) 
+        textFitMin('.textFit-vertical2', 31.67)
+      	detectProjectKit();
+      }, 500);
+
+      
+      function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+
+        }
+
+      }
+
+      detectProjectKit();
+
+    </script>
+  </body>
+
+</html>

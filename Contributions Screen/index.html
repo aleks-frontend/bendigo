@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html data-sign="OS?">
+
+<head>
+  <title>Outfit</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css" href="./css/minireset.css">
+  <link rel="stylesheet" type="text/css" href="./css/main.css">
+  <link rel="stylesheet" type="text/css" href="./css/placeholder-controller.css">
+
+  <style>
+    @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+    @import url('https://fonts.googleapis.com/css?family=Muli:200,300,900&display=swap');
+
+    :root {
+      --bendigo-plum: {{{account.colors.bendigo-plum}}};
+      --coral: {{{account.colors.bendigo-coral}}};
+      --soft-grey: {{{account.colors.soft-grey}}};
+      --slate: {{{account.colors.slate}}};
+      --white: #ffffff;
+      --black: #000000;
+    }
+
+    body {
+      font-family: "Bendigo Sans", "Muli", sans-serif;
+      font-size: 1rem;
+      color: var(--black);
+      word-break: break-word;
+    }
+
+    .backgroundImage {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      overflow: hidden;
+    }
+
+    .backgroundImage div {
+      width: auto !important;
+      height: auto !important;
+      right: 0;
+      bottom: 0;
+    }
+
+    /* Helper classes - 25.4W + 14.82 */
+    .u-hide {
+      display: none;
+    }
+
+    /* Helper class for fixing Reposition tool bug */
+    .reposition-fix {
+      position: absolute;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+
+    .reposition-fix div {
+      top: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    .gradient {
+      z-index: 0;
+    }
+
+    .background-custom-image {
+      z-index: 10;
+    }
+
+    .background-custom-image::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #f58d85 100%);
+    }
+
+    .background-illustration {
+      top: 3mm !important;
+      right: 3mm !important;
+      bottom: 3mm !important;
+      left: 3mm !important;
+      z-index: 20;
+      background-size: cover;
+      background-position: center center
+    }
+
+    .page:not(.custom-image) .background-custom-image {
+      display: none;
+    }
+
+    .page:not(.illustration) .background-illustration {
+      display: none;
+    }
+
+    .wrapper {
+      position: absolute;
+      top: 3mm;
+      right: 3mm;
+      bottom: 3mm;
+      left: 3mm;
+      display: flex;
+      flex-direction: column;
+      z-index: 30;
+    }
+
+    .copy {
+      width: 100%;
+      height: 100%;
+      padding: 95px 45px;
+    }
+    
+    .cls-1 {
+        fill: {{{account.colors.bendigo-plum}}} !important;
+    }
+    .cls-2 {
+        fill: {{{account.colors.coral}}}!important;
+    }
+
+    h1 {
+      font-size: 91px;
+      font-weight: 500;
+      line-height: 1.1em;
+      letter-spacing: -0.005em;
+      margin-bottom: 24px;
+      color: var(--bendigo-plum);
+    }
+
+    p {
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 1.42em;
+      letter-spacing: 0.015em;
+      margin: 0.375em 0;
+    }
+
+   .organisation-list {
+     font-size: 22px;
+    }
+    
+   .organisation-list ul,
+   .organisation-list  ol {
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.2em;
+      letter-spacing: 0;
+      margin: 1.18em 0;
+    }
+
+    .organisation-list li {
+      border-bottom: solid 1px;
+      padding: 8px 0 7px;
+    }
+    
+    h1:last-child, p:last-child, ul:last-child, ol:last-child, li:last-child {
+      margin-bottom: 0;
+    }
+    
+    .page:not(.organisation-list) .organisation {
+      display: none !important;
+    }
+
+    .investment {
+      width: 316px;
+      height: 316px;
+      position: absolute;
+      top: 467px;
+      left: 201px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 46.9px;
+      line-height: 1.1em;
+      letter-spacing: 0.02em;
+      color: var(--white);
+    }
+    
+    .badge-image {
+      position: absolute;
+      z-index: -1;
+      height: 100%;
+      width: 100%;
+      top: 8px;
+    }
+
+    @media (orientation: portrait) {
+      .gradient {
+        background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0, #fcd9d1 100%);
+        top: calc(3mm - 20px) !important;
+        height: 713px !important;
+      }
+
+      .background-custom-image {
+        top: auto !important;
+        height: calc(3mm + 561px) !important;
+      }
+
+      .background-custom-image::after {
+        top: auto;
+        height: 227px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #f58d85 100%);
+      }
+      
+      .background-illustration {
+        background-image: url('https://files.outfit.io/media_library_items/163107/1390569-BBL-Outfit-CB-Contributions-Branch-Screen_PT.svg');
+      }
+      
+      .organisation {
+        max-height: 415px;
+        margin-top: 54px;
+      }
+      
+      .page.illustration .organisation {
+        max-height: 480px;
+      }
+      
+      .investment-inner {
+          max-width: 4.5em;
+          text-align: center;
+      } 
+      
+      .heading {
+        max-height: 6.3em;
+      }
+      
+      .inner-heading {
+        max-height: 6.3em;
+      }
+
+      /*Variations*/
+      .page.organisation-list .background-custom-image {
+        height: calc(3mm + 488px) !important;
+      }
+
+      .page.organisation-list .investment {
+        width: 188px;
+        height: 188px;
+        top: auto;
+        bottom: 126px;
+        left: 45px;
+        margin-left: 0;
+        font-size: 28.8px;
+      }
+
+      .page.organisation-list .copy {
+        padding: 45px;
+      }
+            
+      .page.organisation-list .heading, 
+      .page.organisation-list .inner-heading {
+        max-height: 9em;
+      }
+
+      .page.organisation-list h1 {
+        letter-spacing: 0.015em;
+      }
+    }
+
+    @media (orientation: landscape) {
+      .gradient {
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #fcd9d1 100%);
+        top: auto !important;
+        bottom: calc(3mm - 40px) !important;
+        height: 460px !important;
+        z-index: 10;
+      }
+
+      .background-custom-image {
+        left: auto !important;
+        width: calc(3mm + 710px) !important;
+        z-index: 0;
+      }
+
+      .background-custom-image::after {
+        left: -1mm;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 1) 2mm, rgba(255, 255, 255, 0) 100%);
+      }
+      
+      .background-illustration {
+        background-image: url('https://files.outfit.io/media_library_items/163023/1390572-BBL-Outfit-CB-Contributions-Branch-Screen_LS.svg');
+      }
+
+      h1 {
+        font-size: 80px;
+        line-height: 1.075em;
+        margin-bottom: 18px;
+      }
+
+      p {
+        margin: 0.25em 0;
+      }
+
+      .organisation-list ul {
+        margin: 0.55em 0;
+      }
+
+      .copy {
+        padding: 327px 52px 10px;
+      }
+      
+      .organisation {
+        width: 740px;
+        max-height: 480px;
+      }
+
+      .investment {
+        width: 234px;
+        height: 234px;
+        top: 35px;
+        left: 53px;
+        font-size: 34.96px;
+      }
+
+      .investment-inner {
+          max-width: 4.5em;
+          text-align: center;
+      }      
+      
+      .page.heading-image.custom-image .heading {
+        width: 11em;
+      }
+      
+      .heading {
+        max-height: 3.9em;
+      }
+      
+      .inner-heading {
+        max-height: 3.9em;
+      }
+      
+      /*Variations*/
+      .page.heading-image.illustration .copy {
+        padding: 37px 50px;
+      }
+
+      .page.heading-image.illustration h1 {
+        font-size: 85.08px;
+      }
+
+      .page.heading-image.illustration .investment {
+        width: 286px;
+        height: 286px;
+        top: 256px;
+        left: 37px;
+        padding-top: 8px;
+        font-size: 42.68px;
+      }
+      
+      .page.organisation-list .background-illustration {
+        background-image: url('https://files.outfit.io/media_library_items/163108/1390572-BBL-Outfit-CB-Contributions-Branch-Screen-Organisation_LS.svg');
+      }
+
+      .page.organisation-list .copy {
+        padding: 37px 47px 10px;
+      }
+
+      .page.organisation-list h1 {
+        font-size: 81px;
+        letter-spacing: 0.01em;
+      }
+
+      .page.organisation-list .investment {
+        width: 352px;
+        height: 352px;
+        left: auto;
+        top: 159px;
+        right: 79px;
+        font-size: 52.63px;
+        padding-top: 8px;
+      }
+    }
+  </style>
+</head>
+
+  <!---{{cs-variation}}--->
+  <!---{{cs-heading}}--->
+  <!---{{community-investment}}--->
+  <!---{{cs-image-type}}--->
+  <!---{{background-image}}--->
+  <!---{{organisation-list}}--->
+  
+<body style="background: white" data-crop="{{show-crop}}">
+  <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+    <div class="placeholderMaster__item" data-bg="{{ placeholder-image }}"></div>
+  </div><!-- end placeholderMaster -->
+  <div class="page {{{cs-variation}}}{{^cs-variation}}heading-image{{/cs-variation}} {{{cs-image-type}}}{{^cs-image-type}}custom-image{{/cs-image-type}}">
+
+    <div class="bleed">
+
+      <div class="container fit">
+        <div class="gradient reposition-fix"></div>
+        <div class="background-custom-image reposition-fix">{{{background-image}}}</div>
+        <div class="background-illustration reposition-fix"></div>
+        <div class="wrapper">
+          <div class="copy">
+            <div class="heading">
+            	<h1 class="inner-heading data-replace textFit-vertical"><span data-replace-from="[-]" data-replace-to=" • ">{{{cs-heading}}}</span></h1>
+            </div>
+            <div class="organisation" data-max-height="css">
+              <p>When you bank with us, profits pour into the<br />community. {{#community-investment}}<strong><span data-replace-from="[-]" data-replace-to=" • ">{{{community-investment}}}</span></strong> so far.{{/community-investment}}</p>
+              <p>Here’s who we’ve supported lately:</p>
+               <div class="organisation-list"> 
+                 <span data-replace-from="[-]" data-replace-to=" • ">{{{organisation-list}}}</span>
+              </div>           
+            </div>
+          </div>
+          <div class="investment">
+            <div class="badge-image">{{{account.snippets.community-investment-badge}}}</div>
+            <div class="investment-inner">
+              <div class="investment-text textFit" data-char-limit="20" data-replace-from="[-]" data-replace-to=" • ">{{{community-investment}}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--container fit-->
+
+    </div>
+    <!--bleed-->
+
+  </div>
+  <!--page-->
+
+  <script>
+    window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+  </script>
+  <script src="js/main.js"></script>
+  <script src="js/prefixfree.js"></script>
+  <script src="js/placeholder-controller.js"></script>
+  <script src="js/char-limit.js"></script>
+  <script src="js/check-export-mode.js"></script>
+  <script src="js/max-line-check.js"></script>
+  <script src="js/max-height-check.js"></script>
+  <script src="js/dynamic-inject.js"></script>
+  <script src="js/textfit.js"></script>
+  <script src="js/utils.js"></script>
+  <script>
+      {{ #placeholder-toggle }}document.body.classList.add("u-placeholder-{{ placeholder-toggle }}{{^placeholder-toggle}}hide{{/placeholder-toggle}}"); {{ /placeholder-toggle }}
+  </script>
+  <script>
+    {{{account.snippets.dataReplace}}}
+
+    console.clear();
+
+    // Tracking text changes and firing text restriction functions (mutationObserver)
+    const overflowObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        maxLineCheck();
+        maxHeightCheck();
+        detectProjectKit();
+        charLimit();
+      });
+    });
+
+    const injectObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        injectDynamicContent();
+      });
+    });
+
+    const injectSources = document.querySelectorAll('[data-target-id]');
+
+    overflowObserver.observe(document.body, {
+      attributes: false,
+      characterData: true,
+      childList: true,
+      subtree: true,
+      attributeOldValue: false,
+      characterDataOldValue: true
+    });
+
+    if (injectSources.length > 0) {
+      injectSources.forEach(src => {
+        injectObserver.observe(src, {
+          attributes: false,
+          characterData: true,
+          childList: true,
+          subtree: true,
+          attributeOldValue: false,
+          characterDataOldValue: true
+        });
+      });
+    }
+   
+    function replaceData(target, data){
+        let targets = document.querySelectorAll(target);
+        targets.forEach(function (target) {
+          data.forEach(function(item){
+            let inputValue = item[0];
+            let lookup = item[1];
+            if(target.innerText.search(lookup) != -1 && (inputValue != "" || inputValue.length != 0)){
+              target.innerHTML = target.innerHTML.split(lookup).join(inputValue);
+            } else{
+              //let domStructure = "<span style='color: "+fallbackColor+"'>"+lookup+"</span>";
+//console.log(domStructure);
+              //console.log(target.innerHTML.search("W3Schools"););
+              target.innerHTML = target.innerHTML.split(lookup).join("<span>"+lookup+"</span>");
+            }
+          });
+        });
+      }
+    
+    /*replace data function*/
+      replaceData(".data-replace", [
+        [`{{{town-name}}} {{^town-name}} {{team.branch-town}} {{/town-name}} {{^team.branch-town}} {{^town-name}} {Town} {{/town-name}} {{/team.branch-town}}`, "{Town}"]
+      ]);
+
+    // Calling text size restriction functions once the fonts are loaded
+    document.fonts.ready.then(() => {
+      maxLineCheck();
+      maxHeightCheck();
+      charLimit();
+      detectProjectKit();
+      injectDynamicContent();
+    });
+
+    placeholderController();
+    checkCrop();
+    checkExport();
+
+    // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+    TextFit.fit({
+      selector: '.textFit',
+      fitMode: 'horizontal',
+      alignItems: 'center',
+    });
+    
+    TextFit.fit({
+      selector: '.textFit-vertical',
+      fitMode: 'vertical',
+      alignItems: 'flex-start',
+    });
+
+          function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+         
+        }
+        
+      }
+      
+      detectProjectKit();
+  </script>
+</body>
+
+</html>

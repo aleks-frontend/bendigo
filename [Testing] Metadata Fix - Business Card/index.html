@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html data-sign="OSR" async>
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url("https://outfit-assets-production.s3.amazonaws.com/fonts/Bendigo%20Sans%201/stylesheet.css");
+
+      :root {
+        --purple: {{{account.colors.bendigo-plum}}};
+        --red: {{{account.colors.bendigo-coral}}};
+      }
+
+      /* Inputs Order
+
+      */
+
+      html {
+        font-family: 'Bendigo Sans';        
+        word-break: break-word;
+      }
+
+      .page {
+        display: none;
+      }
+
+      .variationType--single-card .page--singleCard,
+      .variationType--multi-card .page--multiCard,
+      .page--backPage {
+        display: block;
+      }
+      .variationType--multi-card .page--backPage{
+        display: none;
+      }
+      .variationType--multi-card .page--backPage.multi--backPage{
+        display: block;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .fit--frontPage {
+        padding: 34pt 22.4pt 20.2pt;
+      }
+
+      .fit--backPage {
+        align-items: center;
+        justify-content: center;
+      }
+
+      .body {
+        flex: 1;
+      }
+
+      .section--heading {
+        margin-bottom: 13.2pt;
+      }
+
+      .section--middle {
+        margin-bottom: 5pt;
+      }
+
+      .info {
+        margin-bottom: 1.7pt;
+        color: var(--purple);
+      }
+      
+      .phone-field.no-landline.no-landline-smart { display: none; }
+
+      .heading {
+        margin-bottom: 1pt;
+        font-size: 12.1pt;
+        color: var(--purple);
+      }
+
+      .title {
+        margin-bottom: 3pt;
+        font-size: 9pt;
+        color: var(--purple);
+      }
+
+      .heading,
+      .title {
+        font-weight: 500;
+      }
+
+      .subheading {
+        font-size: 7pt;
+        color: var(--purple);
+      }
+
+      .info {
+        display: flex;
+        font-size: 7.25pt;
+      }
+
+      .subheading, 
+      .title,
+      .website,
+      .info__label,
+      .info__value,
+      .info--email,
+      .info--branch,
+      .info--address {
+        color: var(--purple);
+        line-height: 1.2em;
+      }
+      
+      .info__value span { display: inline-block; }
+
+      .info__label {
+        margin-right: 2pt;
+      }
+
+      .website {
+        color: var(--red);
+        font-size: 7.2pt;
+        font-weight: 500;
+      }
+
+      .logo {
+        width: 141pt;
+        max-height: 22pt;
+        object-fit: contain;
+        object-position: center;
+      }
+      
+      .footer {
+        position: absolute;
+        bottom: 20.2pt;
+      }
+
+      .warning {
+        display: none;
+        padding: 0.1em;
+        font-size: 7.3pt;
+        color: white !important;
+        background-color: red;
+      }
+
+      /*
+      .phone-field {
+      width: 7.5em;
+      }
+
+      .phone-field-multi {
+      width: 7em;
+      }
+      */
+
+      .no-phone-number.no-user-number .warning--phone,
+      .no-phone,
+      .no-landline.no-mobile .warning--phone { display: inline-block;  }
+      
+      .no-landline.no-landline-smart.no-mobile .warning--phone-extended { display: inline-block;  }
+      
+      /* Custom Overflow message for invalid phone number */
+      .u-phone-custom-overflow.overflow:hover:after { 
+        content: 'Invalid format!'; 
+        font-size: 0.7em;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="variationType--{{{BB_variation-type--bc}}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-2 }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page page--singleCard">
+
+      <div class="bleed">
+
+        <div class="container fit fit--frontPage fit--singleCard">
+          <!-- Footer was moved to the top of the HTML structure because of an export bug -->
+          <div class="footer">
+            <div class="website">bendigobank.com.au</div><!--website-->
+          </div><!--footer-->
+          <div class="body">
+            <div class="section section--heading">
+              <div class="heading" data-max-line="1">
+                {{#BB-user-first-name}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-user-first-name}}}</span>{{/BB-user-first-name}} 
+                {{#BB-user-last-name}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-user-last-name}}}</span>{{/BB-user-last-name}}
+              </div><!--heading-->
+              {{#BB_title--bc}}
+              <div class="title" data-max-line="1"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_title--bc}}}</span></div><!--title-->
+              {{/BB_title--bc}}
+              {{#BB_qualification--bc}}
+              <div class="subheading" data-max-line="1"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB_qualification--bc}}}</span></div><!--subheading-->
+              {{/BB_qualification--bc}}
+            </div><!--section--heading-->
+            <div class="section section--middle">
+              <div class="{{^BB-user-contact-number}}no-landline{{/BB-user-contact-number}} {{^BB-user-contact-number}}no-landline-smart{{/BB-user-contact-number}} {{^BB_mobile-number--bc}}no-mobile{{/BB_mobile-number--bc}}">
+                <span class="warning warning--phone-extended">At least one phone number needs to be stated.</span>
+                {{#BB_mobile-number--bc}}
+                <div class="info phone-field">
+                  <div class="info__label">m</div><!--info__label-->
+                  <div class="info__value u-phone-custom-overflow">
+                    <div class="js-mobile-formater-src">
+                      {{{BB_mobile-number--bc}}}
+                    </div>  
+                    <div class="js-mobile-formater-target"></div>
+                  </div><!--info__value-->
+                </div><!--info-->
+                {{/BB_mobile-number--bc}}
+                
+                <div class="info phone-field {{^BB-user-contact-number}}no-landline{{/BB-user-contact-number}} {{^BB-user-contact-number}}no-landline-smart{{/BB-user-contact-number}}">
+                  <div class="info__label">p</div><!--info__label-->
+                  <div class="info__value">
+                    {{#BB-user-contact-number}}
+                    <span class="u-phone-custom-overflow">
+                      <div class="js-landline-formater-src">
+                        {{{BB-user-contact-number}}}
+                      </div>  
+                      <div class="js-landline-formater-target"></div>
+                    </span>
+                    {{/BB-user-contact-number}}
+                  </div><!--info__value-->
+                </div><!--info-->
+              </div>
+              <div class="info info--email" data-max-line="1.2">
+                {{#BB-user-email}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-user-email}}}</span>{{/BB-user-email}}</div><!--info-->
+            </div><!--section--middle-->
+            <div class="section section--bottom">
+              {{#BB-team-branch-name}}  
+              <div class="info info--branch" data-max-line="1.2"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-name}}}</span></div><!--info--branch-->
+              {{/BB-team-branch-name}}
+              <div class="info info--address" data-max-line="2.2"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-street-address}}}</span>&nbsp<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-town}}}</span>&nbsp<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-state}}}</span>,&nbsp<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-postcode}}}</span></div><!--info--address-->
+            </div><!--section--bottom-->
+          </div><!--body-->
+        </div><!--container fit--frontPage-->
+      </div>
+    </div>
+
+    {{#spreadsheet.Test-BB_cardholder-details--bc}}
+    <div class="page page--multiCard">
+
+      <div class="bleed">
+        <div class="container fit fit--frontPage fit--multiCard">
+          <!-- Footer was moved to the top of the HTML structure because of an export bug -->
+          <div class="footer">
+            <div class="website">bendigobank.com.au</div><!--website-->
+          </div><!--footer-->
+          <div class="body">
+            <div class="section section--heading">
+              <div class="heading">
+                {{#BB-user-first-name}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-user-first-name}}}</span>{{/BB-user-first-name}} 
+                {{#BB-user-last-name}}<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-user-last-name}}}</span>{{/BB-user-last-name}}               
+              </div><!--heading-->
+              {{#title}}
+              <div class="title"><span data-replace-from="[-]" data-replace-to=" • ">{{{title}}}</span></div><!--title-->
+              {{/title}}
+              {{#qualification}}
+              <div class="subheading"><span data-replace-from="[-]" data-replace-to=" • ">{{{qualification}}}</span></div><!--subheading-->
+              {{/qualification}}
+            </div><!--section--heading-->
+            <div class="section section--middle">
+              <div class="info__container {{^mobile-number}}no-mobile{{/mobile-number}} {{^phone-number}}no-landline{{/phone-number}}">
+                <span class="warning warning--phone">At least one phone number needs to be stated.</span>
+                {{#mobile-number}}
+                <div class="info">
+                  <div class="info__label">m</div><!--info__label-->
+                  <div class="info__value phone-field-multi u-phone-custom-overflow">
+                    <div class="js-mobile-formater-src">
+                      {{{mobile-number}}}
+                    </div>  
+                    <div class="js-mobile-formater-target"></div>
+                  </div><!--info__value-->
+                </div><!--info-->
+                {{/mobile-number}}
+                {{#phone-number}}
+                <div class="info">
+                  <div class="info__label">p</div><!--info__label-->
+                  <div class="info__value phone-field-multi u-phone-custom-overflow">                    
+                    <div class="js-landline-formater-src">
+                      {{phone-number}}
+                    </div>  
+                    <div class="js-landline-formater-target"></div>
+                  </div><!--info__value-->
+                </div><!--info-->
+                {{/phone-number}}             
+              </div><!-- end info__container -->
+              <div class="info info--email" data-max-line="1">
+               <span data-replace-from="[-]" data-replace-to=" • ">{{{BB-user-email}}}</span>
+              </div><!--info-->
+            </div><!--section--middle-->
+            <div class="section section--bottom">
+              <div class="info info--branch" data-max-line="1"><span data-replace-from="[-]" data-replace-to=" • ">{{{branch-name}}}</span></div><!--info--branch-->
+              <div class="info info--address" data-max-line="2"><span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-street-address}}}</span>&nbsp<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-town}}}</span>&nbsp<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-state}}}</span>,&nbsp<span data-replace-from="[-]" data-replace-to=" • ">{{{BB-team-branch-postcode}}}</span></div><!--info--address-->
+            </div><!--section--bottom-->
+          </div><!--body-->
+        </div><!--container fit--frontPage-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    <div class="page page--backPage multi--backPage">
+      <div class="bleed">
+        <div class="container fit fit--backPage">
+          <img src="{{{account.logos.logo-primary}}}" class="logo"><!--logo-->
+        </div><!--container fit--backPage-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/spreadsheet.Test-BB_cardholder-details--bc}}
+
+
+    <div class="page page--backPage">
+      <div class="bleed">
+        <div class="container fit fit--backPage">
+          <img src="{{{account.logos.logo-primary}}}" class="logo"><!--logo-->
+        </div><!--container fit--backPage-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      
+      {{{account.snippets.dataReplace}}}
+
+      console.clear();
+
+      function formatMobile() {
+        const sources = document.querySelectorAll('.js-mobile-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-mobile-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 10
+          if (phone.length === 10) {
+            const formated = phone.replace(/(\d{4})(\d{3})(\d{3})/, "$1 $2 $3");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 10 ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }
+      
+      function formatLandline() {
+        const sources = document.querySelectorAll('.js-landline-formater-src');
+
+        sources.forEach(source => {
+          const target = source.parentNode.querySelector('.js-landline-formater-target');
+
+          //normalize string and remove all unnecessary characters
+          let phone = source.innerText.replace(/[^\d]/g, "");
+
+          //check if number length equals to 8
+          if (phone.length === 8) {
+            const formated = phone.replace(/(\d{4})(\d{4})/, "$1 $2");
+            target.innerText = formated;
+            source.style.display = 'none';
+            target.style.display = 'block';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length < 8 || ( phone.length > 8 && phone.length < 11 ) ) {
+            source.style.display = 'block';
+            target.style.display = 'none';
+            source.parentNode.classList.remove('overflow', 'js-phone-container');
+          } else if ( phone.length > 10 ) {
+            source.parentNode.classList.add('overflow', 'js-phone-container');
+          }
+        })
+      }      
+
+      const formatMobileObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatMobile();
+        });
+      });
+      
+      const formatLandlineObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          formatLandline();
+        });
+      });      
+
+      const formatMobileSources = document.querySelectorAll('.js-mobile-formater-src');
+      const formatLandlineSources = document.querySelectorAll('.js-landline-formater-src');
+
+      if ( formatMobileSources.length > 0 ) {
+        formatMobileSources.forEach(src => {
+          formatMobileObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      } 
+      
+      if ( formatLandlineSources.length > 0 ) {
+        formatLandlineSources.forEach(src => {
+          formatLandlineObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }       
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          detectProjectKit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        detectProjectKit();
+        injectDynamicContent();
+        hideEmptyTitles();
+        formatMobile();
+        formatLandline();
+        document.dispatchEvent(new Event('printready'));
+      });
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+      
+      
+            function detectProjectKit() {
+        const isProjectKit = window.parent.document.querySelector(".preview-frame")
+        const overflowFinder = document.querySelectorAll(".overflow");
+        if ( isProjectKit ) {
+          console.log("I'm in preview mode.");
+          for (i = 0; i < overflowFinder.length; ++i) {
+            overflowFinder[i].classList.remove("overflow");
+            console.log("Got " + i);
+          }
+         
+        }
+        
+      }
+      
+      detectProjectKit();
+
+
+    </script> 
+
+  </body>
+</html>
