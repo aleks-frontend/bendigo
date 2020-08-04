@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html data-sign="OSM">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    {{{ account.snippets.fonts-v2 }}}
+    <style>
+
+      /*Input Order
+      {{show-crop-2}}
+      {{placeholder-validation-2}}
+      {{placeholder-opacity-2}}
+      {{placeholder-toggle-new-2}}
+      {{placeholder-image-2}}   
+      {{placeholder-image-3}}
+      {{BB_background-image--sbb}}}
+      {{{BB_background-choice--sbb}}}
+      {{{BB_heading--sbb}}}
+      {{{BB_front-cta--sbb}}}
+      {{{BB_subheading--sbb}}}
+      {{{BB_content--sbb}}}
+      {{{BB_introduction--sbb}}}
+      {{{BB_staff-first-name--sbb}}}
+      {{{BB_staff-second-name--sbb}}}
+      {{{BB_phone-input--sbb}}}
+      {{{BB_email-input--sbb}}}
+      {{{BB_title--sbb}}}
+      {{{BB_profile-image--sbb}}}
+      {{{BB_terms-and-conditions--sbb}}}
+      {{{BB_custom-disclaimer--sbb}}}
+      {{{BB_website--sbb}}}
+      */
+
+      :root {
+        --bendigo-plum: {{{account.colors.bendigo-plum}}};
+        --sunshine: {{{account.colors.sunshine}}};
+      }
+
+      html {
+        font-family: 'Bendigo Sans';
+        font-size: 11pt;
+        color: #000;
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage--noReposition {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .backgroundChoice--builders .backgroundImage--noReposition, 
+      .backgroundChoice--lee-partner .backgroundImage--noReposition, 
+      .backgroundChoice--wholesale .backgroundImage--noReposition {
+        display: block;
+      }
+
+      .backgroundChoice--builders .backgroundImage--noReposition { background-image: url('https://files.outfit.io/media_library_items/209260/BB-Outfit-Business-Banking-DL-BUILDER-background.svg'); }      
+      .backgroundChoice--lee-partner .backgroundImage--noReposition { background-image: url('https://files.outfit.io/media_library_items/209261/BB-Outfit-Business-Banking-DL-LEE_PARTNER-background.svg'); }   
+      .backgroundChoice--wholesale .backgroundImage--noReposition { background-image: url('https://files.outfit.io/media_library_items/209263/BB-Outfit-Business-Banking-DL-WHOLESALE-background.svg'); }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .body {
+        position: relative;
+        flex: 1;
+      }
+
+      .body--frontPage { padding: 47pt 65.4pt 47pt 41.5pt; }
+      .body--backPage { padding: 50pt 36.4pt 15pt 39.5pt; }
+
+      .backgroundImage {
+        clip-path: inset(0 -5rem 0rem 0rem round 0rem 0rem 11.46rem 0rem);
+        -webkit-clip-path: inset(0 -5rem 0rem 0rem round 0rem 0rem 11.46rem 0rem);
+      }
+
+      .heading {
+        position: relative;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        max-height: 240px;
+        margin-bottom: 34pt;
+        margin-bottom: 0.75em;
+        font-size: 45.6pt;
+        font-weight: 500;
+        letter-spacing: 0.4pt;
+        color: var(--bendigo-plum);
+      }
+
+      .heading__inner { line-height: 1em; }
+
+      .cta__container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 3.6pt 16pt 3.6pt 11.2pt;
+        border: 2px solid var(--sunshine);
+        border-top-right-radius: 14pt;
+        border-bottom-right-radius: 14pt;
+      }
+
+      .cta__icon {
+        width: 14pt;
+        margin-right: 9.7pt;
+      }
+
+      .cta {
+        display: flex;
+        max-width: 133pt;
+        color: var(--sunshine)
+      }
+
+      .cta__inner {
+        font-size: 17pt;
+        line-height: 1.2em;
+      }
+
+      .footer { display: flex; }
+
+      .footer--frontPage {
+        height: 86pt;
+        padding: 0pt 38pt 25pt;
+      }
+
+      .footer--backPage {
+        flex-direction: column;
+        padding: 0pt 40pt 37pt;
+      }
+
+      .logo { width: 145pt;}
+
+      .subheading {
+        margin-bottom: 9pt;
+        font-size: 19.4pt;
+        line-height: 1.2em;
+        color: var(--bendigo-plum);
+      }
+
+      .copy { margin-bottom: 10.2pt; }
+
+      .copy p {
+        margin-bottom: 5.5pt;
+        font-size: 8.3pt;
+        line-height: 1.5em;
+      }
+
+      .copy p + ul { margin-top: 7pt; }
+      .copy ul + p { margin-top: 6pt; }
+
+      .copy li {
+        position: relative;
+        margin-bottom: 5.2pt;
+        padding-left: 13.4pt;
+        font-size: 8.4pt;
+        line-height: 1.2em;
+      }
+
+      .copy li:before {
+        position: absolute;
+        content: '\2022';
+        top: 0;
+        left: 0;
+        font-size: 1em;
+      }
+
+      .copy p:last-child,
+      .copy li:last-child { margin-bottom: 0; }
+
+      .copy strong { 
+        font-weight: bold;
+        letter-spacing: 0.3pt;
+      }
+
+      .info__title {
+        margin-bottom: 4pt;
+        font-size: 11.7pt;
+        line-height: 1.2em;
+        color: var(--sunshine);
+      }
+
+      .info { display: flex; }
+
+      .info__image {
+        position: relative;
+        width: 59pt;
+        height: 67pt;
+        margin-right: 6.8pt;
+      }
+
+      .info__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .info__text {
+        font-size: 7.6pt;
+        line-height: 1.2em;
+        margin: 0.85pt 0;
+      }
+
+      .info__text--heading { font-weight: bold; }
+
+      .metadata { font-size: 0; }
+
+      .metadata__item {
+        font-family: 'Arial Narrow';
+        font-size: 6.7pt;
+        line-height: 1.1em;
+      }
+
+      .metadata__item--babl,
+      .meatadata__item--disclaimer { display: none; }
+
+      .disclaimerToggle--standard-babl .metadata__item--babl,
+      .disclaimerToggle--custom-disclaimer .meatadata__item--disclaimer { display: inline; }
+
+      .website {
+        margin-top: 4.2pt;
+        padding-top: 18pt;
+        font-size: 11.5pt;
+        line-height: 1.2em;
+        color: var(--bendigo-plum);
+        border-top: 1px solid var(--bendigo-plum);
+      }
+
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" 
+        data-crop="{{show-crop-2}}" 
+        data-reduce-export-font-size-by-percent="0" 
+        data-reduce-firefox-font-size-by-percent="0" 
+        data-prevent-export-overflow="false"
+        class="backgroundChoice--{{{BB_background-choice--sbb}}}{{^BB_background-choice--sbb}}builders{{/BB_background-choice--sbb}}
+               disclaimerToggle--{{{BB_terms-and-conditions--sbb}}}{{^BB_terms-and-conditions--sbb}}standard-babl{{/BB_terms-and-conditions--sbb}}">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity-2 }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-2 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-3 }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="body body--frontPage">
+            <div class="backgroundImage"><div class="reposition-fix">{{{BB_background-image--sbb}}}</div></div><!--background--primary-->
+            {{^BB_background-image--sbb}}<div class="backgroundImage backgroundImage--noReposition"></div><!--background--dynamic-->{{/BB_background-image--sbb}}
+            <div class="heading"><div class="heading__inner textFit--vert" data-replace-from="[-]" data-replace-to=" • ">{{{BB_heading--sbb}}}</div></div><!--heading-->
+            {{#BB_front-cta--sbb}}
+            <div class="cta__container">
+              <img class="cta__icon" src="https://files.outfit.io/media_library_items/208987/BB-magnifying-glass.png"><!--cta__icon-->
+              <div class="cta"><div class="cta__inner textFit" data-replace-from="[-]" data-replace-to=" • ">{{{BB_front-cta--sbb}}}</div></div><!--cta-->
+            </div><!--cta__container-->
+            {{/BB_front-cta--sbb}}
+          </div><!--body-->
+          <div class="footer footer--frontPage">
+            <img class="logo" src="{{{account.logos.logo-primary}}}">
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="body body--backPage">
+            <div class="body__inner" data-max-height="dynamic">
+              {{#BB_subheading--sbb}}<div class="subheading" data-max-line="3" data-replace-from="[-]" data-replace-to=" • ">{{{BB_subheading--sbb}}}</div><!--subheading-->{{/BB_subheading--sbb}}
+              {{#BB_content--sbb}}<div class="copy" data-replace-from="[-]" data-replace-to=" • ">{{{BB_content--sbb}}}</div><!--copy-->{{/BB_content--sbb}}
+              <div class="info__container">
+                {{#BB_introduction--sbb}}<div class="info__title" data-replace-from="[-]" data-replace-to=" • ">{{{BB_introduction--sbb}}}</div><!--info__title-->{{/BB_introduction--sbb}}
+                <div class="info">
+                  {{#BB_profile-image--sbb}}
+                  <div class="info__image"><div class="reposition-fix">{{{BB_profile-image--sbb}}}</div></div><!--info__image-->
+                  {{/BB_profile-image--sbb}}
+                  <div class="info__content">
+                    <div class="info__text info__text--heading" data-max-line="1" data-replace-from="[-]" data-replace-to=" • ">{{{BB_staff-first-name--sbb}}} {{{BB_staff-second-name--sbb}}}</div><!--info__text--heading-->
+                    <div class="info__text" data-max-line="1" data-replace-from="[-]" data-replace-to=" • ">{{{BB_title--sbb}}}</div><!--info__text-->
+                    <div class="info__text" data-max-line="1" data-replace-from="[-]" data-replace-to=" • ">{{{BB_phone-input--sbb}}}</div><!--info__text-->
+                    <div class="info__text" data-max-line="1" data-replace-from="[-]" data-replace-to=" • ">{{{BB_email-input--sbb}}}</div><!--info__text-->
+                  </div><!--info__content-->
+                </div><!--info-->
+              </div><!--info__container-->
+            </div><!--body__inner-->
+          </div><!--body-->
+          <div class="footer footer--backPage">
+            <div class="metadata">
+              <span class="metadata__item meatadata__item--disclaimer" data-replace-from="[-]" data-replace-to=" • ">{{{BB_custom-disclaimer--sbb}}}&nbsp</span><!--disclaimer-->
+              <span class="metadata__item metadata__item--babl">{{{account.snippets.abn-snippet}}}&nbsp</span><!--metadata-->
+              <span class="metadata__item">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT{{/metadata}}, </span><!--metadata-->
+              <span class="metadata__item js-date"></span><!--metadata-->
+            </div> <!--metadata-->
+            <div class="website"><div data-max-line="1" data-replace-from="[-]" data-replace-to=" • ">{{{BB_website--sbb}}}</div></div><!--website-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+
+    <script>
+      window.showCrop = {{show-crop-2}}{{^show-crop-2}}true{{/show-crop-2}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new-2 }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new-2 }}{{^placeholder-toggle-new-2}}hide{{/placeholder-toggle-new-2}}"); {{ /placeholder-toggle-new-2 }}
+      {{ #placeholder-validation-2 }}document.body.classList.add("placeholder__validation--{{placeholder-validation-2}}"){{ /placeholder-validation-2 }}
+    </script>
+    <script>
+
+      console.clear();
+
+      {{{account.snippets.dataReplace}}}
+      
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+          injectDate();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      // All external font-families need to be added to 'fonts' array
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Bendigo Sans', 'Arial Narrow'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+
+        Promise.all(fontObservers).then(() => {
+          maxLineCheck();
+          maxHeightCheck();
+          injectDynamicContent();
+          hideEmptyTitles();
+          injectDate();
+
+          document.dispatchEvent(new Event('printready'));
+        });
+      });      
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      TextFit.fit({
+        selector: '.textFit--vert',
+        fitMode: 'vertical',
+        alignItems: 'flex-start'
+      });
+
+      setInterval(() => {
+        textFitMin('.heading .textFit--vert', 40);
+        textFitMin('.cta .textFit', 18);
+      }, 500);
+
+
+
+      function injectDate() {
+        const containers = document.querySelectorAll('.js-date');
+
+        containers.forEach(container => {
+          container.textContent = new Date().toLocaleDateString('en-AU');
+        });
+      }
+
+
+      injectDate();
+
+
+    </script>
+
+
+  </body>
+</html>
